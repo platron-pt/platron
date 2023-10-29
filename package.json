@@ -33,15 +33,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ryantsui1109/Easy_ADB_fastboot.git"
+    "url": "git+https://github.com/platron-pt/platron.git"
   },
   "bugs": {
-    "url": "https://github.com/ryantsui1109/Easy_ADB_fastboot/issues"
+    "url": "https://github.com/platron-pt/platron/issues"
   },
-  "homepage": "https://github.com/ryantsui1109/Easy_ADB_fastboot#readme",
+  "homepage": "https://github.com/platron-pt/platron",
   "build": {
     "generateUpdatesFilesForAllChannels": true,
-    "appId": "io.github.ryantsui1109.eaf",
+    "appId": "io.github.platron-pt",
     "productName": "Easy ADB and fastboot",
     "files": [
       "!{TODO.txt,.github,updaterStatus.json,scripts,default_*.json,platform-tools*,update.exe,readme-imgs,REAADME.md}"
