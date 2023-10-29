@@ -65,6 +65,17 @@
           ["input", "input", "Other property"]
         ],
         "navbar": "Get system properties"
+      },
+      "density": {
+        "title": "Set DPI",
+        "name": "density-menu",
+        "script": [["adb", "shell", "wm", "density", "$radio"]],
+        "content": [
+          ["radio", "reset"],
+          ["radio", "other"],
+          ["input", "input", "Custom DPI"]
+        ],
+        "navbar": "Set DPI"
       }
     }
   },

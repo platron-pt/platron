@@ -65,6 +65,17 @@
           ["input", "input", "其他屬性"]
         ],
         "navbar": "查看系統屬性"
+      },
+      "density": {
+        "title": "設定 DPI",
+        "name": "density-menu",
+        "script": [["adb", "shell", "wm", "density", "$radio"]],
+        "content": [
+          ["radio", "還原預設值"],
+          ["radio", "其他數值"],
+          ["input", "input", "自訂數值"]
+        ],
+        "navbar": "Set DPI"
       }
     }
   },
