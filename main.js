@@ -16,8 +16,6 @@ const { autoUpdater } = require("electron-updater");
 const { INSPECT_MAX_BYTES, constants } = require("buffer");
 const { connected } = require("process");
 
-let channel = app.getVersion().split("-")[1];
-
 if (!channel) {
   channel = "latest";
 }
