@@ -16,6 +16,8 @@ on:
 
 jobs:
   build:
+    permissions: 
+      contents: write
     runs-on: ${{github.event.inputs.chosen_os}}
     steps:
       - name: Get the source code.
