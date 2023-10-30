@@ -32,3 +32,5 @@ jobs:
 
       - name: Build EAF
         run: npm run publish
+        env: 
+          GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
