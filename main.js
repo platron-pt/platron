@@ -16,14 +16,7 @@ const { autoUpdater } = require("electron-updater");
 const { INSPECT_MAX_BYTES, constants } = require("buffer");
 const { connected } = require("process");
 
-if (!channel) {
-  channel = "latest";
-}
-
-autoUpdater.channel = channel;
-autoUpdater.fullChangelog=true;
 console.debug("Welcome to EAF v" + app.getVersion());
-console.debug("The update channel is " + channel);
 
 let config, updaterStatus, lang, messages;
 if (isPackaged) {
@@ -33,6 +26,35 @@ if (isPackaged) {
   config = require("./config.json");
   updaterStatus = require("./updaterStatus.json");
 }
+
+let channel = "";
+let ptConfDir = path.join(os.homedir(), ".platron");
+if (!fs.existsSync(ptConfDir)) {
+  fs.mkdirSync(ptConfDir);
+}
+switch (config.variant) {
+  case "beta": {
+    if (!fs.existsSync(path.join(ptConfDir, "beta"))) {
+      fs.closeSync(fs.openSync(path.join(ptConfDir, "beta"), "w"));
+      channel = "beta";
+    }
+  }
+  case "stable": {
+    if (!fs.existsSync(path.join(ptConfDir, "beta"))) {
+      channel = "latest";
+    } else {
+      channel = "beta";
+    }
+  }
+}
+
+if (!channel) {
+  channel = "latest";
+}
+config.channel = channel;
+console.debug("The update channel is " + channel);
+autoUpdater.channel = channel;
+autoUpdater.fullChangelog = true;
 
 let hasDevtools = false;
 let adbPath = "";
@@ -48,7 +70,7 @@ if (platform == "linux") {
   fbPath = "./platform-tools-linux/fastboot";
 }
 
-if (!isPackaged || config.variant == "beta") {
+if (!isPackaged || channel == "beta") {
   hasDevtools = true;
 }
 
@@ -58,8 +80,8 @@ const createWindow = () => {
   console.log("OS Version", os.release());
   if (false) {
     win = new MicaBrowserWindow({
-      show:false,
-      autoHideMenuBar:true,
+      show: false,
+      autoHideMenuBar: true,
       width: 1080,
       height: 501,
       minWidth: 1080,
@@ -74,7 +96,7 @@ const createWindow = () => {
     if (IS_WINDOWS_11) {
       console.log("Win11 detected.");
       console.log(config.theme);
-     
+
       if (config.theme == "dark") {
         console.log("dark");
         win.setDarkTheme();
@@ -82,14 +104,14 @@ const createWindow = () => {
         console.log("light");
         win.setLightTheme();
       }
-       win.setMicaEffect();
+      win.setMicaEffect();
     } else {
       win.setAcrylic();
     }
   } else {
     win = new BrowserWindow({
       // transparent: true,
-      show:false,
+      show: false,
       width: 1080,
       height: 501,
       minWidth: 1080,
@@ -188,6 +210,12 @@ const createWindow = () => {
   });
   win.show();
 };
+
+ipcMain.on("quit-beta", (e) => {
+  fs.rm(path.join(ptConfDir, "beta"),(err)=>{
+    throw err;
+  });
+});
 
 ipcMain.handle("get-platform", async () => {
   return platform;

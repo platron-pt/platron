@@ -135,6 +135,10 @@ function updateSettings(name, value) {
   restartReminded = true;
   switchOpr("settings.items.settings");
 }
+function quitBeta() {
+  api.send("quit-beta");
+  printLogs("main", messages.alert.restartAlert);
+}
 function generateSettings(opArea) {
   Object.keys(settings).forEach((e) => {
     const curSet = settings[e];
@@ -163,8 +167,16 @@ function generateSettings(opArea) {
         break;
     }
   });
+  if (config.variant == "stable") {
+    console.log("var");
+    if (config.channel == "beta") {
+      console.log("ch");
+      opArea.append(
+        `<button class="btn btn-warning mb-1" onclick="quitBeta();">${messages.settings.quitBeta}</button>`
+      );
+    }
+  }
 }
-
 function renderAbouts(opArea) {
   var raw = navigator.userAgent.match(/Chrom(e|ium)\/([0-9]+)\./);
 

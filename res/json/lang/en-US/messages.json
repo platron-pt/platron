@@ -3,7 +3,8 @@
     "language": "Language: ",
     "theme": "Theme: ",
     "updateFrequency": "Update frequency (days): ",
-    "clearCache": "Clear Update Cache"
+    "clearCache": "Clear Update Cache",
+    "quitBeta":"Exit beta channel"
   },
   "alert": {
     "restartAlert": "<a href='javascript:restartApp()'>重啟</a> APP 以套用變更</br><a href='javascript:restartApp()'>重启</a>应用以套用变更</br><a href='javascript:restartApp()'>Restart</a> the app to take effect</br>"
