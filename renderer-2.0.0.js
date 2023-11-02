@@ -1,3 +1,5 @@
+import themeControl from "./src/ui/theme.js";
+
 let getPlatform;
 
 const writeFile = () => api.writeFile;
@@ -5,6 +7,8 @@ let _version;
 let osType;
 let osRelease;
 let isPackaged;
+let messages;
+let lang;
 api.invoke("get-os-type").then((result) => (osType = result));
 api.invoke("get-os-release").then((result) => (osRelease = result));
 api.invoke("get-platform").then((result) => (getPlatform = result));
@@ -16,6 +20,7 @@ api.invoke("messages").then((res) => {
 api.invoke("language").then((res) => {
   lang = res;
 });
+console.log(api);
 
 let config;
 let updaterStatus;
@@ -570,36 +575,9 @@ const renderUI = () =>
     });
     $("body").attr("data-bs-theme", theme);
     if (theme == "dark") {
-      $("style").append(`.winCtrl-btn {
-      background-color: rgba(255, 255, 255, 0);
-      color: white;
-    }
-    #close-btn:hover {
-      background-color: brown;
-    }
-    #max-btn:hover,
-    #min-btn:hover {
-      background-color: #3c3642;
-    }
-    .operations:hover {
-      color: white;
-  }`);
+      themeControl.setDark();
     } else {
-      $("style").append(`
-    .winCtrl-btn {
-    background-color: unset;
-  }
-  #close-btn:hover {
-    background-color: red;
-  }
-  #max-btn:hover,
-  #min-btn:hover {
-    background-color: darkgray;
-  }
-  .operations:hover {
-    color: black;
-  }
-    `);
+      themeControl.setLight();
     }
 
     const deviceSelector = document.getElementById("device-selector");
