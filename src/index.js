@@ -140,7 +140,7 @@ export function updateSettings(name, value) {
   restartReminded = true;
   switchOpr("settings.items.settings");
 }
-function quitBeta() {
+export function quitBeta() {
   api.send("quit-beta");
   printLogs("main", messages.alert.restartAlert);
 }
@@ -177,7 +177,7 @@ function generateSettings(opArea) {
     if (config.channel == "beta") {
       console.log("ch");
       opArea.append(
-        `<button class="btn btn-warning mb-1" onclick="quitBeta();">${messages.settings.quitBeta}</button>`
+        `<button class="btn btn-warning mb-1" onclick="lib.quitBeta();">${messages.settings.quitBeta}</button>`
       );
     }
   }
@@ -339,7 +339,7 @@ function printLogs(channel, data) {
   <div id="${channel}-logs" class="accordion-collapse collapse">
     <div class="accordion-body logs-body">
       <p id="${channel}-logs-body" class="font-monospace"></p>
-      <button class="btn btn-primary float-end" onclick="cleanLogs('${channel}')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+      <button class="btn btn-primary float-end" onclick="lib.cleanLogs('${channel}')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
           fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
           <path
             d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
@@ -453,7 +453,7 @@ function readFileSelector(name) {
   return document.getElementById(curOpr + "-" + name).files[0].path;
 }
 
-function cleanLogs(channel) {
+export function cleanLogs(channel) {
   $(`#${channel}-logs-item`).remove();
 }
 
@@ -643,7 +643,7 @@ const renderUI = () =>
     api.send("resize");
   });
 
-function restartApp() {
+export function restartApp() {
   api.send("restart-app");
 }
 Promise.all([api.invoke("get-config")]).then((resultArr) => {

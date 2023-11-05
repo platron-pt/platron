@@ -7,7 +7,7 @@
     "quitBeta": "退出beta頻道"
   },
   "alert": {
-    "restartAlert": "<a href='javascript:restartApp()'>重啟</a> APP 以套用變更</br><a href='javascript:restartApp()'>重启</a>应用以套用变更</br><a href='javascript:restartApp()'>Restart</a> the app to take effect</br>"
+    "restartAlert": "<a href='javascript:lib.restartApp()'>重啟</a> APP 以套用變更</br><a href='javascript:lib.restartApp()'>重启</a>应用以套用变更</br><a href='javascript:lib.restartApp()'>Restart</a> the app to take effect</br>"
   },
   "ui": {
     "deviceSelectorBtn": "裝置",

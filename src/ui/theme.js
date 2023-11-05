@@ -7,7 +7,7 @@ const theme = {
   },
   setLight: function () {
     $(".winCtrl-btn").css("background-color", "rgba(255, 255, 255, 0)");
-    $(".winCtrl-btn").css("color", "white");
+    $(".winCtrl-btn").css("color", "black");
     $("#close-btn:hover").css("background-color", "brown");
     $("#max-btn:hover,#min-btn:hover").css("background-color", "#3c3642");
     $(".operations:hover").css("color", "white");
