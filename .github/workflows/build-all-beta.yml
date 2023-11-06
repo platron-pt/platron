@@ -8,6 +8,8 @@ on:
 
 jobs:
   build:
+    permissions: 
+      contents: write
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -31,5 +33,5 @@ jobs:
 
       - name: Build EAF
         run: npm run publish
-        env:
+        env: 
           GH_TOKEN: ${{secrets.GITHUB_TOKEN}}

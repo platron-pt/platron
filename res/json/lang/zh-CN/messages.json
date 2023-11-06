@@ -3,10 +3,11 @@
     "language": "语言",
     "theme": "主题",
     "updateFrequency": "检查更新频率（天）",
-    "clearCache": "清理更新快取"
+    "clearCache": "清理更新快取",
+    "quitBeta": "退出beta频道"
   },
   "alert": {
-    "restartAlert": "<a href='javascript:restartApp()'>重啟</a> APP 以套用變更</br><a href='javascript:restartApp()'>重启</a>应用以套用变更</br><a href='javascript:restartApp()'>Restart</a> the app to take effect</br>"
+    "restartAlert": "<a href='javascript:lib.restartApp()'>重啟</a> APP 以套用變更</br><a href='javascript:lib.restartApp()'>重启</a>应用以套用变更</br><a href='javascript:lib.restartApp()'>Restart</a> the app to take effect</br>"
   },
   "ui": {
     "deviceSelectorBtn": "装置",
