@@ -1,4 +1,5 @@
 import themeControl from "./ui/theme.js";
+import deviceParser from "./devices/deviceParser.js";
 
 let getPlatform;
 
@@ -211,7 +212,7 @@ async function getURL(url) {
   return text;
 }
 
-function renderUpdater(opArea,keyPath) {
+function renderUpdater(opArea, keyPath) {
   const subArea = document.getElementById(keyPath);
   $(subArea).append(`
     <div class="alert alert-info" role="alert">
@@ -243,7 +244,7 @@ export async function checkUpdatesUI() {
   checkUpdateClicked = true;
 }
 
-function renderSettings(opArea,keyPath) {
+function renderSettings(opArea, keyPath) {
   const subArea = document.getElementById(keyPath);
   generateSettings($(subArea));
   renderAbouts($(subArea));
@@ -292,12 +293,12 @@ export function switchOpr(keyPath) {
       );
     }
     if (keyPath == "settings.items.settings") {
-      renderSettings(opArea,keyPath);
+      renderSettings(opArea, keyPath);
     } else {
       restartReminded = false;
     }
     if (keyPath == "settings.items.updater") {
-      renderUpdater(opArea,keyPath);
+      renderUpdater(opArea, keyPath);
     }
     checkUpdateClicked = false;
     updaterCreated = false;
@@ -461,43 +462,19 @@ const renderUI = () =>
   $(function () {
     api.handle("found-devices", (result) => {
       const mode = result[0];
-      const text = result[1];
-      let devicesUnparsed;
+      const returnText = result[1];
+      let devicesAndSerial;
       switch (mode) {
         case "adb":
-          devicesUnparsed = text.replace(/\r\n/, "\n").split("\n");
-          devicesUnparsed.shift();
-          devicesUnparsed.splice(-2, 2);
-          break;
+          devicesAndSerial = deviceParser.parseADB(returnText);
         case "fb":
-          console.log(`${text}`);
-          devicesUnparsed = text.replace(/\r\n/, "\n").split("\n");
-
-          if (getPlatform == "linux") {
-            devicesUnparsed.splice(-2, 2);
-            devicesUnparsed = devicesUnparsed.flatMap((element, index) => {
-              if (index % 2) {
-                return [];
-              } else {
-                return element;
-              }
-            });
-          }
-
-          if (getPlatform == "win32") {
-            devicesUnparsed.splice(-1, 1);
-            devicesUnparsed = devicesUnparsed.flatMap((element, index) => {
-              return element;
-            });
-          }
-
-          console.log(devicesUnparsed);
-          break;
+          devicesAndSerial = deviceParser.parseFB(returnText);
         default:
           break;
       }
 
-      const devices = devicesUnparsed.map((device) => device.split(/\t/));
+      // [SN, mode]
+      const devices = devicesAndSerial.map((device) => device.split(/\t/));
       function showDevices(id, mode) {
         $(id).empty();
         let element = ``;
