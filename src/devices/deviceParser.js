@@ -1,11 +1,17 @@
+function parseSerialAndStatus(deviceAndSerial) {
+  return deviceAndSerial.map((device) => device.split(/\t/));
+}
+
 const devices = {
   parseADB(devicesUnparsed) {
     // plain text
+
     let devicesArray = devicesUnparsed.replace(/\r\n/, "\n").split("\n");
     devicesArray.shift();
     devicesArray.splice(-2, 2);
     // [SN\tmode]
-    return devicesArray;
+    const deviceParsed = parseSerialAndStatus(devicesArray);
+    return deviceParsed
   },
   parseFB(devicesUnparsed) {
     let devicesArray = text.replace(/\r\n/, "\n").split("\n");
@@ -28,7 +34,9 @@ const devices = {
       });
     }
     // [SN\tmode]
-    return devicesArray;
+    
+    const deviceParsed = parseSerialAndStatus(devicesArray);
+    return deviceParsed;
   },
 };
 

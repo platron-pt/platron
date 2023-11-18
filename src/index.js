@@ -204,14 +204,6 @@ function saveSettings() {
   }
 }
 
-let latestIndex = "";
-
-async function getURL(url) {
-  let response = await fetch(url);
-  let text = await response.text();
-  return text;
-}
-
 function renderUpdater(opArea, keyPath) {
   const subArea = document.getElementById(keyPath);
   $(subArea).append(`
@@ -463,22 +455,23 @@ const renderUI = () =>
     api.handle("found-devices", (result) => {
       const mode = result[0];
       const returnText = result[1];
-      let devicesAndSerial;
+      let devicesFound = [];
       switch (mode) {
         case "adb":
-          devicesAndSerial = deviceParser.parseADB(returnText);
+          devicesFound = deviceParser.parseADB(returnText);
+          break;
         case "fb":
-          devicesAndSerial = deviceParser.parseFB(returnText);
+          devicesFound = deviceParser.parseFB(returnText);
+          break;
         default:
           break;
       }
 
       // [SN, mode]
-      const devices = devicesAndSerial.map((device) => device.split(/\t/));
       function showDevices(id, mode) {
         $(id).empty();
         let element = ``;
-        devices.forEach(([sn, stat], index) => {
+        devicesFound.forEach(([sn, stat], index) => {
           element += `<tr>
             <th scope="row">${index + 1}</th>
             <td>${sn}</td>
