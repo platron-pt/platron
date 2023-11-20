@@ -21,7 +21,6 @@ api.invoke("messages").then((res) => {
 api.invoke("language").then((res) => {
   lang = res;
 });
-console.log(api);
 
 let config;
 let updaterStatus;
