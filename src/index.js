@@ -1,5 +1,9 @@
 import themeControl from "./ui/theme.js";
 import deviceParser from "./devices/deviceParser.js";
+// import { $, jQuery } from "jquery";
+
+// window.$ = $;
+// window.jQuery = jQuery;
 
 let getPlatform;
 
