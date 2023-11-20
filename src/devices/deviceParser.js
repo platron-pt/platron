@@ -1,3 +1,5 @@
+let getPlatform;
+api.invoke("get-platform").then((result) => (getPlatform = result));
 function parseSerialAndStatus(deviceAndSerial) {
   return deviceAndSerial.map((device) => device.split(/\t/));
 }
@@ -14,7 +16,7 @@ const devices = {
     return deviceParsed
   },
   parseFB(devicesUnparsed) {
-    let devicesArray = text.replace(/\r\n/, "\n").split("\n");
+    let devicesArray = devicesUnparsed.replace(/\r\n/, "\n").split("\n");
 
     if (getPlatform == "linux") {
       devicesArray.splice(-2, 2);
