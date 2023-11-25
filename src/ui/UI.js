@@ -1,4 +1,4 @@
-const oprs = {
+export const oprs = {
   system: {
     navbar: "System",
     items: {
@@ -273,9 +273,8 @@ const oprs = {
     },
   },
 };
-
-const availableLanguages = ["zh-TW", "zh-CN", "en-US"];
-const settings = {
+export const availableLanguages = ["zh-TW", "zh-CN", "en-US"];
+export const settings = {
   language: {
     title: "Language:",
     type: "dropdown",
