@@ -3,17 +3,18 @@ const oprs = {
     navbar: "System",
     items: {
       power: {
+        rev: 3,
         title: "Reboot to",
         name: "system-power-menu",
-        script: [["adb", "reboot", "$radio"]],
+        script: [{ mode: "adb", verb: "reboot", params: "$radio" }],
         content: [
-          ["radio", "bootloader", "checked"],
-          ["radio", "recovery"],
-          ["radio", "fastboot"],
-          ["radio", "system"],
-          ["radio", "sideload"],
-          ["radio", "other"],
-          ["input", "input", "Other target"],
+          { type: "radio", value: "bootloader", misc: "checked" },
+          { type: "radio", value: "recovery" },
+          { type: "radio", value: "fastboot" },
+          { type: "radio", value: "system" },
+          { type: "radio", value: "sideload" },
+          { type: "radio", value: "other" },
+          { type: "input", value: "input", misc: "Other target" },
         ],
         navbar: "Reboot to",
       },
@@ -61,7 +62,7 @@ const oprs = {
         content: [
           ["radio", "reset"],
           ["radio", "other"],
-          ["input", "input","Custom value"],
+          ["input", "input", "Custom value"],
         ],
         navbar: "Set DPI",
       },
@@ -294,8 +295,3 @@ const settings = {
     options: ["1", "2", "3", "7", "14"],
   },
 };
-
-const winURL =
-  "https://dl.google.com/android/repository/platform-tools-latest-windows.zip";
-const linURL =
-  "https://dl.google.com/android/repository/platform-tools-latest-linux.zip";
