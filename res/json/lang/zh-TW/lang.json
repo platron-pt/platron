@@ -3,19 +3,19 @@
     "navbar": "ADB 操作 - 系統",
     "items": {
       "power": {
+        "rev":3,
         "title": "重啟",
         "name": "system-power-menu",
-        "script": [["adb", "reboot", "$radio"]],
         "content": [
-          ["radio", "bootloader", "checked"],
-          ["radio", "recovery"],
-          ["radio", "fastbootd"],
-          ["radio", "system"],
-          ["radio", "sideload"],
-          ["radio", "其他"],
-          ["input", "input", "自訂模式"],
-          ["br", ""],
-          ["br", ""]
+          {"type":"radio", "text":"bootloader", "misc":"checked"},
+          {"type":"radio", "text":"recovery"},
+          {"type":"radio", "text":"fastbootd"},
+          {"type":"radio", "text":"system"},
+          {"type":"radio", "text":"sideload"},
+          {"type":"radio", "text":"其他"},
+          {"type":"input", "text":"input", "misc":"自訂模式"},
+          {"type":"br", "misc":""},
+          {"type":"br", "misc":""}
         ],
         "navbar": "重啟"
       },

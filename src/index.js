@@ -1,6 +1,8 @@
 import themeControl from "./ui/theme.js";
 import deviceParser from "./devices/deviceParser.js";
 import jq from "jquery";
+import keyPath2obj from "./keypath2obj.js";
+import { oprs, availableLanguages, settings } from "./ui/UI.js";
 
 window.$ = window.jQuery = jq;
 
@@ -84,31 +86,35 @@ function updateFilePath() {
   document.getElementById(curOpr + "-file-path").innerHTML =
     document.getElementById(curOpr + "-file-input").files[0].path;
 }
-function generateContents(opArea, operation, operationLang) {
+function generateContents(options) {
+  const opArea = options.from;
   let keyPath = curOpr;
-  const content = operation.content;
-  const contentLang = operationLang.content;
+  const contents = options.content.content;
+  const translations = options.translation.content;
   const subArea = document.getElementById(keyPath);
-  for (let i in content) {
-    switch (content[i][0]) {
+
+  for (let [index, content] of contents.entries()) {
+    const translation = translations[index];
+
+    switch (content.type) {
       case "radio":
         const radio = `<div class="form-check">
-                        <input class="form-check-input ${keyPath}" type="radio" name="${operation.name}" id="${keyPath}-${content[i][1]}" value="${content[i][1]}">
-                        <label class="form-check-label" for="${keyPath}-${content[i][1]}">
-                          ${contentLang[i][1]}
+                        <input class="form-check-input ${keyPath}" type="radio" name="${options.content.name}" id="${keyPath}-${content.value}" value="${content.value}">
+                        <label class="form-check-label" for="${keyPath}-${content.value}">
+                          ${translation.text}
                         </label>
                       </div>`;
         $(subArea).append(radio);
         // 若 UI.js 中 content 下第三項爲 checked 則將其設爲“已經勾選”
-        if (content[i][2] == "checked") {
+        if (content.misc == "checked") {
           document
-            .getElementById(`${keyPath}-${content[i][1]}`)
+            .getElementById(`${keyPath}-${content.value}`)
             .setAttribute("checked", true);
         }
         break;
       case "input":
         $(subArea).append(`
-        <input id="${keyPath}-${content[i][1]}" class="extra-input mb-3 ${keyPath}" type="text" placeholder="${contentLang[i][2]}" >
+        <input id="${keyPath}-${content.value}" class="extra-input mb-3 ${keyPath}" type="text" placeholder="${translation.misc}" >
         `);
         break;
       case "file":
@@ -119,7 +125,7 @@ function generateContents(opArea, operation, operationLang) {
           </svg>
             ${messages.ui.fileSelectorBtn}
           </label>
-          <input class="d-none file-input ${keyPath}" onchange="updateFilePath('${keyPath}')" type="file" name="${operation.name}" id="${keyPath}-file-input" accept="${content[i][2]}"/>
+          <input class="d-none file-input ${keyPath}" onchange="updateFilePath('${keyPath}')" type="file" name="${options.content.name}" id="${keyPath}-file-input" accept="${content.misc}"/>
           <h5 id="${keyPath}-file-path" class="user-select-none ${keyPath}">${messages.ui.fileSelectorDefault}</h5>
         </div>`);
         break;
@@ -129,12 +135,6 @@ function generateContents(opArea, operation, operationLang) {
   }
 }
 
-function keyPath2obj(path, initial) {
-  const output = path.split(".").reduce((object, property) => {
-    return object[property];
-  }, initial);
-  return output;
-}
 export function updateSettings(name, value) {
   config[name] = value;
 
@@ -244,11 +244,76 @@ function renderSettings(opArea, keyPath) {
   renderAbouts($(subArea));
 }
 
+function convertTorev3(object) {
+  const objectv3 = {
+    rev: 3,
+    title: object.title,
+    name: object.name,
+    subtitle: object.subtitle,
+    needUnlock: object.needUnlock,
+    navbar: object.navbar,
+  };
+
+  objectv3.script = object.script.map((command) => {
+    const commandv3 = {
+      mode: command[0],
+      verb: command[1],
+      params: command.slice(2),
+    };
+    return commandv3;
+  });
+  objectv3.content = object.content.map((item) => {
+    const contentv3 = {
+      type: item[0],
+      value: item[1],
+      misc: item[2],
+    };
+
+    return contentv3;
+  });
+  return objectv3;
+}
+
+function langTov3(langObj) {
+  const objectv3 = {
+    rev: 3,
+    title: langObj.title,
+    name: langObj.name,
+    subtitle: langObj.subtitle,
+    navbar: langObj.navbar,
+  };
+
+  objectv3.content = langObj.content.map((item) => {
+    const contentv3 = {
+      type: item[0],
+      text: item[1],
+      misc: item[2],
+    };
+    return contentv3;
+  });
+  return objectv3;
+}
+
 export function switchOpr(keyPath) {
   curOpr = keyPath;
-  const target = keyPath2obj(keyPath, oprs);
-  const langTarget = keyPath2obj(keyPath, lang);
+  let target = keyPath2obj(keyPath, oprs);
+  let langTarget = keyPath2obj(keyPath, lang);
   const opArea = $("#operation-area");
+  console.log(keyPath);
+  console.log(keyPath == "settings.items.settings");
+  if (
+    keyPath !== "settings.items.settings" &&
+    keyPath !== "settings.items.updater"
+  ) {
+    if (target.rev !== 3) {
+      target = convertTorev3(target);
+    }
+    console.log(target);
+    if (langTarget.rev !== 3) {
+      langTarget = langTov3(langTarget);
+    }
+    console.log(langTarget);
+  }
 
   if (document.getElementById(keyPath) == null) {
     opArea.append(`<div id="${keyPath}" class="operation-box"></div>`);
@@ -272,7 +337,18 @@ export function switchOpr(keyPath) {
         `<div class="alert alert-info" role="alert">${messages.tips.flash_remove_verity}</div>`
       );
     }
-    generateContents(opArea, target, langTarget);
+
+    if (
+      keyPath !== "settings.items.settings" &&
+      keyPath !== "settings.items.updater"
+    ) {
+      generateContents({
+        from: opArea,
+        content: target,
+        translation: langTarget,
+      });
+    }
+
     $(subArea).append(`<div></div>`);
     if (!target.noStartButton) {
       $(subArea).append(
@@ -359,47 +435,44 @@ export function runScript(path, name) {
   const scripts = keyPath2obj(path, oprs).script;
 
   for (let commandList of scripts) {
+    console.log(commandList);
     let params = [];
     let execFile = "";
     let operation = "";
-    for (const j in commandList) {
-      if (j == 1) {
-        operation = commandList[j];
-      }
+    switch (commandList.mode) {
+      case "adb":
+        execFile = execDir + "adb" + fileExtension;
+        break;
+      case "fastboot":
+        execFile = execDir + "fastboot" + fileExtension;
+        break;
+      default:
+        break;
+    }
+    operation = commandList.verb;
+    for (let param of commandList.params) {
+      console.log(param);
+      switch (param) {
+        case "$radio":
+          if (!(readRadio(name) == "system" && operation == "reboot")) {
+            params.push(readRadio(name));
+          }
 
-      if (j == 0) {
-        switch (commandList[j]) {
-          case "adb":
-            execFile = execDir + "adb" + fileExtension;
-            break;
-          case "fastboot":
-            execFile = execDir + "fastboot" + fileExtension;
-            break;
-          default:
-            break;
-        }
-      } else {
-        switch (commandList[j]) {
-          case "$radio":
-            if (!(readRadio(name) == "system" && operation == "reboot")) {
-              params.push(readRadio(name));
-            }
-
-            break;
-          case "$file":
-            params.push(readFileSelector("file-input"));
-            break;
-          default:
-            params.push(commandList[j]);
-            break;
-        }
+          break;
+        case "$file":
+          params.push(readFileSelector("file-input"));
+          break;
+        default:
+          params.push(param);
+          break;
       }
     }
     let mode = path.split(".")[0];
     let hint = "Running command: ";
-    hint += commandList[0];
+    hint += `${commandList.mode} ${commandList.verb}`;
     params.forEach((param) => (hint += " " + param));
     printLogs("main", hint + "</br>");
+    console.log(execFile, [operation, ...params]);
     switch (mode) {
       case "system":
       case "recovery":
@@ -409,10 +482,10 @@ export function runScript(path, name) {
             `Running on devices: ${Array.from(selectedADBDevices)}</br>`
           );
           for (let sn of selectedADBDevices) {
-            api.runCommand(execFile, ["-s", sn, ...params]);
+            api.runCommand(execFile, ["-s", sn, operation, ...params]);
           }
         } else {
-          api.runCommand(execFile, params);
+          api.runCommand(execFile, [operation, ...params]);
         }
         break;
       case "fastboot":
@@ -422,21 +495,24 @@ export function runScript(path, name) {
             `Running on devices: ${Array.from(selectedFbDevices)}</br>`
           );
           for (let sn of selectedFbDevices) {
-            api.runCommand(execFile, ["-s", sn, ...params]);
+            api.runCommand(execFile, ["-s", sn, operation, ...params]);
           }
         } else {
-          api.runCommand(execFile, params);
+          console.log(execFile, params);
+          api.runCommand(execFile, [operation, ...params]);
         }
         break;
       default:
         break;
     }
   }
+  console.log(scripts);
 }
 function readRadio(name) {
   const checkedRadio = document.querySelector(
     `input[name="${name}"]:checked`
   ).id;
+
   if (checkedRadio == curOpr + "-other") {
     return document.getElementById(curOpr + "-input").value;
   } else {
