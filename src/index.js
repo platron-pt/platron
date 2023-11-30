@@ -398,18 +398,18 @@ export function switchOpr(keyPath) {
 function printLogs(channel, data) {
   const logsOutput = document.getElementById("logs-output");
   console.log(String(data));
-  if (!$(`#${channel}-logs`).length) {
+  if (!$(`#logs-${channel}`).length) {
     $("#logs-with-channels")
-      .append(`<div class="accordion-item" id="${channel}-logs-item">
+      .append(`<div class="accordion-item" id="logs-item-${channel}">
   <h2 class="accordion-header">
-    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#${channel}-logs"
+    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#logs-${channel}"
       aria-expanded="true" aria-controls="collapseOne">
       ${channel}
     </button>
   </h2>
-  <div id="${channel}-logs" class="accordion-collapse collapse">
+  <div id="logs-${channel}" class="accordion-collapse collapse">
     <div class="accordion-body logs-body">
-      <p id="${channel}-logs-body" class="font-monospace"></p>
+      <p id="logs-body-${channel}" class="font-monospace"></p>
       <button class="btn btn-primary float-end" onclick="lib.cleanLogs('${channel}')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
           fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
           <path
@@ -419,7 +419,7 @@ function printLogs(channel, data) {
   </div>
 </div>`);
   }
-  $(`#${channel}-logs-body`).append(`${data}`);
+  $(`#logs-body-${channel}`).append(`${data}`);
 }
 
 export function runScript(path, name) {
@@ -525,7 +525,7 @@ function readFileSelector(name) {
 }
 
 export function cleanLogs(channel) {
-  $(`#${channel}-logs-item`).remove();
+  $(`#logs-item-${channel}`).remove();
 }
 
 const renderUI = () =>
