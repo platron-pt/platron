@@ -1,16 +1,9 @@
 const theme = {
   setDark: function () {
-    $(".winCtrl-btn").css("background-color", "unset");
-    $("#close-btn:hover").css("background-color", "red");
-    $("#max-btn:hover,#min-btn:hover").css("background-color", "darkgray");
-    $(".operations:hover").css("color", "black");
+    $("head").append(`<link rel="stylesheet" href="css/dark.css">`);
   },
   setLight: function () {
-    $(".winCtrl-btn").css("background-color", "rgba(255, 255, 255, 0)");
-    $(".winCtrl-btn").css("color", "black");
-    $("#close-btn:hover").css("background-color", "brown");
-    $("#max-btn:hover,#min-btn:hover").css("background-color", "#3c3642");
-    $(".operations:hover").css("color", "white");
+    $("head").append(`<link rel="stylesheet" href="css/light.css">`);
   },
 };
 
