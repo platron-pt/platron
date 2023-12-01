@@ -14,3 +14,5 @@ open correct tab in device manager
 windouws-ui.github.io ?
 split js files
 acrylic window
+not including some files when building
+fix "is not valid selector" when showing by SN

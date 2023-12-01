@@ -3,79 +3,179 @@
     "navbar": "System",
     "items": {
       "power": {
+        "rev": 3,
         "title": "Reboot to",
         "name": "system-power-menu",
-        "script": [["adb", "reboot", "$radio"]],
+        "navbar": "Reboot to",
         "content": [
-          ["radio", "bootloader", "checked"],
-          ["radio", "recovery"],
-          ["radio", "fastbootd"],
-          ["radio", "system"],
-          ["radio", "sideload"],
-          ["radio", "other"],
-          ["input", "input", "Other target"],
-          ["br", ""],
-          ["br", ""]
-        ],
-        "navbar": "Reboot to"
+          {
+            "type": "radio",
+            "text": "bootloader",
+            "misc": "checked"
+          },
+          {
+            "type": "radio",
+            "text": "recovery"
+          },
+          {
+            "type": "radio",
+            "text": "fastbootd"
+          },
+          {
+            "type": "radio",
+            "text": "system"
+          },
+          {
+            "type": "radio",
+            "text": "sideload"
+          },
+          {
+            "type": "radio",
+            "text": "other"
+          },
+          {
+            "type": "input",
+            "text": "input",
+            "misc": "Other target"
+          },
+          {
+            "type": "br",
+            "text": ""
+          },
+          {
+            "type": "br",
+            "text": ""
+          }
+        ]
       },
       "push": {
+        "rev": 3,
         "title": "Push file to /sdcard",
         "name": "push-menu",
-        "operation": "push",
-        "script": [["adb", "push", "$file", "/sdcard"]],
+        "navbar": "Push file to /sdcard",
         "content": [
-          ["file", "file"],
-          ["br", ""],
-          ["br", ""]
-        ],
-        "navbar": "Push file to /sdcard"
+          {
+            "type": "file",
+            "text": "file"
+          },
+          {
+            "type": "br",
+            "text": ""
+          },
+          {
+            "type": "br",
+            "text": ""
+          }
+        ]
       },
       "install": {
+        "rev": 3,
         "title": "Install apk file",
-        "subtitle": "For installing apk, not for flashing magisk!",
         "name": "install-menu",
-        "operation": "install",
-        "script": [["adb", "install", "$file"]],
+        "subtitle": "For installing apk, not for flashing magisk!",
+        "navbar": "Install apk file",
         "content": [
-          ["file", "file", ".apk,application/zip"],
-          ["br", ""],
-          ["br", ""]
-        ],
-        "navbar": "Install apk file"
+          {
+            "type": "file",
+            "text": "file",
+            "misc": ".apk,application/zip"
+          },
+          {
+            "type": "br",
+            "text": ""
+          },
+          {
+            "type": "br",
+            "text": ""
+          }
+        ]
       },
       "getprop": {
+        "rev": 3,
         "title": "Get system properties",
         "name": "getprop-menu",
-        "script": [["adb", "shell", "getprop", "$radio"]],
+        "navbar": "Get system properties",
         "content": [
-          ["radio", "current slot (ro.boot.slot_suffix)", "checked"],
-          ["radio", "ro.apex.updatable"],
-          ["radio", "ro.build.fingerprint"],
-          ["radio", "Android version (ro.build.version.release)"],
-          ["radio", "Security patch level (ro.build.version.security_patch)"],
-          ["radio", "ro.product.board"],
-          ["radio", "ro.product.brand"],
-          ["radio", "ro.product.model"],
-          ["radio", "ro.secure"],
-          ["radio", "ro.adb.secure"],
-          ["radio", "sys.usb.config"],
-          ["radio", "All properties"],
-          ["radio", "Not listed"],
-          ["input", "input", "Other property"]
-        ],
-        "navbar": "Get system properties"
+          {
+            "type": "radio",
+            "text": "current slot (ro.boot.slot_suffix)",
+            "misc": "checked"
+          },
+          {
+            "type": "radio",
+            "text": "ro.apex.updatable"
+          },
+          {
+            "type": "radio",
+            "text": "ro.build.fingerprint"
+          },
+          {
+            "type": "radio",
+            "text": "Android version (ro.build.version.release)"
+          },
+          {
+            "type": "radio",
+            "text": "Security patch level (ro.build.version.security_patch)"
+          },
+          {
+            "type": "radio",
+            "text": "ro.product.board"
+          },
+          {
+            "type": "radio",
+            "text": "ro.product.brand"
+          },
+          {
+            "type": "radio",
+            "text": "ro.product.model"
+          },
+          {
+            "type": "radio",
+            "text": "ro.secure"
+          },
+          {
+            "type": "radio",
+            "text": "ro.adb.secure"
+          },
+          {
+            "type": "radio",
+            "text": "sys.usb.config"
+          },
+          {
+            "type": "radio",
+            "text": "All properties"
+          },
+          {
+            "type": "radio",
+            "text": "Not listed"
+          },
+          {
+            "type": "input",
+            "text": "input",
+            "misc": "Other property"
+          }
+        ]
       },
       "density": {
+        "rev": 3,
         "title": "Set DPI",
         "name": "density-menu",
-        "script": [["adb", "shell", "wm", "density", "$radio"]],
+        "navbar": "Set DPI",
         "content": [
-          ["radio", "reset"],
-          ["radio", "other"],
-          ["input", "input", "Custom DPI"]
-        ],
-        "navbar": "Set DPI"
+          {
+            "type": "radio",
+            "text": "reset"
+          },
+          {
+            "type": "radio",
+            "text": "other"
+          },
+          {
+            "type": "input",
+            "text": "input",
+            "misc": "Custom DPI"
+          }
+        ]
       }
     }
   },
@@ -83,17 +183,26 @@
     "navbar": "Recovery",
     "items": {
       "sideload": {
+        "rev": 3,
         "title": "Sideload flashable zip",
-        "subtitle": "You can flash magisk here",
         "name": "sideload-menu",
-        "operation": "sideload",
-        "script": [["adb", "sideload", "$file"]],
+        "subtitle": "You can flash magisk here",
+        "navbar": "Sideload flashable zip",
         "content": [
-          ["file", "file", "application/zip,.apk"],
-          ["br", ""],
-          ["br", ""]
-        ],
-        "navbar": "Sideload flashable zip"
+          {
+            "type": "file",
+            "text": "file",
+            "misc": "application/zip,.apk"
+          },
+          {
+            "type": "br",
+            "text": ""
+          },
+          {
+            "type": "br",
+            "text": ""
+          }
+        ]
       }
     }
   },
@@ -101,192 +210,436 @@
     "navbar": "Fastboot",
     "items": {
       "power": {
+        "rev": 3,
         "title": "Reboot to",
         "name": "power-menu",
-        "needUnlock": false,
-        "script": [["fastboot", "reboot", "$radio"]],
+        "navbar": "Reboot to",
         "content": [
-          ["radio", "bootloader", "checked"],
-          ["radio", "recovery"],
-          ["radio", "fastbootd"],
-          ["radio", "system"],
-          ["radio", "sideload"],
-          ["radio", "other"],
-          ["input", "input", "Other target"],
-          ["br", ""],
-          ["br", ""]
-        ],
-        "navbar": "Reboot to"
+          {
+            "type": "radio",
+            "text": "bootloader",
+            "misc": "checked"
+          },
+          {
+            "type": "radio",
+            "text": "recovery"
+          },
+          {
+            "type": "radio",
+            "text": "fastbootd"
+          },
+          {
+            "type": "radio",
+            "text": "system"
+          },
+          {
+            "type": "radio",
+            "text": "sideload"
+          },
+          {
+            "type": "radio",
+            "text": "other"
+          },
+          {
+            "type": "input",
+            "text": "input",
+            "misc": "Other target"
+          },
+          {
+            "type": "br",
+            "text": ""
+          },
+          {
+            "type": "br",
+            "text": ""
+          }
+        ]
       },
       "boot": {
+        "rev": 3,
         "title": "Boot a image",
-        "subtitle": "Some models are not supported",
         "name": "boot-menu",
-        "needUnlock": true,
-        "script": [["fastboot", "boot", "$file"]],
+        "subtitle": "Some models are not supported",
+        "navbar": "Boot a image (suggested)",
         "content": [
-          ["file", "file", ".img,.bin"],
-          ["br", ""],
-          ["br", ""]
-        ],
-        "navbar": "Boot a image (suggested)"
+          {
+            "type": "file",
+            "text": "file",
+            "misc": ".img,.bin"
+          },
+          {
+            "type": "br",
+            "text": ""
+          },
+          {
+            "type": "br",
+            "text": ""
+          }
+        ]
       },
       "flash": {
+        "rev": 3,
         "title": "Flash image to partition",
         "name": "flash-menu",
-        "needUnlock": true,
-        "script": [["fastboot", "flash", "$radio", "$file"]],
+        "navbar": "Flash image to partition",
         "content": [
-          ["radio", "boot", "checked"],
-          ["radio", "bootloader"],
-          ["radio", "init_boot"],
-          ["radio", "dtbo"],
-          ["radio", "vbmeta"],
-          ["radio", "recovery"],
-          ["radio", "radio"],
-          ["radio", "super"],
-          ["radio", "system"],
-          ["radio", "vendor"],
-          ["radio", "userdata"],
-          ["radio", "other"],
-          ["input", "input", "other partition"],
-          ["br", ""],
-          ["file", "file", ".img,.bin,.mbn,.txt,.zip"],
-          ["br", ""],
-          ["br", ""]
-        ],
-        "navbar": "Flash image to partition"
+          {
+            "type": "radio",
+            "text": "boot",
+            "misc": "checked"
+          },
+          {
+            "type": "radio",
+            "text": "bootloader"
+          },
+          {
+            "type": "radio",
+            "text": "init_boot"
+          },
+          {
+            "type": "radio",
+            "text": "dtbo"
+          },
+          {
+            "type": "radio",
+            "text": "vbmeta"
+          },
+          {
+            "type": "radio",
+            "text": "recovery"
+          },
+          {
+            "type": "radio",
+            "text": "radio"
+          },
+          {
+            "type": "radio",
+            "text": "super"
+          },
+          {
+            "type": "radio",
+            "text": "system"
+          },
+          {
+            "type": "radio",
+            "text": "vendor"
+          },
+          {
+            "type": "radio",
+            "text": "userdata"
+          },
+          {
+            "type": "radio",
+            "text": "other"
+          },
+          {
+            "type": "input",
+            "text": "input",
+            "misc": "other partition"
+          },
+          {
+            "type": "br",
+            "text": ""
+          },
+          {
+            "type": "file",
+            "text": "file",
+            "misc": ".img,.bin,.mbn,.txt,.zip"
+          },
+          {
+            "type": "br",
+            "text": ""
+          },
+          {
+            "type": "br",
+            "text": ""
+          }
+        ]
       },
       "flash_remove_verity": {
+        "rev": 3,
         "title": "Disable dm-verity",
         "name": "flash-menu",
-        "needUnlock": true,
-        "script": [
-          [
-            "fastboot",
-            "flash",
-            "--disable-verity",
-            "--disable-verification",
-            "vbmeta",
-            "$file"
-          ]
-        ],
-        "content": [["file", "file", ".img,.bin,.mbn,.txt,.zip"]],
-        "navbar": "Disable dm-verity"
+        "navbar": "Disable dm-verity",
+        "content": [
+          {
+            "type": "file",
+            "text": "file",
+            "misc": ".img,.bin,.mbn,.txt,.zip"
+          }
+        ]
       },
       "erase": {
+        "rev": 3,
         "title": "Erase partition",
         "name": "erase-menu",
-        "needUnlock": true,
-        "script": [["fastboot", "erase", "$radio"]],
+        "navbar": "Erase partition",
         "content": [
-          ["radio", "boot", "checked"],
-          ["radio", "init_boot"],
-          ["radio", "dtbo"],
-          ["radio", "vbmeta"],
-          ["radio", "recovery"],
-          ["radio", "super"],
-          ["radio", "system"],
-          ["radio", "vendor"],
-          ["radio", "cache"],
-          ["radio", "userdata"],
-          ["radio", "metadata"],
-          ["radio", "other"],
-          ["input", "input", "Partition to erase"],
-          ["br", ""]
-        ],
-        "navbar": "Erase partition"
+          {
+            "type": "radio",
+            "text": "boot",
+            "misc": "checked"
+          },
+          {
+            "type": "radio",
+            "text": "init_boot"
+          },
+          {
+            "type": "radio",
+            "text": "dtbo"
+          },
+          {
+            "type": "radio",
+            "text": "vbmeta"
+          },
+          {
+            "type": "radio",
+            "text": "recovery"
+          },
+          {
+            "type": "radio",
+            "text": "super"
+          },
+          {
+            "type": "radio",
+            "text": "system"
+          },
+          {
+            "type": "radio",
+            "text": "vendor"
+          },
+          {
+            "type": "radio",
+            "text": "cache"
+          },
+          {
+            "type": "radio",
+            "text": "userdata"
+          },
+          {
+            "type": "radio",
+            "text": "metadata"
+          },
+          {
+            "type": "radio",
+            "text": "other"
+          },
+          {
+            "type": "input",
+            "text": "input",
+            "misc": "Partition to erase"
+          },
+          {
+            "type": "br",
+            "text": ""
+          }
+        ]
       },
       "format": {
+        "rev": 3,
         "title": "Format partition",
         "name": "format-menu",
-        "needUnlock": true,
-        "script": [["fastboot", "format", "$radio"]],
+        "navbar": "Format partition",
         "content": [
-          ["radio", "super"],
-          ["radio", "system"],
-          ["radio", "vendor"],
-          ["radio", "cache"],
-          ["radio", "userdata"],
-          ["radio", "other"],
-          ["input", "input", "Partition to format"],
-          ["br", ""]
-        ],
-        "navbar": "Format partition"
+          {
+            "type": "radio",
+            "text": "super"
+          },
+          {
+            "type": "radio",
+            "text": "system"
+          },
+          {
+            "type": "radio",
+            "text": "vendor"
+          },
+          {
+            "type": "radio",
+            "text": "cache"
+          },
+          {
+            "type": "radio",
+            "text": "userdata"
+          },
+          {
+            "type": "radio",
+            "text": "other"
+          },
+          {
+            "type": "input",
+            "text": "input",
+            "misc": "Partition to format"
+          },
+          {
+            "type": "br",
+            "text": ""
+          }
+        ]
       },
       "flashing": {
+        "rev": 3,
         "title": "Fastboot flashing",
         "name": "flashing-menu",
-        "needUnlock": false,
-        "script": [["fastboot", "flashing", "$radio"]],
+        "navbar": "Fastboot flashing",
         "content": [
-          ["radio", "unlock", "checked"],
-          ["radio", "lock"],
-          ["radio", "unlock_critical"],
-          ["radio", "lock_critical"],
-          ["radio", "get_unlock_ability"],
-          ["radio", "other"],
-          ["input", "input", "Custom command"],
-          ["br", ""]
-        ],
-        "navbar": "Fastboot flashing"
+          {
+            "type": "radio",
+            "text": "unlock",
+            "misc": "checked"
+          },
+          {
+            "type": "radio",
+            "text": "lock"
+          },
+          {
+            "type": "radio",
+            "text": "unlock_critical"
+          },
+          {
+            "type": "radio",
+            "text": "lock_critical"
+          },
+          {
+            "type": "radio",
+            "text": "get_unlock_ability"
+          },
+          {
+            "type": "radio",
+            "text": "other"
+          },
+          {
+            "type": "input",
+            "text": "input",
+            "misc": "Custom command"
+          },
+          {
+            "type": "br",
+            "text": ""
+          }
+        ]
       },
       "oem": {
+        "rev": 3,
         "title": "Fastboot oem",
         "name": "oem-menu",
-        "needUnlock": true,
-        "script": [],
+        "navbar": "Fastboot oem",
         "content": [
-          ["radio", "unlock", "checked"],
-          ["radio", "lock"],
-          ["radio", "device-info"],
-          ["radio", "cdms"],
-          ["radio", "other"],
-          ["input", "input", "Custom command"],
-          ["br", ""]
-        ],
-        "navbar": "Fastboot oem"
+          {
+            "type": "radio",
+            "text": "unlock",
+            "misc": "checked"
+          },
+          {
+            "type": "radio",
+            "text": "lock"
+          },
+          {
+            "type": "radio",
+            "text": "device-info"
+          },
+          {
+            "type": "radio",
+            "text": "cdms"
+          },
+          {
+            "type": "radio",
+            "text": "other"
+          },
+          {
+            "type": "input",
+            "text": "input",
+            "misc": "Custom command"
+          },
+          {
+            "type": "br",
+            "text": ""
+          }
+        ]
       },
       "update": {
+        "rev": 3,
         "title": "Fastboot update",
         "name": "update-menu",
-        "needUnlock": true,
-        "script": [],
+        "navbar": "Fastboot update",
         "content": [
-          ["file", "file", "application/zip"],
-          ["br", ""],
-          ["br", ""]
-        ],
-        "navbar": "Fastboot update"
+          {
+            "type": "file",
+            "text": "file",
+            "misc": "application/zip"
+          },
+          {
+            "type": "br",
+            "text": ""
+          },
+          {
+            "type": "br",
+            "text": ""
+          }
+        ]
       },
       "getvar": {
+        "rev": 3,
         "title": "Fastboot getvar",
         "name": "getvar-menu",
-        "needUnlock": false,
-        "script": [["fastboot", "getvar", "$radio"]],
+        "navbar": "Fastboot getvar",
         "content": [
-          ["radio", "all", "checked"],
-          ["radio", "current-slot"],
-          ["radio", "unlocked"],
-          ["radio", "is-userspace"],
-          ["radio", "anti"],
-          ["radio", "other"],
-          ["input", "input", "Custom variable"],
-          ["br", ""]
-        ],
-        "navbar": "Fastboot getvar"
+          {
+            "type": "radio",
+            "text": "all",
+            "misc": "checked"
+          },
+          {
+            "type": "radio",
+            "text": "current-slot"
+          },
+          {
+            "type": "radio",
+            "text": "unlocked"
+          },
+          {
+            "type": "radio",
+            "text": "is-userspace"
+          },
+          {
+            "type": "radio",
+            "text": "anti"
+          },
+          {
+            "type": "radio",
+            "text": "other"
+          },
+          {
+            "type": "input",
+            "text": "input",
+            "misc": "Custom variable"
+          },
+          {
+            "type": "br",
+            "text": ""
+          }
+        ]
       },
       "active": {
+        "rev": 3,
         "title": "Switch active slot to",
         "name": "active-menu",
-        "needUnlock": true,
-        "script": [["fastboot", "set_active", "$radio"]],
+        "navbar": "Switch active slot to",
         "content": [
-          ["radio", "a", "", "checked"],
-          ["radio", "b", ""],
-          ["br", ""]
-        ],
-        "navbar": "Switch active slot to"
+          {
+            "type": "radio",
+            "text": "a",
+            "misc": ""
+          },
+          {
+            "type": "radio",
+            "text": "b",
+            "misc": ""
+          },
+          {
+            "type": "br",
+            "text": ""
+          }
+        ]
       }
     }
   },
@@ -294,14 +647,16 @@
     "navbar": "Settings",
     "items": {
       "settings": {
+        "rev": 3,
         "title": "Settings",
-        "content": [],
-        "navbar": "Settings"
+        "navbar": "Settings",
+        "content": []
       },
       "updater": {
+        "rev": 3,
         "title": "Online Updates",
-        "content": [],
-        "navbar": "Online Updates"
+        "navbar": "Online Updates",
+        "content": []
       }
     }
   }

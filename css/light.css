@@ -1,0 +1,13 @@
+.winCtrl-btn{
+  background-color: rgb(255, 255, 255);
+  color: black;
+}
+#close-btn:hover{
+  background-color: red;
+}
+#max-btn:hover,#min-btn:hover{
+  background-color: lightgrey;
+}
+.operations:hover{
+  color: gray;
+}

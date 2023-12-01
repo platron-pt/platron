@@ -1,4 +1,10 @@
 import themeControl from "./ui/theme.js";
+import deviceParser from "./devices/deviceParser.js";
+import jq from "jquery";
+import keyPath2obj from "./keypath2obj.js";
+import { oprs, availableLanguages, settings } from "./ui/UI.js";
+
+window.$ = window.jQuery = jq;
 
 let getPlatform;
 
@@ -20,7 +26,6 @@ api.invoke("messages").then((res) => {
 api.invoke("language").then((res) => {
   lang = res;
 });
-console.log(api);
 
 let config;
 let updaterStatus;
@@ -77,35 +82,39 @@ function generateTitle(opArea, title, subtitle) {
     $("#operation-area").find(`${keyPath}-title`).addClass("mb-3");
   }
 }
-function updateFilePath() {
+export function updateFilePath() {
   document.getElementById(curOpr + "-file-path").innerHTML =
     document.getElementById(curOpr + "-file-input").files[0].path;
 }
-function generateContents(opArea, operation, operationLang) {
+function generateContents(options) {
+  const opArea = options.from;
   let keyPath = curOpr;
-  const content = operation.content;
-  const contentLang = operationLang.content;
+  const contents = options.content.content;
+  const translations = options.translation.content;
   const subArea = document.getElementById(keyPath);
-  for (let i in content) {
-    switch (content[i][0]) {
+
+  for (let [index, content] of contents.entries()) {
+    const translation = translations[index];
+
+    switch (content.type) {
       case "radio":
         const radio = `<div class="form-check">
-                        <input class="form-check-input ${keyPath}" type="radio" name="${operation.name}" id="${keyPath}-${content[i][1]}" value="${content[i][1]}">
-                        <label class="form-check-label" for="${keyPath}-${content[i][1]}">
-                          ${contentLang[i][1]}
+                        <input class="form-check-input ${keyPath}" type="radio" name="${options.content.name}" id="${keyPath}-${content.value}" value="${content.value}">
+                        <label class="form-check-label" for="${keyPath}-${content.value}">
+                          ${translation.text}
                         </label>
                       </div>`;
         $(subArea).append(radio);
         // 若 UI.js 中 content 下第三項爲 checked 則將其設爲“已經勾選”
-        if (content[i][2] == "checked") {
+        if (content.misc == "checked") {
           document
-            .getElementById(`${keyPath}-${content[i][1]}`)
+            .getElementById(`${keyPath}-${content.value}`)
             .setAttribute("checked", true);
         }
         break;
       case "input":
         $(subArea).append(`
-        <input id="${keyPath}-${content[i][1]}" class="extra-input mb-3 ${keyPath}" type="text" placeholder="${contentLang[i][2]}" >
+        <input id="${keyPath}-${content.value}" class="extra-input mb-3 ${keyPath}" type="text" placeholder="${translation.misc}" >
         `);
         break;
       case "file":
@@ -116,7 +125,7 @@ function generateContents(opArea, operation, operationLang) {
           </svg>
             ${messages.ui.fileSelectorBtn}
           </label>
-          <input class="d-none file-input ${keyPath}" onchange="updateFilePath('${keyPath}')" type="file" name="${operation.name}" id="${keyPath}-file-input" accept="${content[i][2]}"/>
+          <input class="d-none file-input ${keyPath}" onchange="lib.updateFilePath('${keyPath}')" type="file" name="${options.content.name}" id="${keyPath}-file-input" accept="${content.misc}"/>
           <h5 id="${keyPath}-file-path" class="user-select-none ${keyPath}">${messages.ui.fileSelectorDefault}</h5>
         </div>`);
         break;
@@ -126,12 +135,6 @@ function generateContents(opArea, operation, operationLang) {
   }
 }
 
-function keyPath2obj(path, initial) {
-  const output = path.split(".").reduce((object, property) => {
-    return object[property];
-  }, initial);
-  return output;
-}
 export function updateSettings(name, value) {
   config[name] = value;
 
@@ -173,9 +176,7 @@ function generateSettings(opArea) {
     }
   });
   if (config.variant == "stable") {
-    console.log("var");
     if (config.channel == "beta") {
-      console.log("ch");
       opArea.append(
         `<button class="btn btn-warning mb-1" onclick="lib.quitBeta();">${messages.settings.quitBeta}</button>`
       );
@@ -203,15 +204,7 @@ function saveSettings() {
   }
 }
 
-let latestIndex = "";
-
-async function getURL(url) {
-  let response = await fetch(url);
-  let text = await response.text();
-  return text;
-}
-
-function renderUpdater(opArea,keyPath) {
+function renderUpdater(opArea, keyPath) {
   const subArea = document.getElementById(keyPath);
   $(subArea).append(`
     <div class="alert alert-info" role="alert">
@@ -243,16 +236,18 @@ export async function checkUpdatesUI() {
   checkUpdateClicked = true;
 }
 
-function renderSettings(opArea,keyPath) {
+function renderSettings(opArea, keyPath) {
   const subArea = document.getElementById(keyPath);
   generateSettings($(subArea));
   renderAbouts($(subArea));
 }
 
+
+
 export function switchOpr(keyPath) {
   curOpr = keyPath;
-  const target = keyPath2obj(keyPath, oprs);
-  const langTarget = keyPath2obj(keyPath, lang);
+  let target = keyPath2obj(keyPath, oprs);
+  let langTarget = keyPath2obj(keyPath, lang);
   const opArea = $("#operation-area");
 
   if (document.getElementById(keyPath) == null) {
@@ -277,7 +272,18 @@ export function switchOpr(keyPath) {
         `<div class="alert alert-info" role="alert">${messages.tips.flash_remove_verity}</div>`
       );
     }
-    generateContents(opArea, target, langTarget);
+
+    if (
+      keyPath !== "settings.items.settings" &&
+      keyPath !== "settings.items.updater"
+    ) {
+      generateContents({
+        from: opArea,
+        content: target,
+        translation: langTarget,
+      });
+    }
+
     $(subArea).append(`<div></div>`);
     if (!target.noStartButton) {
       $(subArea).append(
@@ -292,12 +298,12 @@ export function switchOpr(keyPath) {
       );
     }
     if (keyPath == "settings.items.settings") {
-      renderSettings(opArea,keyPath);
+      renderSettings(opArea, keyPath);
     } else {
       restartReminded = false;
     }
     if (keyPath == "settings.items.updater") {
-      renderUpdater(opArea,keyPath);
+      renderUpdater(opArea, keyPath);
     }
     checkUpdateClicked = false;
     updaterCreated = false;
@@ -327,18 +333,18 @@ export function switchOpr(keyPath) {
 function printLogs(channel, data) {
   const logsOutput = document.getElementById("logs-output");
   console.log(String(data));
-  if (!$(`#${channel}-logs`).length) {
+  if (!$(`#logs-${channel}`).length) {
     $("#logs-with-channels")
-      .append(`<div class="accordion-item" id="${channel}-logs-item">
+      .append(`<div class="accordion-item" id="logs-item-${channel}">
   <h2 class="accordion-header">
-    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#${channel}-logs"
+    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#logs-${channel}"
       aria-expanded="true" aria-controls="collapseOne">
       ${channel}
     </button>
   </h2>
-  <div id="${channel}-logs" class="accordion-collapse collapse">
+  <div id="logs-${channel}" class="accordion-collapse collapse">
     <div class="accordion-body logs-body">
-      <p id="${channel}-logs-body" class="font-monospace"></p>
+      <p id="logs-body-${channel}" class="font-monospace"></p>
       <button class="btn btn-primary float-end" onclick="lib.cleanLogs('${channel}')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
           fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
           <path
@@ -348,7 +354,7 @@ function printLogs(channel, data) {
   </div>
 </div>`);
   }
-  $(`#${channel}-logs-body`).append(`${data}`);
+  $(`#logs-body-${channel}`).append(`${data}`);
 }
 
 export function runScript(path, name) {
@@ -367,42 +373,36 @@ export function runScript(path, name) {
     let params = [];
     let execFile = "";
     let operation = "";
-    for (const j in commandList) {
-      if (j == 1) {
-        operation = commandList[j];
-      }
+    switch (commandList.mode) {
+      case "adb":
+        execFile = execDir + "adb" + fileExtension;
+        break;
+      case "fastboot":
+        execFile = execDir + "fastboot" + fileExtension;
+        break;
+      default:
+        break;
+    }
+    operation = commandList.verb;
+    for (let param of commandList.params) {
+      switch (param) {
+        case "$radio":
+          if (!(readRadio(name) == "system" && operation == "reboot")) {
+            params.push(readRadio(name));
+          }
 
-      if (j == 0) {
-        switch (commandList[j]) {
-          case "adb":
-            execFile = execDir + "adb" + fileExtension;
-            break;
-          case "fastboot":
-            execFile = execDir + "fastboot" + fileExtension;
-            break;
-          default:
-            break;
-        }
-      } else {
-        switch (commandList[j]) {
-          case "$radio":
-            if (!(readRadio(name) == "system" && operation == "reboot")) {
-              params.push(readRadio(name));
-            }
-
-            break;
-          case "$file":
-            params.push(readFileSelector("file-input"));
-            break;
-          default:
-            params.push(commandList[j]);
-            break;
-        }
+          break;
+        case "$file":
+          params.push(readFileSelector("file-input"));
+          break;
+        default:
+          params.push(param);
+          break;
       }
     }
     let mode = path.split(".")[0];
     let hint = "Running command: ";
-    hint += commandList[0];
+    hint += `${commandList.mode} ${commandList.verb}`;
     params.forEach((param) => (hint += " " + param));
     printLogs("main", hint + "</br>");
     switch (mode) {
@@ -414,10 +414,10 @@ export function runScript(path, name) {
             `Running on devices: ${Array.from(selectedADBDevices)}</br>`
           );
           for (let sn of selectedADBDevices) {
-            api.runCommand(execFile, ["-s", sn, ...params]);
+            api.runCommand(execFile, ["-s", sn, operation, ...params]);
           }
         } else {
-          api.runCommand(execFile, params);
+          api.runCommand(execFile, [operation, ...params]);
         }
         break;
       case "fastboot":
@@ -427,10 +427,10 @@ export function runScript(path, name) {
             `Running on devices: ${Array.from(selectedFbDevices)}</br>`
           );
           for (let sn of selectedFbDevices) {
-            api.runCommand(execFile, ["-s", sn, ...params]);
+            api.runCommand(execFile, ["-s", sn, operation, ...params]);
           }
         } else {
-          api.runCommand(execFile, params);
+          api.runCommand(execFile, [operation, ...params]);
         }
         break;
       default:
@@ -442,6 +442,7 @@ function readRadio(name) {
   const checkedRadio = document.querySelector(
     `input[name="${name}"]:checked`
   ).id;
+
   if (checkedRadio == curOpr + "-other") {
     return document.getElementById(curOpr + "-input").value;
   } else {
@@ -449,59 +450,35 @@ function readRadio(name) {
   }
 }
 function readFileSelector(name) {
-  console.log(name);
   return document.getElementById(curOpr + "-" + name).files[0].path;
 }
 
 export function cleanLogs(channel) {
-  $(`#${channel}-logs-item`).remove();
+  $(`#logs-item-${channel}`).remove();
 }
 
 const renderUI = () =>
   $(function () {
     api.handle("found-devices", (result) => {
       const mode = result[0];
-      const text = result[1];
-      let devicesUnparsed;
+      const returnText = result[1];
+      let devicesFound = [];
       switch (mode) {
         case "adb":
-          devicesUnparsed = text.replace(/\r\n/, "\n").split("\n");
-          devicesUnparsed.shift();
-          devicesUnparsed.splice(-2, 2);
+          devicesFound = deviceParser.parseADB(returnText);
           break;
         case "fb":
-          console.log(`${text}`);
-          devicesUnparsed = text.replace(/\r\n/, "\n").split("\n");
-
-          if (getPlatform == "linux") {
-            devicesUnparsed.splice(-2, 2);
-            devicesUnparsed = devicesUnparsed.flatMap((element, index) => {
-              if (index % 2) {
-                return [];
-              } else {
-                return element;
-              }
-            });
-          }
-
-          if (getPlatform == "win32") {
-            devicesUnparsed.splice(-1, 1);
-            devicesUnparsed = devicesUnparsed.flatMap((element, index) => {
-              return element;
-            });
-          }
-
-          console.log(devicesUnparsed);
+          devicesFound = deviceParser.parseFB(returnText);
           break;
         default:
           break;
       }
 
-      const devices = devicesUnparsed.map((device) => device.split(/\t/));
+      // [SN, mode]
       function showDevices(id, mode) {
         $(id).empty();
         let element = ``;
-        devices.forEach(([sn, stat], index) => {
+        devicesFound.forEach(([sn, stat], index) => {
           element += `<tr>
             <th scope="row">${index + 1}</th>
             <td>${sn}</td>
@@ -520,7 +497,6 @@ const renderUI = () =>
                 element += "checked";
               }
             default:
-              console.log("hi");
               break;
           }
           element += `></div></td></tr>`;
@@ -575,9 +551,7 @@ const renderUI = () =>
     }
 
     const deviceSelector = document.getElementById("device-selector");
-    deviceSelector.addEventListener("show.bs.modal", (e) => {
-      console.log(curOpr.split(".")[0]);
-    });
+    deviceSelector.addEventListener("show.bs.modal", (e) => {});
 
     $("#close-btn").on("click", (e) => {
       e.preventDefault();

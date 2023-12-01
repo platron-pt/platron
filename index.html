@@ -7,17 +7,17 @@
       content="default-src 'self' 'unsafe-inline' ; script-src 'unsafe-eval' 'self' 'unsafe-inline';img-src  data: ;connect-src *;"
     />
     <style></style>
-    <script src="./UI.js"></script>
+    <!-- <script src="./UI.js"></script> -->
     <!-- <script src="./lang.js"></script> -->
-    <script src="node_modules/jquery/dist/jquery.js"></script>
     <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="dist/bundle.js"></script>
     <link
       rel="stylesheet"
       href="./node_modules/bootstrap/dist/css/bootstrap.min.css"
     />
-    <link rel="stylesheet" href="index.css" />
+    <link rel="stylesheet" href="css/index.css" />
     <title>Easy ADB and fastboot</title>
+   
   </head>
 
   <body>
@@ -96,25 +96,25 @@
       </div>
       <div id="log-box">
         <div class="accordion" id="logs-with-channels">
-          <div class="accordion-item" id="main-logs-item">
+          <div class="accordion-item" id="logs-item-main">
             <h2 class="accordion-header">
               <button
                 class="accordion-button"
                 type="button"
                 data-bs-toggle="collapse"
-                data-bs-target="#main-logs"
+                data-bs-target="#logs-main"
                 aria-expanded="true"
                 aria-controls="collapseOne"
               >
                 main
               </button>
             </h2>
-            <div id="main-logs" class="accordion-collapse collapse show">
+            <div id="logs-main" class="accordion-collapse collapse show">
               <div class="accordion-body logs-body">
-                <p id="main-logs-body" class="font-monospace"></p>
+                <p id="logs-body-main" class="font-monospace"></p>
                 <button
                   class="btn btn-primary float-end"
-                  onclick="$('#main-logs-body').empty()"
+                  onclick="$('#logs-body-main').empty()"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

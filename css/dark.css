@@ -1,0 +1,17 @@
+#close-btn {
+  background-color: unset;
+}
+#close-btn:hover {
+  background-color: red;
+}
+.winCtrl-btn {
+  background-color: unset;
+}
+
+#max-btn:hover,#min-btn:hover{
+  background-color: black;
+}
+
+.operations:hover{
+  color: gray;
+}
