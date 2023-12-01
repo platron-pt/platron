@@ -242,73 +242,13 @@ function renderSettings(opArea, keyPath) {
   renderAbouts($(subArea));
 }
 
-function convertTorev3(object) {
-  const objectv3 = {
-    rev: 3,
-    title: object.title,
-    name: object.name,
-    subtitle: object.subtitle,
-    needUnlock: object.needUnlock,
-    navbar: object.navbar,
-  };
 
-  objectv3.script = object.script.map((command) => {
-    const commandv3 = {
-      mode: command[0],
-      verb: command[1],
-      params: command.slice(2),
-    };
-    return commandv3;
-  });
-  objectv3.content = object.content.map((item) => {
-    const contentv3 = {
-      type: item[0],
-      value: item[1],
-      misc: item[2],
-    };
-
-    return contentv3;
-  });
-  return objectv3;
-}
-
-function langTov3(langObj) {
-  const objectv3 = {
-    rev: 3,
-    title: langObj.title,
-    name: langObj.name,
-    subtitle: langObj.subtitle,
-    navbar: langObj.navbar,
-  };
-
-  objectv3.content = langObj.content.map((item) => {
-    const contentv3 = {
-      type: item[0],
-      text: item[1],
-      misc: item[2],
-    };
-    return contentv3;
-  });
-  return objectv3;
-}
 
 export function switchOpr(keyPath) {
   curOpr = keyPath;
   let target = keyPath2obj(keyPath, oprs);
   let langTarget = keyPath2obj(keyPath, lang);
   const opArea = $("#operation-area");
-  if (
-    keyPath !== "settings.items.settings" &&
-    keyPath !== "settings.items.updater"
-  ) {
-    if (target.rev !== 3) {
-      target = convertTorev3(target);
-    }
-
-    if (langTarget.rev !== 3) {
-      langTarget = langTov3(langTarget);
-    }
-  }
 
   if (document.getElementById(keyPath) == null) {
     opArea.append(`<div id="${keyPath}" class="operation-box"></div>`);
