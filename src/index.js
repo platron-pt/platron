@@ -82,7 +82,7 @@ function generateTitle(opArea, title, subtitle) {
     $("#operation-area").find(`${keyPath}-title`).addClass("mb-3");
   }
 }
-function updateFilePath() {
+export function updateFilePath() {
   document.getElementById(curOpr + "-file-path").innerHTML =
     document.getElementById(curOpr + "-file-input").files[0].path;
 }
@@ -125,7 +125,7 @@ function generateContents(options) {
           </svg>
             ${messages.ui.fileSelectorBtn}
           </label>
-          <input class="d-none file-input ${keyPath}" onchange="updateFilePath('${keyPath}')" type="file" name="${options.content.name}" id="${keyPath}-file-input" accept="${content.misc}"/>
+          <input class="d-none file-input ${keyPath}" onchange="lib.updateFilePath('${keyPath}')" type="file" name="${options.content.name}" id="${keyPath}-file-input" accept="${content.misc}"/>
           <h5 id="${keyPath}-file-path" class="user-select-none ${keyPath}">${messages.ui.fileSelectorDefault}</h5>
         </div>`);
         break;
