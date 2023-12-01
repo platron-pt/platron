@@ -176,9 +176,7 @@ function generateSettings(opArea) {
     }
   });
   if (config.variant == "stable") {
-    console.log("var");
     if (config.channel == "beta") {
-      console.log("ch");
       opArea.append(
         `<button class="btn btn-warning mb-1" onclick="lib.quitBeta();">${messages.settings.quitBeta}</button>`
       );
@@ -299,8 +297,6 @@ export function switchOpr(keyPath) {
   let target = keyPath2obj(keyPath, oprs);
   let langTarget = keyPath2obj(keyPath, lang);
   const opArea = $("#operation-area");
-  console.log(keyPath);
-  console.log(keyPath == "settings.items.settings");
   if (
     keyPath !== "settings.items.settings" &&
     keyPath !== "settings.items.updater"
@@ -308,11 +304,10 @@ export function switchOpr(keyPath) {
     if (target.rev !== 3) {
       target = convertTorev3(target);
     }
-    console.log(target);
+
     if (langTarget.rev !== 3) {
       langTarget = langTov3(langTarget);
     }
-    console.log(langTarget);
   }
 
   if (document.getElementById(keyPath) == null) {
@@ -435,7 +430,6 @@ export function runScript(path, name) {
   const scripts = keyPath2obj(path, oprs).script;
 
   for (let commandList of scripts) {
-    console.log(commandList);
     let params = [];
     let execFile = "";
     let operation = "";
@@ -451,7 +445,6 @@ export function runScript(path, name) {
     }
     operation = commandList.verb;
     for (let param of commandList.params) {
-      console.log(param);
       switch (param) {
         case "$radio":
           if (!(readRadio(name) == "system" && operation == "reboot")) {
@@ -472,7 +465,6 @@ export function runScript(path, name) {
     hint += `${commandList.mode} ${commandList.verb}`;
     params.forEach((param) => (hint += " " + param));
     printLogs("main", hint + "</br>");
-    console.log(execFile, [operation, ...params]);
     switch (mode) {
       case "system":
       case "recovery":
@@ -498,7 +490,6 @@ export function runScript(path, name) {
             api.runCommand(execFile, ["-s", sn, operation, ...params]);
           }
         } else {
-          console.log(execFile, params);
           api.runCommand(execFile, [operation, ...params]);
         }
         break;
@@ -506,7 +497,6 @@ export function runScript(path, name) {
         break;
     }
   }
-  console.log(scripts);
 }
 function readRadio(name) {
   const checkedRadio = document.querySelector(
@@ -520,7 +510,6 @@ function readRadio(name) {
   }
 }
 function readFileSelector(name) {
-  console.log(name);
   return document.getElementById(curOpr + "-" + name).files[0].path;
 }
 
@@ -568,7 +557,6 @@ const renderUI = () =>
                 element += "checked";
               }
             default:
-              console.log("hi");
               break;
           }
           element += `></div></td></tr>`;
@@ -623,9 +611,7 @@ const renderUI = () =>
     }
 
     const deviceSelector = document.getElementById("device-selector");
-    deviceSelector.addEventListener("show.bs.modal", (e) => {
-      console.log(curOpr.split(".")[0]);
-    });
+    deviceSelector.addEventListener("show.bs.modal", (e) => {});
 
     $("#close-btn").on("click", (e) => {
       e.preventDefault();
