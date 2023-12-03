@@ -47,61 +47,49 @@ const selectedADBDevices = new Set();
 const selectedFbDevices = new Set();
 
 function renderNavbar(elements) {
-  const navbarRoot = ReactDOM.createRoot(document.getElementById("navbar"));
+  const navbar = ReactDOM.createRoot(document.getElementById("navbar"));
   const categories = Object.keys(elements);
-  class OperationTag extends React.Component {
-    constructor(props) {
-      super(props);
+
+  function OperationTag({ category, operation }) {
+    function handleClick() {
+      switchOpr(`${category}.items.${operation}`);
     }
 
-    render() {
-      return (
-        <p
-          className="operations user-select-none"
-          value={`${this.props.category}.items.${this.props.operation}`}
-          onClick={() =>
-            switchOpr(`${this.props.category}.items.${this.props.operation}`)
-          }
-        >
-          {lang[this.props.category].items[this.props.operation].navbar}
-        </p>
-      );
-    }
+    return (
+      <p
+        className="operations user-select-none"
+        value={`${category}.items.${operation}`}
+        onClick={handleClick}
+        key={operation}
+      >
+        {lang[category].items[operation].navbar}
+      </p>
+    );
   }
 
-  class NavbarButton extends React.Component {
-    constructor(props) {
-      super(props);
-    }
-    render() {
-      return (
-        <div className="mb-3 categories-div">
-          <button
-            className="btn btn-primary categories-btn"
-            data-bs-toggle="collapse"
-            data-bs-target={`#${this.props.category}-categories-collapse`}
-          >
-            {lang[this.props.category].navbar}
-          </button>
-          <div
-            id={`${this.props.category}-categories-collapse`}
-            className="collapse"
-          >
-            {Object.keys(elements[this.props.category].items).map((e) => {
-              return (
-                <OperationTag category={this.props.category} operation={e} key={e} />
-              );
-            })}
-          </div>
+  function NavbarButton({ category }) {
+    return (
+      <div className="mb-3 categories-div" key={category}>
+        <button
+          className="btn btn-primary categories-btn"
+          data-bs-toggle="collapse"
+          data-bs-target={`#${category}-categories-collapse`}
+        >
+          {lang[category].navbar}
+        </button>
+        <div id={`${category}-categories-collapse`} className="collapse">
+          {Object.keys(elements[category].items).map((e) => {
+            return <OperationTag category={category} operation={e} key={e} />;
+          })}
         </div>
-      );
-    }
+      </div>
+    );
   }
   const NavbarButtons = categories.map((e) => {
     return <NavbarButton category={e} key={e} />;
   });
 
-  navbarRoot.render(NavbarButtons);
+  navbar.render(NavbarButtons);
 }
 
 function generateTitle(opArea, title, subtitle) {
