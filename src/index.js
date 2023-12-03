@@ -1,8 +1,11 @@
 import themeControl from "./ui/theme.js";
 import deviceParser from "./devices/deviceParser.js";
-import jq from "jquery";
+import jq, { extend } from "jquery";
 import keyPath2obj from "./keypath2obj.js";
 import { oprs, availableLanguages, settings } from "./ui/UI.js";
+
+import React from "react";
+import ReactDOM from "react-dom/client";
 
 window.$ = window.jQuery = jq;
 
@@ -43,30 +46,62 @@ let dsMode = "adb";
 const selectedADBDevices = new Set();
 const selectedFbDevices = new Set();
 
-function renderNavbar(elements, language) {
-  const locale = lang;
-  $("#navbar").empty();
-  Object.keys(elements).forEach((element) => {
-    $("#navbar").append(
-      `<div class="mb-3 categories-div">
-      <button
-        class="btn btn-primary categories-btn"
-        data-bs-toggle="collapse"
-        data-bs-target="#${element}-categories-collapse"
-      >
-        ${locale[element].navbar}
-      </button>
-      <div id="${element}-categories-collapse" class="collapse">
+function renderNavbar(elements) {
+  const navbarRoot = ReactDOM.createRoot(document.getElementById("navbar"));
+  const categories = Object.keys(elements);
+  class OperationTag extends React.Component {
+    constructor(props) {
+      super(props);
+    }
 
-      </div>
-    </div>`
-    );
-    Object.keys(elements[element].items).forEach((e) => {
-      $(`#${element}-categories-collapse`).append(
-        `<p class="operations user-select-none" value="${element}.items.${e}" onclick="lib.switchOpr($(this).attr('value'))">${locale[element].items[e].navbar}</p>`
+    render() {
+      return (
+        <p
+          className="operations user-select-none"
+          value={`${this.props.category}.items.${this.props.operation}`}
+          onClick={() =>
+            switchOpr(`${this.props.category}.items.${this.props.operation}`)
+          }
+        >
+          {lang[this.props.category].items[this.props.operation].navbar}
+        </p>
       );
-    });
+    }
+  }
+
+  class NavbarButton extends React.Component {
+    constructor(props) {
+      super(props);
+    }
+    render() {
+      return (
+        <div className="mb-3 categories-div">
+          <button
+            className="btn btn-primary categories-btn"
+            data-bs-toggle="collapse"
+            data-bs-target={`#${this.props.category}-categories-collapse`}
+          >
+            {lang[this.props.category].navbar}
+          </button>
+          <div
+            id={`${this.props.category}-categories-collapse`}
+            className="collapse"
+          >
+            {Object.keys(elements[this.props.category].items).map((e) => {
+              return (
+                <OperationTag category={this.props.category} operation={e} key={e} />
+              );
+            })}
+          </div>
+        </div>
+      );
+    }
+  }
+  const NavbarButtons = categories.map((e) => {
+    return <NavbarButton category={e} key={e} />;
   });
+
+  navbarRoot.render(NavbarButtons);
 }
 
 function generateTitle(opArea, title, subtitle) {
@@ -242,9 +277,7 @@ function renderSettings(opArea, keyPath) {
   renderAbouts($(subArea));
 }
 
-
-
-export function switchOpr(keyPath) {
+function switchOpr(keyPath) {
   curOpr = keyPath;
   let target = keyPath2obj(keyPath, oprs);
   let langTarget = keyPath2obj(keyPath, lang);
