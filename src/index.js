@@ -322,7 +322,6 @@ function switchOpr(keyPath) {
     }
     checkUpdateClicked = false;
     updaterCreated = false;
-    progressBarCreated = false;
 
     $("#operation-area")
       .find(`[id='${curOpr}-input']`)
