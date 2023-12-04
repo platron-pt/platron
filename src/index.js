@@ -1,6 +1,6 @@
 import themeControl from "./ui/theme.js";
 import deviceParser from "./devices/deviceParser.js";
-import jq, { extend } from "jquery";
+import jq from "jquery";
 import keyPath2obj from "./keypath2obj.js";
 import { oprs, availableLanguages, settings } from "./ui/UI.js";
 
@@ -11,18 +11,15 @@ window.$ = window.jQuery = jq;
 
 let getPlatform;
 
-const writeFile = () => api.writeFile;
 let _version;
 let osType;
 let osRelease;
-let isPackaged;
 let messages;
 let lang;
 api.invoke("get-os-type").then((result) => (osType = result));
 api.invoke("get-os-release").then((result) => (osRelease = result));
 api.invoke("get-platform").then((result) => (getPlatform = result));
 api.invoke("get-version").then((result) => (_version = result));
-api.invoke("is-packaged").then((result) => (isPackaged = result));
 api.invoke("messages").then((res) => {
   messages = res;
 });
@@ -31,14 +28,11 @@ api.invoke("language").then((res) => {
 });
 
 let config;
-let updaterStatus;
 let language;
 let theme;
 
 let checkUpdateClicked = false;
 let updaterCreated = false;
-let progressBarCreated = false;
-let updatePending = false;
 let restartReminded = false;
 let curOpr = "";
 

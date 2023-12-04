@@ -74,7 +74,6 @@ if (!isPackaged || channel == "beta") {
   hasDevtools = true;
 }
 
-let indexFile;
 const createWindow = () => {
   let win = {};
   console.log("OS Version", os.release());
