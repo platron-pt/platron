@@ -6,6 +6,7 @@ import { oprs, availableLanguages, settings } from "./ui/UI.js";
 
 import React from "react";
 import ReactDOM from "react-dom/client";
+import classNames from "classnames";
 
 window.$ = window.jQuery = jq;
 
@@ -488,6 +489,32 @@ const renderUI = () =>
           break;
       }
 
+      function device(props) {
+        const sn = props.sn;
+        const stat = props.stat;
+        const mode = props.mode;
+        const checked = props.checked;
+        return (
+          <tr>
+            <td>{sn}</td>
+            <td>{stat}</td>
+            <td>
+              <div className="form-check">
+                <input
+                  className={classNames(
+                    "form-check-input",
+                    `select-device-${mode}`
+                  )}
+                  type="checkbox"
+                  value=""
+                  id={sn}
+                  checked={checked ? "checked" : ""}
+                ></input>
+              </div>
+            </td>
+          </tr>
+        );
+      }
       // [SN, mode]
       function showDevices(id, mode) {
         $(id).empty();
