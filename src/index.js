@@ -8,6 +8,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import classNames from "classnames";
 
+
 window.$ = window.jQuery = jq;
 
 let getPlatform;
@@ -471,92 +472,42 @@ function readFileSelector(name) {
 export function cleanLogs(channel) {
   $(`#logs-item-${channel}`).remove();
 }
-
-const renderUI = () =>
-  $(function () {
-    api.handle("found-devices", (result) => {
-      const mode = result[0];
-      const returnText = result[1];
-      let devicesFound = [];
-      switch (mode) {
-        case "adb":
-          devicesFound = deviceParser.parseADB(returnText);
-          break;
-        case "fb":
-          devicesFound = deviceParser.parseFB(returnText);
-          break;
-        default:
-          break;
-      }
-
-      function device(props) {
-        const sn = props.sn;
-        const stat = props.stat;
-        const mode = props.mode;
-        const checked = props.checked;
-        return (
-          <tr>
-            <td>{sn}</td>
-            <td>{stat}</td>
-            <td>
-              <div className="form-check">
-                <input
-                  className={classNames(
-                    "form-check-input",
-                    `select-device-${mode}`
-                  )}
-                  type="checkbox"
-                  value=""
-                  id={sn}
-                  checked={checked ? "checked" : ""}
-                ></input>
-              </div>
-            </td>
-          </tr>
-        );
-      }
-      // [SN, mode]
-      function showDevices(id, mode) {
-        $(id).empty();
-        let element = ``;
-        devicesFound.forEach(([sn, stat], index) => {
-          element += `<tr>
+function showDevices(options) {
+  const id = `#ds-${options.mode}-tbody`;
+  const mode=options.mode
+  const devicesFound=options.devicesFound
+  $(id).empty();
+  let element = ``;
+  devicesFound.forEach(([sn, stat], index) => {
+    element += `<tr>
             <th scope="row">${index + 1}</th>
             <td>${sn}</td>
             <td>${stat}</td>
             <td><div class="form-check">
             <input class="form-check-input select-device-${mode}" type="checkbox" value="" id="${sn}"`;
 
-          switch (mode) {
-            case "adb":
-              if (selectedADBDevices.has(sn)) {
-                element += "checked";
-              }
-              break;
-            case "fb":
-              if (selectedFbDevices.has(sn)) {
-                element += "checked";
-              }
-            default:
-              break;
-          }
-          element += `></div></td></tr>`;
-        });
+    switch (mode) {
+      case "adb":
+        if (selectedADBDevices.has(sn)) {
+          element += "checked";
+        }
+        break;
+      case "fb":
+        if (selectedFbDevices.has(sn)) {
+          element += "checked";
+        }
+      default:
+        break;
+    }
+    element += `></div></td></tr>`;
+  });
 
-        $(id).append(element);
-      }
+  $(id).append(element);
+}
+const renderUI = () =>
+  $(function () {
+    const root = ReactDOM.createRoot(document.body);
 
-      switch (mode) {
-        case "adb":
-          showDevices("#ds-adb-tbody", mode);
-          break;
-        case "fb":
-          showDevices("#ds-fb-tbody", mode);
-          break;
-        default:
-          break;
-      }
-    });
     api.handle("print-log", ([channel, text]) => {
       printLogs(channel, text.replace(/\n/g, "</br>").replace(/ /g, "\u00a0"));
     });
@@ -651,8 +602,23 @@ const renderUI = () =>
       }
     });
     $("#devices-btn,#reload-devices").on("click", () => {
-      api.send("get-devices", "fb");
-      api.send("get-devices", "adb");
+      console.log(api.invoke("get-devices", "fb"));
+      api.invoke("get-devices", "fb").then((res) => {
+        const stdout=res.stdout
+        const foundDevices=deviceParser.parseFB(stdout)
+        showDevices({
+          devicesFound:foundDevices,
+          mode:"fb"
+        })
+      });
+      api.invoke("get-devices", "adb").then((res) => {
+         const stdout = res.stdout;
+        const foundDevices = deviceParser.parseADB(stdout);
+        showDevices({
+          devicesFound: foundDevices,
+          mode: "adb",
+        });
+      });
     });
 
     api.send("resize");

@@ -15,7 +15,8 @@ const platform = os.platform();
 const { autoUpdater } = require("electron-updater");
 const { INSPECT_MAX_BYTES, constants } = require("buffer");
 const { connected } = require("process");
-
+const { promisify } = require("node:util");
+const promisifiedExec = promisify(child_process.execFile);
 console.debug("Welcome to EAF v" + app.getVersion());
 
 let config, updaterStatus, lang, messages;
@@ -151,6 +152,7 @@ const createWindow = () => {
   ipcMain.on("resize", () => {
     win.setSize(1080, 500);
   });
+  
   ipcMain.on("run-command", (e, command, params) => {
     const process = child_process.spawn(command, params);
     process.stderr.on("data", (data) => {
@@ -173,7 +175,11 @@ const createWindow = () => {
   ipcMain.on("write-file", (e, fileName, data) => {
     writeFile(fileName, data);
   });
-  ipcMain.on("get-devices", (e, mode) => {
+
+  ipcMain.on("check-updates", (e) => {
+    autoUpdater.checkForUpdates();
+  });
+  ipcMain.handle("get-devices", async (e, mode) => {
     let exec = "";
     switch (mode) {
       case "adb":
@@ -185,17 +191,15 @@ const createWindow = () => {
       default:
         break;
     }
-    function findDevice() {
-      child_process.execFile(exec, ["devices"], (error, stdout, stderr) => {
-        win.webContents.send("found-devices", [mode, stdout]);
-      });
+    
+    const { stdout, stderr } = await getDevices(exec, ["devices"]);
+    
+    async function getDevices() {
+      const { stdout, stderr } = await promisifiedExec(exec, ["devices"]);
+      return({stdout:stdout,stderr:stderr})
     }
-    findDevice();
+    return await getDevices();
   });
-  ipcMain.on("check-updates", (e) => {
-    autoUpdater.checkForUpdates();
-  });
-
   autoUpdater.on("update-not-available", (info) => {
     win.webContents.send("updater-status", ["update-not-available", {}]);
   });
@@ -211,7 +215,7 @@ const createWindow = () => {
 };
 
 ipcMain.on("quit-beta", (e) => {
-  fs.rm(path.join(ptConfDir, "beta"),(err)=>{
+  fs.rm(path.join(ptConfDir, "beta"), (err) => {
     throw err;
   });
 });
