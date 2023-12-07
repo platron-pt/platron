@@ -7,17 +7,15 @@ function parseSerialAndStatus(deviceAndSerial) {
 const devices = {
   parseADB(devicesUnparsed) {
     // plain text
-
     let devicesArray = devicesUnparsed.replace(/\r\n/, "\n").split("\n");
     devicesArray.shift();
     devicesArray.splice(-2, 2);
     // [SN\tmode]
     const deviceParsed = parseSerialAndStatus(devicesArray);
-    return deviceParsed
+    return deviceParsed;
   },
   parseFB(devicesUnparsed) {
     let devicesArray = devicesUnparsed.replace(/\r\n/, "\n").split("\n");
-
     if (getPlatform == "linux") {
       devicesArray.splice(-2, 2);
       devicesArray = devicesArray.flatMap((element, index) => {
@@ -36,7 +34,7 @@ const devices = {
       });
     }
     // [SN\tmode]
-    
+
     const deviceParsed = parseSerialAndStatus(devicesArray);
     return deviceParsed;
   },

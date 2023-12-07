@@ -7,7 +7,7 @@ import { oprs, availableLanguages, settings } from "./ui/UI.js";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import classNames from "classnames";
-
+import DeviceSelectorModal from "./ui/deviceSelector";
 
 window.$ = window.jQuery = jq;
 
@@ -474,8 +474,8 @@ export function cleanLogs(channel) {
 }
 function showDevices(options) {
   const id = `#ds-${options.mode}-tbody`;
-  const mode=options.mode
-  const devicesFound=options.devicesFound
+  const mode = options.mode;
+  const devicesFound = options.devicesFound;
   $(id).empty();
   let element = ``;
   devicesFound.forEach(([sn, stat], index) => {
@@ -504,10 +504,10 @@ function showDevices(options) {
 
   $(id).append(element);
 }
-const renderUI = () =>
+const renderUI = () => {
+  const dsmRoot = ReactDOM.createRoot(document.getElementById("dsm"));
+  dsmRoot.render(<DeviceSelectorModal />);
   $(function () {
-    const root = ReactDOM.createRoot(document.body);
-
     api.handle("print-log", ([channel, text]) => {
       printLogs(channel, text.replace(/\n/g, "</br>").replace(/ /g, "\u00a0"));
     });
@@ -543,7 +543,6 @@ const renderUI = () =>
     }
 
     const deviceSelector = document.getElementById("device-selector");
-    deviceSelector.addEventListener("show.bs.modal", (e) => {});
 
     $("#close-btn").on("click", (e) => {
       e.preventDefault();
@@ -603,26 +602,20 @@ const renderUI = () =>
     });
     $("#devices-btn,#reload-devices").on("click", () => {
       console.log(api.invoke("get-devices", "fb"));
+
       api.invoke("get-devices", "fb").then((res) => {
-        const stdout=res.stdout
-        const foundDevices=deviceParser.parseFB(stdout)
-        showDevices({
-          devicesFound:foundDevices,
-          mode:"fb"
-        })
+        const stdout = res.stdout;
+        const foundDevices = deviceParser.parseFB(stdout);
       });
       api.invoke("get-devices", "adb").then((res) => {
-         const stdout = res.stdout;
+        const stdout = res.stdout;
         const foundDevices = deviceParser.parseADB(stdout);
-        showDevices({
-          devicesFound: foundDevices,
-          mode: "adb",
-        });
       });
     });
 
     api.send("resize");
   });
+};
 
 export function restartApp() {
   api.send("restart-app");
