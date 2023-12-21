@@ -7,8 +7,16 @@ function Device(props) {
   const stat = props.stat;
   const mode = props.mode;
   const checked = props.checked;
+  const selectedDevices = new Set(props.selectedDevices);
+  const setSelectedDevices = props.setSelectedDevices;
+
+  function handleChange(event) {
+    event.target.checked ? selectedDevices.add(sn) : selectedDevices.delete(sn);
+    setSelectedDevices(selectedDevices);
+  }
   return (
     <tr>
+      <td></td>
       <td>{sn}</td>
       <td>{stat}</td>
       <td>
@@ -16,10 +24,10 @@ function Device(props) {
           <input
             className={classNames("form-check-input", `select-device-${mode}`)}
             type="checkbox"
-            value=""
+            value={sn}
             id={sn}
-            checked={checked ? "checked" : ""}
-            readOnly
+            defaultChecked={checked}
+            onChange={handleChange}
           ></input>
         </div>
       </td>
@@ -28,9 +36,10 @@ function Device(props) {
 }
 
 function DeviceTable(options) {
-  const [selectedDevices, setSelectedDevices] = useState(new Set());
+  const [selectedDevices, setSelectedDevices] = useState(() => new Set());
   const mode = options.mode;
   const foundDevices = options.foundDevices;
+
   return (
     <table className="table">
       <thead>
@@ -43,13 +52,14 @@ function DeviceTable(options) {
       </thead>
       <tbody id={`ds-${mode}-tbody`}>
         {foundDevices.map((i) => {
-          console.log(i);
           return (
             <Device
               sn={i[0]}
               stat={i[1]}
-              checked={false}
+              checked={selectedDevices.has(i[0])}
               mode="ADB"
+              selectedDevices={selectedDevices}
+              setSelectedDevices={setSelectedDevices}
               key={i[0]}
             />
           );
@@ -179,7 +189,7 @@ export default function DeviceSelectorModal() {
               </div>
             </div>
           </div>
-          <div className="modal-footer">
+          {/* <div className="modal-footer">
             <button
               type="button"
               className="btn btn-secondary"
@@ -191,7 +201,7 @@ export default function DeviceSelectorModal() {
             <button type="button" className="btn btn-primary" id="ds-save-btn">
               Save changes
             </button>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
