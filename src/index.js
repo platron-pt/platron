@@ -39,8 +39,8 @@ let restartReminded = false;
 let curOpr = "";
 
 let dsMode = "adb";
-const selectedADBDevices = new Set();
-const selectedFbDevices = new Set();
+window.selectedADBDevices = new Set();
+window.selectedFbDevices = new Set();
 
 function renderNavbar(elements) {
   const navbar = ReactDOM.createRoot(document.getElementById("navbar"));
@@ -437,6 +437,7 @@ export function runScript(path, name) {
         }
         break;
       case "fastboot":
+        console.log(selectedFbDevices.size)
         if (selectedFbDevices.size) {
           printLogs(
             "main",

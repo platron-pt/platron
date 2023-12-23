@@ -12,7 +12,17 @@ function Device(props) {
 
   function handleChange(event) {
     event.target.checked ? selectedDevices.add(sn) : selectedDevices.delete(sn);
+    switch (mode) {
+      case "adb":
+        window.selectedAdbDevices = selectedDevices;
+        break;
+      case "fb":
+        window.selectedFbDevices=selectedDevices;
+        console.log(window.selectedFbDevices);
+        break;
+    }
     setSelectedDevices(selectedDevices);
+    
   }
   return (
     <tr>
@@ -57,7 +67,7 @@ function DeviceTable(options) {
               sn={i[0]}
               stat={i[1]}
               checked={selectedDevices.has(i[0])}
-              mode="ADB"
+              mode={mode}
               selectedDevices={selectedDevices}
               setSelectedDevices={setSelectedDevices}
               key={i[0]}
