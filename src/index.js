@@ -6,8 +6,8 @@ import { oprs, availableLanguages, settings } from "./ui/UI.js";
 
 import React from "react";
 import ReactDOM from "react-dom/client";
-import classNames from "classnames";
 import DeviceSelectorModal from "./ui/deviceSelector";
+import { Navbar } from "./ui/Navbar.js";
 
 window.$ = window.jQuery = jq;
 
@@ -520,6 +520,9 @@ function showDevices(options) {
 const renderUI = () => {
   const dsmRoot = ReactDOM.createRoot(document.getElementById("dsm"));
   dsmRoot.render(<DeviceSelectorModal />);
+  const navbarRoot=ReactDOM.createRoot(document.getElementById("winCtrl-bar"))
+  navbarRoot.render(<Navbar />)
+
   $(function () {
     api.handle("print-log", ([channel, text]) => {
       printLogs(channel, text.replace(/\n/g, "</br>").replace(/ /g, "\u00a0"));
@@ -557,18 +560,6 @@ const renderUI = () => {
 
     const deviceSelector = document.getElementById("device-selector");
 
-    $("#close-btn").on("click", (e) => {
-      e.preventDefault();
-      api.send("close-window");
-    });
-    $("#max-btn").on("click", (e) => {
-      e.preventDefault();
-      api.send("maximize-window");
-    });
-    $("#min-btn").on("click", (e) => {
-      e.preventDefault();
-      api.send("minimize-window");
-    });
     $("#sidebar").width(screen.width / 7);
     $("#logs").width((screen.width / 5) * 2.5);
     $("#operation-area").width($("#operation-area").width() / 1.2);
@@ -613,18 +604,7 @@ const renderUI = () => {
           break;
       }
     });
-    $("#devices-btn,#reload-devices").on("click", () => {
-      console.log(api.invoke("get-devices", "fb"));
-
-      api.invoke("get-devices", "fb").then((res) => {
-        const stdout = res.stdout;
-        const foundDevices = deviceParser.parseFB(stdout);
-      });
-      api.invoke("get-devices", "adb").then((res) => {
-        const stdout = res.stdout;
-        const foundDevices = deviceParser.parseADB(stdout);
-      });
-    });
+    
 
     api.send("resize");
   });
