@@ -423,6 +423,18 @@ export function runScript(path, name) {
     printLogs("main", hint + "</br>");
     switch (mode) {
       case "system":
+        if (selectedADBDevices.size) {
+          printLogs(
+            "main",
+            `Running on devices: ${Array.from(selectedADBDevices)}</br>`
+          );
+          for (let sn of selectedADBDevices) {
+            api.runCommand(execFile, ["-s", sn, operation, ...params]);
+          }
+        } else {
+          api.runCommand(execFile, [operation, ...params]);
+        }
+        break;
       case "recovery":
         if (selectedADBDevices.size) {
           printLogs(

@@ -14,7 +14,7 @@ function Device(props) {
     event.target.checked ? selectedDevices.add(sn) : selectedDevices.delete(sn);
     switch (mode) {
       case "adb":
-        window.selectedAdbDevices = selectedDevices;
+        window.selectedADBDevices = selectedDevices;
         break;
       case "fb":
         window.selectedFbDevices=selectedDevices;
