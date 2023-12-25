@@ -485,38 +485,7 @@ function readFileSelector(name) {
 export function cleanLogs(channel) {
   $(`#logs-item-${channel}`).remove();
 }
-function showDevices(options) {
-  const id = `#ds-${options.mode}-tbody`;
-  const mode = options.mode;
-  const devicesFound = options.devicesFound;
-  $(id).empty();
-  let element = ``;
-  devicesFound.forEach(([sn, stat], index) => {
-    element += `<tr>
-            <th scope="row">${index + 1}</th>
-            <td>${sn}</td>
-            <td>${stat}</td>
-            <td><div class="form-check">
-            <input class="form-check-input select-device-${mode}" type="checkbox" value="" id="${sn}"`;
 
-    switch (mode) {
-      case "adb":
-        if (selectedADBDevices.has(sn)) {
-          element += "checked";
-        }
-        break;
-      case "fb":
-        if (selectedFbDevices.has(sn)) {
-          element += "checked";
-        }
-      default:
-        break;
-    }
-    element += `></div></td></tr>`;
-  });
-
-  $(id).append(element);
-}
 const renderUI = () => {
   const dsmRoot = ReactDOM.createRoot(document.getElementById("dsm"));
   dsmRoot.render(<DeviceSelectorModal />);
