@@ -449,7 +449,7 @@ export function runScript(path, name) {
         }
         break;
       case "fastboot":
-        console.log(selectedFbDevices.size)
+        console.log(selectedFbDevices.size);
         if (selectedFbDevices.size) {
           printLogs(
             "main",
@@ -488,9 +488,13 @@ export function cleanLogs(channel) {
 
 const renderUI = () => {
   const dsmRoot = ReactDOM.createRoot(document.getElementById("dsm"));
-  dsmRoot.render(<DeviceSelectorModal />);
-  const navbarRoot=ReactDOM.createRoot(document.getElementById("winCtrl-bar"))
-  navbarRoot.render(<Navbar />)
+  dsmRoot.render(
+    <DeviceSelectorModal title={messages.devices.selectDevices} />
+  );
+  const navbarRoot = ReactDOM.createRoot(
+    document.getElementById("winCtrl-bar")
+  );
+  navbarRoot.render(<Navbar dsbtn={messages.ui.deviceSelectorBtn} />);
 
   $(function () {
     api.handle("print-log", ([channel, text]) => {
@@ -540,10 +544,10 @@ const renderUI = () => {
     });
     renderNavbar(oprs, language);
     $("#nothing-selected").text(messages.ui.nothingSelected);
-    $("#devices-btn").text(messages.ui.deviceSelectorBtn);
-    $("#ds-title").text(messages.devices.selectDevices);
-    $("#ds-close-btn").text(messages.devices.closeBtn);
-    $("#ds-save-btn").text(messages.devices.saveBtn);
+    // $("#devices-btn").text();
+    // $("#ds-title").text(messages.devices.selectDevices);
+    // $("#ds-close-btn").text(messages.devices.closeBtn);
+    // $("#ds-save-btn").text(messages.devices.saveBtn);
 
     $("#ds-adb-tab").on("click", function () {
       dsMode = "adb";
@@ -573,7 +577,6 @@ const renderUI = () => {
           break;
       }
     });
-    
 
     api.send("resize");
   });

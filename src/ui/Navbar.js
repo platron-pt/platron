@@ -1,6 +1,6 @@
 import React from "react";
 
-export function Navbar() {
+export function Navbar(props) {
   return (
     <>
       <button
@@ -60,7 +60,7 @@ export function Navbar() {
         data-bs-toggle="modal"
         data-bs-target="#device-selector"
       >
-        <h6 className="mb-0">Devices</h6>
+        <h6 className="mb-0">{props.dsbtn}</h6>
       </button>
       <div
         className="m-1 flex-fill align-middle"
