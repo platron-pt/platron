@@ -10,7 +10,7 @@
     "restartAlert": "<a href='javascript:lib.restartApp()'>重啟</a> APP 以套用變更</br><a href='javascript:lib.restartApp()'>重启</a>应用以套用变更</br><a href='javascript:lib.restartApp()'>Restart</a> the app to take effect</br>"
   },
   "ui": {
-    "deviceSelectorBtn": "装置",
+    "deviceSelectorBtn": "设备",
     "fileSelectorBtn": "选择档案",
     "fileSelectorDefault": "请选择档案",
     "nothingSelected": "从侧栏选取功能以开始",
