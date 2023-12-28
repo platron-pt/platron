@@ -1,4 +1,3 @@
-import themeControl from "./ui/theme.js";
 import deviceParser from "./devices/deviceParser.js";
 import jq from "jquery";
 import keyPath2obj from "./keypath2obj.js";
@@ -8,6 +7,8 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import DeviceSelectorModal from "./ui/deviceSelector";
 import { Navbar } from "./ui/Navbar.js";
+
+import "../css/index.css";
 
 window.$ = window.jQuery = jq;
 
@@ -526,9 +527,9 @@ const renderUI = () => {
     });
     $("body").attr("data-bs-theme", theme);
     if (theme == "dark") {
-      themeControl.setDark();
+      import("../css/dark.css");
     } else {
-      themeControl.setLight();
+      import("../css/dark.css")
     }
 
     const deviceSelector = document.getElementById("device-selector");
