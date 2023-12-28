@@ -8,7 +8,9 @@ import ReactDOM from "react-dom/client";
 import DeviceSelectorModal from "./ui/deviceSelector";
 import { Navbar } from "./ui/Navbar.js";
 
-import "../css/index.css";
+import "./css/index.scss";
+
+import * as bootstrap from "bootstrap"
 
 window.$ = window.jQuery = jq;
 
@@ -527,9 +529,9 @@ const renderUI = () => {
     });
     $("body").attr("data-bs-theme", theme);
     if (theme == "dark") {
-      import("../css/dark.css");
+      import("./css/dark.css");
     } else {
-      import("../css/dark.css")
+      import("./css/dark.css")
     }
 
     const deviceSelector = document.getElementById("device-selector");

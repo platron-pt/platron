@@ -1,10 +1,13 @@
+@import "bootstrap/scss/bootstrap";
+
 body {
   height: 100vh;
   overflow: hidden;
   /* background-color: unset; */
 }
 
-#operation-area,#log-box{
+#operation-area,
+#log-box {
   background-color: var(--bs-body-bg);
 }
 
@@ -22,7 +25,8 @@ body {
 }
 #close-btn,
 #max-btn,
-#min-btn,#devices-btn {
+#min-btn,
+#devices-btn {
   -webkit-app-region: none;
 }
 
@@ -38,10 +42,10 @@ body {
   padding: 0.5rem;
   overflow: auto;
   font-size: 0.8rem;
-  overflow-x:hidden;
+  overflow-x: hidden;
 }
 
-.logs-body{
+.logs-body {
   overflow-x: auto;
 }
 
