@@ -547,10 +547,6 @@ const renderUI = () => {
     });
     renderNavbar(oprs, language);
     $("#nothing-selected").text(messages.ui.nothingSelected);
-    // $("#devices-btn").text();
-    // $("#ds-title").text(messages.devices.selectDevices);
-    // $("#ds-close-btn").text(messages.devices.closeBtn);
-    // $("#ds-save-btn").text(messages.devices.saveBtn);
 
     $("#ds-adb-tab").on("click", function () {
       dsMode = "adb";
