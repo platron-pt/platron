@@ -10,7 +10,9 @@ import { Navbar } from "./ui/Navbar.js";
 
 import "./css/index.scss";
 
-import * as bootstrap from "bootstrap"
+import * as bootstrap from "bootstrap";
+
+import { NavbarButton } from "./ui/Sidebar.js";
 
 window.$ = window.jQuery = jq;
 
@@ -46,44 +48,8 @@ window.selectedADBDevices = new Set();
 window.selectedFbDevices = new Set();
 
 function renderNavbar(elements) {
-  const navbar = ReactDOM.createRoot(document.getElementById("navbar"));
+  const navbarRoot = ReactDOM.createRoot(document.getElementById("navbar"));
   const categories = Object.keys(elements);
-
-  function OperationTag({ category, operation }) {
-    function handleClick() {
-      switchOpr(`${category}.items.${operation}`);
-    }
-
-    return (
-      <p
-        className="operations user-select-none"
-        value={`${category}.items.${operation}`}
-        onClick={handleClick}
-        key={operation}
-      >
-        {lang[category].items[operation].navbar}
-      </p>
-    );
-  }
-
-  function NavbarButton({ category }) {
-    return (
-      <div className="mb-3 categories-div" key={category}>
-        <button
-          className="btn btn-primary categories-btn"
-          data-bs-toggle="collapse"
-          data-bs-target={`#${category}-categories-collapse`}
-        >
-          {lang[category].navbar}
-        </button>
-        <div id={`${category}-categories-collapse`} className="collapse">
-          {Object.keys(elements[category].items).map((e) => {
-            return <OperationTag category={category} operation={e} key={e} />;
-          })}
-        </div>
-      </div>
-    );
-  }
   const NavbarButtons = categories.map((e) => {
     return <NavbarButton category={e} key={e} />;
   });
@@ -264,7 +230,7 @@ function renderSettings(opArea, keyPath) {
   renderAbouts($(subArea));
 }
 
-function switchOpr(keyPath) {
+window.switchOpr = function (keyPath) {
   curOpr = keyPath;
   let target = keyPath2obj(keyPath, oprs);
   let langTarget = keyPath2obj(keyPath, lang);
@@ -347,7 +313,7 @@ function switchOpr(keyPath) {
   }
   document.getElementById(keyPath).style.display = "";
   document.getElementsByClassName("do-not-hide")[0].style.display = "";
-}
+};
 
 function printLogs(channel, data) {
   const logsOutput = document.getElementById("logs-output");
@@ -499,42 +465,53 @@ const renderUI = () => {
   );
   navbarRoot.render(<Navbar dsbtn={messages.ui.deviceSelectorBtn} />);
 
-  $(function () {
-    api.handle("print-log", ([channel, text]) => {
-      printLogs(channel, text.replace(/\n/g, "</br>").replace(/ /g, "\u00a0"));
-    });
+  const sidebarRoot = ReactDOM.createRoot(document.getElementById("sidebar"));
+  const NavbarButtons = Object.keys(oprs).map((e) => {
+    console.log(e);
 
-    api.handle("updater-status", ([updaterStatus, updateInfo]) => {
-      $("#eaf-updater").empty();
-      switch (updaterStatus) {
-        case "update-not-available":
-          $("#eaf-updater").append(
-            `<p class="h5">${messages.update.noUpdates}<p>`
-          );
-          break;
-        case "update-available":
-          $("#eaf-updater").append(`<p class="h5">${
-            messages.update.updatingTo + updateInfo.version
-          }<p><div
-              class="spinner-border spinner-border-sm ms-auto"
-              role="status"
-              aria-hidden="true"
-            ></div>`);
-          break;
-        case "update-downloaded":
-          $("#eaf-updater").append(
-            `<p class="h5">${messages.update.updateComplete}</h5>`
-          );
-      }
-    });
+    console.log(lang[e]);
+    return (
+      <NavbarButton category={e} elements={oprs[e]} key={e} lang={lang[e]} />
+    );
+  });
+  sidebarRoot.render(NavbarButtons);
+
+  $(function () {
+    // api.handle("print-log", ([channel, text]) => {
+    //   printLogs(channel, text.replace(/\n/g, "</br>").replace(/ /g, "\u00a0"));
+    // });
+
+    // api.handle("updater-status", ([updaterStatus, updateInfo]) => {
+    //   $("#eaf-updater").empty();
+    //   switch (updaterStatus) {
+    //     case "update-not-available":
+    //       $("#eaf-updater").append(
+    //         `<p class="h5">${messages.update.noUpdates}<p>`
+    //       );
+    //       break;
+    //     case "update-available":
+    //       $("#eaf-updater").append(`<p class="h5">${
+    //         messages.update.updatingTo + updateInfo.version
+    //       }<p><div
+    //           class="spinner-border spinner-border-sm ms-auto"
+    //           role="status"
+    //           aria-hidden="true"
+    //         ></div>`);
+    //       break;
+    //     case "update-downloaded":
+    //       $("#eaf-updater").append(
+    //         `<p class="h5">${messages.update.updateComplete}</h5>`
+    //       );
+    //   }
+    // });
     $("body").attr("data-bs-theme", theme);
     if (theme == "dark") {
       import("./css/dark.css");
     } else {
-      import("./css/dark.css")
+      import("./css/dark.css");
     }
 
-    const deviceSelector = document.getElementById("device-selector");
+    // const deviceSelector = document.getElementById("device-selector");
 
     $("#sidebar").width(screen.width / 7);
     $("#logs").width((screen.width / 5) * 2.5);
@@ -545,7 +522,7 @@ const renderUI = () => {
         `calc(100vh - ${$("#winCtrl-bar").height()}px)`
       );
     });
-    renderNavbar(oprs, language);
+
     $("#nothing-selected").text(messages.ui.nothingSelected);
 
     $("#ds-adb-tab").on("click", function () {
