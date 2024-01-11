@@ -13,6 +13,7 @@ import "./css/index.scss";
 import * as bootstrap from "bootstrap";
 
 import { NavbarButton } from "./ui/Sidebar.js";
+import classNames from "classnames";
 
 window.$ = window.jQuery = jq;
 
@@ -231,88 +232,82 @@ function renderSettings(opArea, keyPath) {
 }
 
 window.switchOpr = function (keyPath) {
-  curOpr = keyPath;
-  let target = keyPath2obj(keyPath, oprs);
-  let langTarget = keyPath2obj(keyPath, lang);
-  const opArea = $("#operation-area");
-
-  if (document.getElementById(keyPath) == null) {
-    opArea.append(`<div id="${keyPath}" class="operation-box"></div>`);
-
-    const subArea = document.getElementById(keyPath);
-    generateTitle(opArea, langTarget.title, langTarget.subtitle);
-    if (target.needUnlock) {
-      $(subArea).append(
-        `<div class="alert alert-info user-select-none">${messages.ui.unlockAlertMsg}</div>`
-      );
-    } else {
-      $(subArea).append(`<div style="width:100%"></div>`);
-    }
-    if (keyPath == "fastboot.items.boot") {
-      $(subArea).append(
-        `<div class="alert alert-info" role="alert">${messages.tips.boot}</div>`
-      );
-    }
-    if (keyPath == "fastboot.items.flash_remove_verity") {
-      $(subArea).append(
-        `<div class="alert alert-info" role="alert">${messages.tips.flash_remove_verity}</div>`
-      );
-    }
-
-    if (
-      keyPath !== "settings.items.settings" &&
-      keyPath !== "settings.items.updater"
-    ) {
-      generateContents({
-        from: opArea,
-        content: target,
-        translation: langTarget,
-      });
-    }
-
-    $(subArea).append(`<div></div>`);
-    if (!target.noStartButton) {
-      $(subArea).append(
-        `<button
-      type="button"
-      class="btn btn-primary startAction-btn border-0"
-      id="${target.name}-btn"
-      onclick="lib.runScript('${keyPath}','${target.name}')"
-    >
-      ${messages.ui.startBtn}
-    </button>`
-      );
-    }
-    if (keyPath == "settings.items.settings") {
-      renderSettings(opArea, keyPath);
-    } else {
-      restartReminded = false;
-    }
-    if (keyPath == "settings.items.updater") {
-      renderUpdater(opArea, keyPath);
-    }
-    checkUpdateClicked = false;
-    updaterCreated = false;
-
-    $("#operation-area")
-      .find(`[id='${curOpr}-input']`)
-      .on("focus", function (e) {
-        e.stopPropagation();
-
-        $(`[id='${curOpr}-other']`).prop("checked", true);
-      });
-    $("#operation-area")
-      .find(`[id='${curOpr}-other']`)
-      .on("click", function (e) {
-        e.stopPropagation();
-        $(`[id='${curOpr}-input']`).trigger("focus");
-      });
-  }
-  for (let elm of document.getElementsByClassName("operation-box")) {
-    elm.style.display = "none";
-  }
-  document.getElementById(keyPath).style.display = "";
-  document.getElementsByClassName("do-not-hide")[0].style.display = "";
+  // curOpr = keyPath;
+  // let target = keyPath2obj(keyPath, oprs);
+  // let langTarget = keyPath2obj(keyPath, lang);
+  // const opArea = $("#operation-area");
+  // if (document.getElementById(keyPath) == null) {
+  //   opArea.append(`<div id="${keyPath}" class="operation-box"></div>`);
+  //   const subArea = document.getElementById(keyPath);
+  //   generateTitle(opArea, langTarget.title, langTarget.subtitle);
+  //   if (target.needUnlock) {
+  //     $(subArea).append(
+  //       `<div class="alert alert-info user-select-none">${messages.ui.unlockAlertMsg}</div>`
+  //     );
+  //   } else {
+  //     $(subArea).append(`<div style="width:100%"></div>`);
+  //   }
+  //   if (keyPath == "fastboot.items.boot") {
+  //     $(subArea).append(
+  //       `<div class="alert alert-info" role="alert">${messages.tips.boot}</div>`
+  //     );
+  //   }
+  //   if (keyPath == "fastboot.items.flash_remove_verity") {
+  //     $(subArea).append(
+  //       `<div class="alert alert-info" role="alert">${messages.tips.flash_remove_verity}</div>`
+  //     );
+  //   }
+  //   if (
+  //     keyPath !== "settings.items.settings" &&
+  //     keyPath !== "settings.items.updater"
+  //   ) {
+  //     generateContents({
+  //       from: opArea,
+  //       content: target,
+  //       translation: langTarget,
+  //     });
+  //   }
+  //   $(subArea).append(`<div></div>`);
+  //   if (!target.noStartButton) {
+  //     $(subArea).append(
+  //       `<button
+  //     type="button"
+  //     class="btn btn-primary startAction-btn border-0"
+  //     id="${target.name}-btn"
+  //     onclick="lib.runScript('${keyPath}','${target.name}')"
+  //   >
+  //     ${messages.ui.startBtn}
+  //   </button>`
+  //     );
+  //   }
+  //   if (keyPath == "settings.items.settings") {
+  //     renderSettings(opArea, keyPath);
+  //   } else {
+  //     restartReminded = false;
+  //   }
+  //   if (keyPath == "settings.items.updater") {
+  //     renderUpdater(opArea, keyPath);
+  //   }
+  //   checkUpdateClicked = false;
+  //   updaterCreated = false;
+  //   $("#operation-area")
+  //     .find(`[id='${curOpr}-input']`)
+  //     .on("focus", function (e) {
+  //       e.stopPropagation();
+  //       $(`[id='${curOpr}-other']`).prop("checked", true);
+  //     });
+  //   $("#operation-area")
+  //     .find(`[id='${curOpr}-other']`)
+  //     .on("click", function (e) {
+  //       e.stopPropagation();
+  //       $(`[id='${curOpr}-input']`).trigger("focus");
+  //     });
+  // }
+  // for (let elm of document.getElementsByClassName("operation-box")) {
+  //   elm.style.display = "none";
+  // }
+  // document.getElementById(keyPath).style.display = "";
+  // document.getElementsByClassName("do-not-hide")[0].style.display = "";
 };
 
 function printLogs(channel, data) {
@@ -465,16 +460,40 @@ const renderUI = () => {
   );
   navbarRoot.render(<Navbar dsbtn={messages.ui.deviceSelectorBtn} />);
 
-  const sidebarRoot = ReactDOM.createRoot(document.getElementById("sidebar"));
-  const NavbarButtons = Object.keys(oprs).map((e) => {
-    console.log(e);
-
-    console.log(lang[e]);
+  const bigRoot = ReactDOM.createRoot(document.getElementById("bigRoot"));
+  const NavbarElements = Object.keys(oprs).map((e) => {
     return (
       <NavbarButton category={e} elements={oprs[e]} key={e} lang={lang[e]} />
     );
   });
-  sidebarRoot.render(NavbarButtons);
+  bigRoot.render(
+    <>
+      <div id="sidebar">
+        <div className="container">
+          <nav id="sidebar" className={classNames("nav", "flex-column")}>
+            {Object.keys(oprs).map((e) => {
+              return (
+                <NavbarButton
+                  category={e}
+                  elements={oprs[e]}
+                  key={e}
+                  lang={lang[e]}
+                />
+              );
+            })}
+          </nav>
+        </div>
+      </div>
+      <div className="operaion-area">
+        <p className="do-not-hide"></p>
+        <div className="operation-box">
+          <h4 id="nothing-selected" className="text-muted">
+            {messages.ui.nothingSelected}
+          </h4>
+        </div>
+      </div>
+    </>
+  );
 
   $(function () {
     // api.handle("print-log", ([channel, text]) => {
@@ -523,7 +542,7 @@ const renderUI = () => {
       );
     });
 
-    $("#nothing-selected").text(messages.ui.nothingSelected);
+    // $("#nothing-selected").text(messages.ui.nothingSelected);
 
     $("#ds-adb-tab").on("click", function () {
       dsMode = "adb";

@@ -10,9 +10,12 @@ body {
 #log-box {
   background-color: var(--bs-body-bg);
 }
-
+#bigRoot{
+  width: 60%;
+}
 #sidebar {
-  height: 100%;
+  float: left;
+  height:100%;
   overflow: auto;
 }
 
@@ -38,7 +41,7 @@ body {
   transition: 0.3s;
 }
 #log-box {
-  width: 70%;
+  width: 40%;
   padding: 0.5rem;
   overflow: auto;
   font-size: 0.8rem;
