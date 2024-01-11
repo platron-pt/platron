@@ -2,8 +2,9 @@ import deviceParser from "./devices/deviceParser.js";
 import jq from "jquery";
 import keyPath2obj from "./keypath2obj.js";
 import { oprs, availableLanguages, settings } from "./ui/UI.js";
+import { OperationArea } from "./ui/OperationArea.js";
 
-import React from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom/client";
 import DeviceSelectorModal from "./ui/deviceSelector";
 import { Navbar } from "./ui/Navbar.js";
@@ -466,34 +467,37 @@ const renderUI = () => {
       <NavbarButton category={e} elements={oprs[e]} key={e} lang={lang[e]} />
     );
   });
-  bigRoot.render(
-    <>
-      <div id="sidebar">
-        <div className="container">
-          <nav id="sidebar" className={classNames("nav", "flex-column")}>
-            {Object.keys(oprs).map((e) => {
-              return (
-                <NavbarButton
-                  category={e}
-                  elements={oprs[e]}
-                  key={e}
-                  lang={lang[e]}
-                />
-              );
-            })}
-          </nav>
+
+  function BigRootElements() {
+    const [currentOperation, setOperation] = useState("");
+    return (
+      <>
+        <div id="sidebar">
+          <div className="container">
+            <nav id="sidebar" className={classNames("nav", "flex-column")}>
+              {Object.keys(oprs).map((e) => {
+                return (
+                  <NavbarButton
+                    category={e}
+                    elements={oprs[e]}
+                    key={e}
+                    lang={lang[e]}
+                    setOperation={setOperation}
+                  />
+                );
+              })}
+            </nav>
+          </div>
         </div>
-      </div>
-      <div className="operaion-area">
-        <p className="do-not-hide"></p>
-        <div className="operation-box">
-          <h4 id="nothing-selected" className="text-muted">
-            {messages.ui.nothingSelected}
-          </h4>
-        </div>
-      </div>
-    </>
-  );
+        <OperationArea
+          lang={lang}
+          msg={messages}
+          currentOperation={currentOperation}
+        />
+      </>
+    );
+  }
+  bigRoot.render(<BigRootElements />);
 
   $(function () {
     // api.handle("print-log", ([channel, text]) => {
@@ -543,35 +547,6 @@ const renderUI = () => {
     });
 
     // $("#nothing-selected").text(messages.ui.nothingSelected);
-
-    $("#ds-adb-tab").on("click", function () {
-      dsMode = "adb";
-    });
-    $("#ds-fb-tab").on("click", function () {
-      dsMode = "fb";
-    });
-
-    $("#ds-save-btn").on("click", function (e) {
-      e.preventDefault();
-
-      switch (dsMode) {
-        case "adb":
-          selectedADBDevices.clear();
-          $(".select-device-adb:checked").each((index, element) => {
-            selectedADBDevices.add(element.id);
-          });
-          break;
-        case "fb":
-          selectedFbDevices.clear();
-          $(".select-device-fb:checked").each((index, element) => {
-            selectedFbDevices.add(element.id);
-          });
-
-          break;
-        default:
-          break;
-      }
-    });
 
     api.send("resize");
   });

@@ -1,8 +1,8 @@
 import React from "react";
 
-function OperationTag({ category, operation,text }) {
+function OperationTag({ category, operation, text ,setOperation}) {
   function handleClick() {
-    switchOpr(`${category}.items.${operation}`);
+    setOperation(`${category}.items.${operation}`);
   }
 
   return (
@@ -17,8 +17,7 @@ function OperationTag({ category, operation,text }) {
   );
 }
 
-export function NavbarButton({ elements,category ,lang}) {
-  console.log(lang)
+export function NavbarButton({ elements, category, lang, setOperation }) {
   return (
     <div className="mb-3 categories-div" key={category}>
       <button
@@ -30,7 +29,15 @@ export function NavbarButton({ elements,category ,lang}) {
       </button>
       <div id={`${category}-categories-collapse`} className="collapse">
         {Object.keys(elements.items).map((e) => {
-          return <OperationTag category={category} text={lang.items[e].title} operation={e} key={e} />;
+          return (
+            <OperationTag
+              category={category}
+              text={lang.items[e].title}
+              operation={e}
+              key={e}
+              setOperation={setOperation}
+            />
+          );
         })}
       </div>
     </div>
