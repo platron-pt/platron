@@ -1,7 +1,8 @@
-import React from "react";
+import React, { PureComponent } from "react";
 import keyPath2obj from "../keypath2obj";
 import { oprs } from "./UI";
 import { map } from "jquery";
+import PlatronComponents from "./PlatronComponents";
 
 function Title(props) {
   const result = (
@@ -13,16 +14,58 @@ function Title(props) {
 
   return result;
 }
-
+/*-------------------------------------------*/
 function Content(props) {
   const translation = props.translation;
   const content = props.content;
+  const name = props.name;
+  const keyPath = props.keyPath;
+  const messages = props.message;
 
-  console.log(content.map(e=>e))
-
-  return <></>;
+  const result = content.map((element, index) => {
+    const type = element.type;
+    const value = element.value;
+    const misc = element.misc;
+    switch (type) {
+      case "radio":
+        return (
+          <PlatronComponents.radio
+            key={keyPath + "-" + value}
+            name={name}
+            value={value}
+            keyPath={keyPath}
+            text={translation[index].text}
+            misc={misc}
+          />
+        );
+        break;
+      case "file":
+        return (
+          <PlatronComponents.file
+            key={keyPath + "-file-input"}
+            name={name}
+            keyPath={keyPath}
+            text={messages.ui.fileSelectorBtn}
+            defaultText={messages.ui.fileSelectorDefault}
+            misc={misc}
+          />
+        );
+        break;
+      case "input":
+        return (
+          <PlatronComponents.textInput
+            key={keyPath + "-" + value}
+            value={value}
+            keyPath={keyPath}
+            misc={translation[index].misc}
+          />
+        );
+        break;
+    }
+  });
+  return <>{result}</>;
 }
-
+/*-------------------------------------------*/
 function OperationBox(props) {
   const lang = props.lang;
   const msg = props.msg;
@@ -38,7 +81,13 @@ function OperationBox(props) {
     result = (
       <>
         <Title title={translation.title} subtitle={translation.subtitle} />
-        <Content translation={translation.content} content={content.content} />
+        <Content
+          message={msg}
+          translation={translation.content}
+          content={content.content}
+          name={content.name}
+          keyPath={currentOperation}
+        />
       </>
     );
   }
