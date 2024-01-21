@@ -10,6 +10,10 @@ body {
 #log-box {
   background-color: var(--bs-body-bg);
 }
+.operation-area{
+  overflow: auto;
+}
+
 #bigRoot{
   width: 60%;
 }
