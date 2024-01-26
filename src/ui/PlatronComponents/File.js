@@ -7,10 +7,22 @@ function File(props) {
   const text = props.text;
   const name = props.name;
   const misc = props.misc;
+  const status = props.status;
+  const setStatus = props.setStatus;
   const defaultText = props.defaultText;
+
   function handleChange(e) {
     setFilePath(e.target.files[0].path);
+    const currentStatus = Object.assign(status, {});
+    console.log("keyPath in currentStatus:", keyPath in currentStatus);
+    if (!(keyPath in currentStatus)) {
+      Object.assign(currentStatus, { [keyPath]: { filePath: null } });
+    }
+    console.log(e, currentStatus);
+    currentStatus[keyPath].filePath = e.target.files[0].path;
+    setStatus(currentStatus);
   }
+
   return (
     <div className="mb-3">
       <label

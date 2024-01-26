@@ -3,6 +3,7 @@ import keyPath2obj from "../keypath2obj";
 import { oprs } from "./UI";
 import { map } from "jquery";
 import PlatronComponents from "./PlatronComponents";
+import classNames from "classnames";
 
 function Title(props) {
   const result = (
@@ -16,6 +17,8 @@ function Title(props) {
 }
 /*-------------------------------------------*/
 function Content(props) {
+  const [status, setStatus] = React.useState({});
+
   const translation = props.translation;
   const content = props.content;
   const name = props.name;
@@ -35,6 +38,8 @@ function Content(props) {
             value={value}
             keyPath={keyPath}
             text={translation[index].text}
+            status={status}
+            setStatus={setStatus}
             misc={misc}
           />
         );
@@ -47,6 +52,8 @@ function Content(props) {
             keyPath={keyPath}
             text={messages.ui.fileSelectorBtn}
             defaultText={messages.ui.fileSelectorDefault}
+            status={status}
+            setStatus={setStatus}
             misc={misc}
           />
         );
@@ -57,6 +64,8 @@ function Content(props) {
             key={keyPath + "-" + value}
             value={value}
             keyPath={keyPath}
+            status={status}
+            setStatus={setStatus}
             misc={translation[index].misc}
           />
         );
@@ -88,6 +97,12 @@ function OperationBox(props) {
           name={content.name}
           keyPath={currentOperation}
         />
+        {content.noStartButton ? null : (
+          <PlatronComponents.startBtn
+            name={content.name}
+            text={msg.ui.startBtn}
+          />
+        )}
       </>
     );
   }
@@ -96,8 +111,7 @@ function OperationBox(props) {
 
 export function OperationArea(props) {
   return (
-    <div className="operaion-area">
-      <p className="do-not-hide"></p>
+    <div className={classNames("operation-area", "p-2", "flex-grow-1")}>
       <div className="operation-box">
         <OperationBox
           lang={props.lang}

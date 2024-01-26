@@ -36,6 +36,7 @@
     "classnames": "^2.3.2",
     "css-loader": "^6.8.1",
     "decompress": "^4.2.1",
+    "deepmerge": "^4.3.1",
     "electron": "^25.9.2",
     "electron-builder": "^24.6.4",
     "follow-redirects": "^1.15.3",
