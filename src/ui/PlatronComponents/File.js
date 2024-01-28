@@ -11,14 +11,11 @@ function File(props) {
   const setStatus = props.setStatus;
   const defaultText = props.defaultText;
 
-  console.log(status);
-
   function handleChange(e) {
     const currentStatus = merge(status, {
       [keyPath]: { filePath: e.target.files[0].path },
     });
     setStatus(currentStatus);
-    console.log(status);
   }
 
   return (
@@ -51,7 +48,11 @@ function File(props) {
         id={keyPath + "-file-path"}
         className={classNames("user-select-none", keyPath)}
       >
-        {keyPath in status ? status[keyPath].filePath : defaultText}
+        {keyPath in status
+          ? (!!status[keyPath].filePath)
+            ? status[keyPath].filePath
+            : defaultText
+          : defaultText}
       </h5>
     </div>
   );

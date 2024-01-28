@@ -19,11 +19,10 @@ const TextInput = React.forwardRef(function TextInput(props, ref) {
   }
 
   function handleFocus(e) {
-    e.stopPropagation();
     const currentStatus = merge(status, {
       [keyPath]: { radio: "other" },
     });
-
+    console.log(Object.is(status,currentStatus))
     setStatus(currentStatus);
   }
 

@@ -25,6 +25,10 @@ function Content(props) {
   const name = props.name;
   const keyPath = props.keyPath;
   const messages = props.message;
+  const noStartButton = props.noStartButton;
+  const startBtnTxt = props.startBtnTxt;
+
+  console.log(status);
 
   const result = content.map((element, index) => {
     const type = element.type;
@@ -75,6 +79,11 @@ function Content(props) {
         break;
     }
   });
+  if (!noStartButton) {
+    result.push(
+      <PlatronComponents.startBtn name={name} text={startBtnTxt} key="sbtn" />
+    );
+  }
   return <>{result}</>;
 }
 /*-------------------------------------------*/
@@ -99,13 +108,9 @@ function OperationBox(props) {
           content={content.content}
           name={content.name}
           keyPath={currentOperation}
+          startBtnTxt={msg.ui.startBtn}
+          noStartButton={content.noStartButton}
         />
-        {content.noStartButton ? null : (
-          <PlatronComponents.startBtn
-            name={content.name}
-            text={msg.ui.startBtn}
-          />
-        )}
       </>
     );
   }

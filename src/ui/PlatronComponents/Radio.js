@@ -18,7 +18,7 @@ function Radio(props) {
       [keyPath]: { radio: e.target.value },
     });
     setStatus(currentStatus);
-    console.log(status);
+    
     if(e.target.value=="other"){
       inputRef.current.focus();
     }
@@ -32,7 +32,7 @@ function Radio(props) {
         name={name}
         id={keyPath + "-" + value}
         defaultValue={value}
-        defaultChecked={
+        checked={
           keyPath in status ? value == status[keyPath].radio : misc
         }
         onChange={handleChange}
