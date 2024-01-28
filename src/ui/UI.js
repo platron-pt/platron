@@ -695,11 +695,13 @@ export const oprs = {
         subtitle: "TODO",
         noStartButton: true,
         navbar: "TODO",
+        content: [],
       },
       updater: {
         title: "Online Updates",
         noStartButton: true,
         navbar: "Online Updates",
+        content: [],
       },
     },
   },

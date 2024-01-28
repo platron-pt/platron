@@ -1,8 +1,8 @@
 import React from "react";
 import classNames from "classnames";
+const merge = require("deepmerge");
 
 function File(props) {
-  const [filePath, setFilePath] = React.useState("");
   const keyPath = props.keyPath;
   const text = props.text;
   const name = props.name;
@@ -11,16 +11,14 @@ function File(props) {
   const setStatus = props.setStatus;
   const defaultText = props.defaultText;
 
+  console.log(status);
+
   function handleChange(e) {
-    setFilePath(e.target.files[0].path);
-    const currentStatus = Object.assign(status, {});
-    console.log("keyPath in currentStatus:", keyPath in currentStatus);
-    if (!(keyPath in currentStatus)) {
-      Object.assign(currentStatus, { [keyPath]: { filePath: null } });
-    }
-    console.log(e, currentStatus);
-    currentStatus[keyPath].filePath = e.target.files[0].path;
+    const currentStatus = merge(status, {
+      [keyPath]: { filePath: e.target.files[0].path },
+    });
     setStatus(currentStatus);
+    console.log(status);
   }
 
   return (
@@ -43,7 +41,7 @@ function File(props) {
       </label>
       <input
         className={classNames("d-none", "file-input", keyPath)}
-        onChange={handleChange}
+        onChangeCapture={handleChange}
         type="file"
         name={name}
         id={keyPath + "-file-input"}
@@ -53,10 +51,12 @@ function File(props) {
         id={keyPath + "-file-path"}
         className={classNames("user-select-none", keyPath)}
       >
-        {filePath ? filePath : defaultText}
+        {keyPath in status ? status[keyPath].filePath : defaultText}
       </h5>
     </div>
   );
 }
 
 export default File;
+
+// keyPath in status ? status[keyPath].filePath : defaultText

@@ -1,5 +1,6 @@
 import React from "react";
 import classNames from "classnames";
+const merge=require("deepmerge")
 
 function Radio(props) {
   const name = props.name;
@@ -8,17 +9,19 @@ function Radio(props) {
   const text = props.text;
   const misc = props.misc;
   const status = props.status;
+  const inputRef=props.inputRef
   const setStatus = props.setStatus;
 
   function handleChange(e) {
-    const currentStatus = Object.assign(status, {});
-    console.log("keyPath in currentStatus:", keyPath in currentStatus);
-    if (!(keyPath in currentStatus)) {
-      Object.assign(currentStatus, { [keyPath]: { radio: null } });
-    }
-    console.log(e, currentStatus);
-    currentStatus[keyPath].radio = e.target.value;
+    e.stopPropagation();
+    const currentStatus = merge(status, {
+      [keyPath]: { radio: e.target.value },
+    });
     setStatus(currentStatus);
+    console.log(status);
+    if(e.target.value=="other"){
+      inputRef.current.focus();
+    }
   }
 
   return (
@@ -29,7 +32,9 @@ function Radio(props) {
         name={name}
         id={keyPath + "-" + value}
         defaultValue={value}
-        defaultChecked={status[keyPath] ? value == status[keyPath].radio : misc}
+        defaultChecked={
+          keyPath in status ? value == status[keyPath].radio : misc
+        }
         onChange={handleChange}
       />
       <label className="form-check-label" htmlFor={keyPath + "-" + value}>

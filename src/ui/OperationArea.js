@@ -1,4 +1,4 @@
-import React, { PureComponent } from "react";
+import React from "react";
 import keyPath2obj from "../keypath2obj";
 import { oprs } from "./UI";
 import { map } from "jquery";
@@ -18,6 +18,7 @@ function Title(props) {
 /*-------------------------------------------*/
 function Content(props) {
   const [status, setStatus] = React.useState({});
+  const inputRef = React.useRef(null);
 
   const translation = props.translation;
   const content = props.content;
@@ -40,6 +41,7 @@ function Content(props) {
             text={translation[index].text}
             status={status}
             setStatus={setStatus}
+            inputRef={inputRef}
             misc={misc}
           />
         );
@@ -66,6 +68,7 @@ function Content(props) {
             keyPath={keyPath}
             status={status}
             setStatus={setStatus}
+            ref={inputRef}
             misc={translation[index].misc}
           />
         );

@@ -8,6 +8,7 @@ function StartBtn(props) {
   function handleClick(e) {
     console.log(e);
   }
+  
   return (
     <button
       type="button"

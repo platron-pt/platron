@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import classNames from "classnames";
+const merge = require("deepmerge");
 
-function TextInput(props) {
+const TextInput = React.forwardRef(function TextInput(props, ref) {
   const keyPath = props.keyPath;
   const value = props.value;
   const misc = props.misc;
@@ -9,13 +10,20 @@ function TextInput(props) {
   const setStatus = props.setStatus;
 
   function handleChange(e) {
-    const currentStatus = Object.assign(status, {});
-    console.log("keyPath in currentStatus:", keyPath in currentStatus);
-    if (!(keyPath in currentStatus)) {
-      Object.assign(currentStatus, { [keyPath]: { textInput: null } });
-    }
-    console.log(e, currentStatus);
+    const currentStatus = merge(status, {
+      [keyPath]: { textInput: e.target.value },
+    });
+    console.log(status);
     currentStatus[keyPath].textInput = e.target.value;
+    setStatus(currentStatus);
+  }
+
+  function handleFocus(e) {
+    e.stopPropagation();
+    const currentStatus = merge(status, {
+      [keyPath]: { radio: "other" },
+    });
+
     setStatus(currentStatus);
   }
 
@@ -26,9 +34,11 @@ function TextInput(props) {
       type="text"
       placeholder={misc}
       onChange={handleChange}
-      defaultValue={status[keyPath] ? status[keyPath].textInput : ""}
+      onFocus={handleFocus}
+      ref={ref}
+      defaultValue={keyPath in status ? status[keyPath].textInput : ""}
     />
   );
-}
+});
 
 export default TextInput;
