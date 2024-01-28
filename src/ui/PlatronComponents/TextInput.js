@@ -35,7 +35,7 @@ const TextInput = React.forwardRef(function TextInput(props, ref) {
       onChange={handleChange}
       onFocus={handleFocus}
       ref={ref}
-      defaultValue={keyPath in status ? status[keyPath].textInput : ""}
+      value={keyPath in status ? status[keyPath].textInput : ""}
     />
   );
 });
