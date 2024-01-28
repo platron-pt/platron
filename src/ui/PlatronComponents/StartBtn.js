@@ -4,11 +4,12 @@ import React from "react";
 function StartBtn(props) {
   const name = props.name;
   const text = props.text;
+  const script = props.script;
 
   function handleClick(e) {
-    console.log(e);
+    console.log(...script);
   }
-  
+
   return (
     <button
       type="button"

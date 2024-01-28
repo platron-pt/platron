@@ -27,6 +27,7 @@ function Content(props) {
   const messages = props.message;
   const noStartButton = props.noStartButton;
   const startBtnTxt = props.startBtnTxt;
+  const script = props.script;
 
   console.log(status);
 
@@ -81,7 +82,13 @@ function Content(props) {
   });
   if (!noStartButton) {
     result.push(
-      <PlatronComponents.startBtn name={name} text={startBtnTxt} key="sbtn" />
+      <PlatronComponents.startBtn
+        name={name}
+        text={startBtnTxt}
+        key="sbtn"
+        status={status}
+        script={script}
+      />
     );
   }
   return <>{result}</>;
@@ -91,11 +98,13 @@ function OperationBox(props) {
   const lang = props.lang;
   const msg = props.msg;
   const currentOperation = props.currentOperation;
+  // when app started
   let result = (
     <h4 id="nothing-selected" className="text-muted">
       {msg.ui.nothingSelected}
     </h4>
   );
+  // when item in navbar selected
   if (currentOperation) {
     const translation = keyPath2obj(currentOperation, lang);
     const content = keyPath2obj(currentOperation, oprs);
@@ -110,6 +119,7 @@ function OperationBox(props) {
           keyPath={currentOperation}
           startBtnTxt={msg.ui.startBtn}
           noStartButton={content.noStartButton}
+          script={content.script}
         />
       </>
     );

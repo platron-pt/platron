@@ -131,7 +131,7 @@ export function updateSettings(name, value) {
   saveSettings();
   document.getElementById("settings.items.settings").remove();
   restartReminded = true;
-  switchOpr("settings.items.settings");
+  // switchOpr("settings.items.settings");
 }
 export function quitBeta() {
   api.send("quit-beta");
@@ -231,85 +231,6 @@ function renderSettings(opArea, keyPath) {
   generateSettings($(subArea));
   renderAbouts($(subArea));
 }
-
-window.switchOpr = function (keyPath) {
-  // curOpr = keyPath;
-  // let target = keyPath2obj(keyPath, oprs);
-  // let langTarget = keyPath2obj(keyPath, lang);
-  // const opArea = $("#operation-area");
-  // if (document.getElementById(keyPath) == null) {
-  //   opArea.append(`<div id="${keyPath}" class="operation-box"></div>`);
-  //   const subArea = document.getElementById(keyPath);
-  //   generateTitle(opArea, langTarget.title, langTarget.subtitle);
-  //   if (target.needUnlock) {
-  //     $(subArea).append(
-  //       `<div class="alert alert-info user-select-none">${messages.ui.unlockAlertMsg}</div>`
-  //     );
-  //   } else {
-  //     $(subArea).append(`<div style="width:100%"></div>`);
-  //   }
-  //   if (keyPath == "fastboot.items.boot") {
-  //     $(subArea).append(
-  //       `<div class="alert alert-info" role="alert">${messages.tips.boot}</div>`
-  //     );
-  //   }
-  //   if (keyPath == "fastboot.items.flash_remove_verity") {
-  //     $(subArea).append(
-  //       `<div class="alert alert-info" role="alert">${messages.tips.flash_remove_verity}</div>`
-  //     );
-  //   }
-  //   if (
-  //     keyPath !== "settings.items.settings" &&
-  //     keyPath !== "settings.items.updater"
-  //   ) {
-  //     generateContents({
-  //       from: opArea,
-  //       content: target,
-  //       translation: langTarget,
-  //     });
-  //   }
-  //   $(subArea).append(`<div></div>`);
-  //   if (!target.noStartButton) {
-  //     $(subArea).append(
-  //       `<button
-  //     type="button"
-  //     class="btn btn-primary startAction-btn border-0"
-  //     id="${target.name}-btn"
-  //     onclick="lib.runScript('${keyPath}','${target.name}')"
-  //   >
-  //     ${messages.ui.startBtn}
-  //   </button>`
-  //     );
-  //   }
-  //   if (keyPath == "settings.items.settings") {
-  //     renderSettings(opArea, keyPath);
-  //   } else {
-  //     restartReminded = false;
-  //   }
-  //   if (keyPath == "settings.items.updater") {
-  //     renderUpdater(opArea, keyPath);
-  //   }
-  //   checkUpdateClicked = false;
-  //   updaterCreated = false;
-  //   $("#operation-area")
-  //     .find(`[id='${curOpr}-input']`)
-  //     .on("focus", function (e) {
-  //       e.stopPropagation();
-  //       $(`[id='${curOpr}-other']`).prop("checked", true);
-  //     });
-  //   $("#operation-area")
-  //     .find(`[id='${curOpr}-other']`)
-  //     .on("click", function (e) {
-  //       e.stopPropagation();
-  //       $(`[id='${curOpr}-input']`).trigger("focus");
-  //     });
-  // }
-  // for (let elm of document.getElementsByClassName("operation-box")) {
-  //   elm.style.display = "none";
-  // }
-  // document.getElementById(keyPath).style.display = "";
-  // document.getElementsByClassName("do-not-hide")[0].style.display = "";
-};
 
 function printLogs(channel, data) {
   const logsOutput = document.getElementById("logs-output");
@@ -432,20 +353,6 @@ export function runScript(path, name) {
     }
   }
 }
-function readRadio(name) {
-  const checkedRadio = document.querySelector(
-    `input[name="${name}"]:checked`
-  ).id;
-
-  if (checkedRadio == curOpr + "-other") {
-    return document.getElementById(curOpr + "-input").value;
-  } else {
-    return document.getElementById(checkedRadio).value;
-  }
-}
-function readFileSelector(name) {
-  return document.getElementById(curOpr + "-" + name).files[0].path;
-}
 
 export function cleanLogs(channel) {
   $(`#logs-item-${channel}`).remove();
@@ -534,19 +441,16 @@ const renderUI = () => {
       import("./css/dark.css");
     }
 
-    // const deviceSelector = document.getElementById("device-selector");
 
-    $("#sidebar").width(screen.width / 7);
-    $("#logs").width((screen.width / 5) * 2.5);
-    $("#operation-area").width($("#operation-area").width() / 1.2);
+    // $("#sidebar").width(screen.width / 7);
+    // $("#logs").width((screen.width / 5) * 2.5);
+    // $("#operation-area").width($("#operation-area").width() / 1.2);
     $(window).on("resize", function () {
       $("#main-content").css(
         "height",
         `calc(100vh - ${$("#winCtrl-bar").height()}px)`
       );
     });
-
-    // $("#nothing-selected").text(messages.ui.nothingSelected);
 
     api.send("resize");
   });
