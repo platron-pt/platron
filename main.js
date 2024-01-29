@@ -113,7 +113,7 @@ const createWindow = () => {
       // transparent: true,
       show: false,
       width: 1080,
-      height: 501,
+      height: 500,
       minWidth: 1080,
       frame: false,
       webPreferences: {

@@ -359,21 +359,18 @@ export function cleanLogs(channel) {
 }
 
 const renderUI = () => {
-  const dsmRoot = ReactDOM.createRoot(document.getElementById("dsm"));
-  dsmRoot.render(
-    <DeviceSelectorModal title={messages.devices.selectDevices} />
-  );
-  const navbarRoot = ReactDOM.createRoot(
-    document.getElementById("winCtrl-bar")
-  );
-  navbarRoot.render(<Navbar dsbtn={messages.ui.deviceSelectorBtn} />);
+  const root = ReactDOM.createRoot(document.getElementById("root"));
+  // const dsmRoot = ReactDOM.createRoot(document.getElementById("dsm"));
+  // dsmRoot.render(
+  //   <DeviceSelectorModal title={messages.devices.selectDevices} />
+  // );
+  // const navbarRoot = ReactDOM.createRoot(
+  //   document.getElementById("winCtrl-bar")
+  // );
+  // navbarRoot.render(<Navbar dsbtn={messages.ui.deviceSelectorBtn} />);
 
-  const bigRoot = ReactDOM.createRoot(document.getElementById("bigRoot"));
-  const NavbarElements = Object.keys(oprs).map((e) => {
-    return (
-      <NavbarButton category={e} elements={oprs[e]} key={e} lang={lang[e]} />
-    );
-  });
+  // const bigRoot = ReactDOM.createRoot(document.getElementById("bigRoot"));
+
 
   function BigRootElements() {
     const [currentOperation, setOperation] = useState("");
@@ -404,7 +401,22 @@ const renderUI = () => {
       </>
     );
   }
-  bigRoot.render(<BigRootElements />);
+  // bigRoot.render(<BigRootElements />);
+  root.render(
+    <>
+      {/* Modal of device selector */}
+      <DeviceSelectorModal title={messages.devices.selectDevices} />
+      <div
+        id="winCtrl-bar"
+        className={classNames("d-flex", "flex-row-reverse")}
+      >
+        <Navbar dsbtn={messages.ui.deviceSelectorBtn} />
+      </div>
+      <div id="main-content">
+        <BigRootElements />
+      </div>
+    </>
+  );
 
   $(function () {
     // api.handle("print-log", ([channel, text]) => {
@@ -441,18 +453,9 @@ const renderUI = () => {
       import("./css/dark.css");
     }
 
-
     // $("#sidebar").width(screen.width / 7);
     // $("#logs").width((screen.width / 5) * 2.5);
     // $("#operation-area").width($("#operation-area").width() / 1.2);
-    $(window).on("resize", function () {
-      $("#main-content").css(
-        "height",
-        `calc(100vh - ${$("#winCtrl-bar").height()}px)`
-      );
-    });
-
-    api.send("resize");
   });
 };
 
