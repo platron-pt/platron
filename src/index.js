@@ -15,6 +15,7 @@ import * as bootstrap from "bootstrap";
 
 import { NavbarButton } from "./ui/Sidebar.js";
 import classNames from "classnames";
+import Logs from "./ui/Logs.js";
 
 window.$ = window.jQuery = jq;
 
@@ -371,11 +372,10 @@ const renderUI = () => {
 
   // const bigRoot = ReactDOM.createRoot(document.getElementById("bigRoot"));
 
-
   function BigRootElements() {
     const [currentOperation, setOperation] = useState("");
     return (
-      <>
+      <div id="main-content" className={classNames("d-flex","flex-row")}>
         <div id="sidebar">
           <div className="container">
             <nav id="sidebar" className={classNames("nav", "flex-column")}>
@@ -398,7 +398,8 @@ const renderUI = () => {
           msg={messages}
           currentOperation={currentOperation}
         />
-      </>
+        <Logs />
+      </div>
     );
   }
   // bigRoot.render(<BigRootElements />);
@@ -412,9 +413,8 @@ const renderUI = () => {
       >
         <Navbar dsbtn={messages.ui.deviceSelectorBtn} />
       </div>
-      <div id="main-content">
-        <BigRootElements />
-      </div>
+
+      <BigRootElements />
     </>
   );
 
