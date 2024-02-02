@@ -365,7 +365,7 @@ const renderUI = () => {
   function BigRootElements() {
     const [currentOperation, setOperation] = useState("");
     return (
-      <div id="main-content" className={classNames("d-flex","flex-row")}>
+      <div id="main-content" className={classNames("d-flex", "flex-row")}>
         <div id="sidebar">
           <div className="container">
             <nav id="sidebar" className={classNames("nav", "flex-column")}>
@@ -436,7 +436,7 @@ const renderUI = () => {
     //       );
     //   }
     // });
-    $("body").attr("data-bs-theme", theme);
+    document.body.setAttribute("data-bs-theme", theme);
     if (theme == "dark") {
       import("./css/dark.css");
     } else {
@@ -452,6 +452,7 @@ const renderUI = () => {
 export function restartApp() {
   api.send("restart-app");
 }
+
 Promise.all([api.invoke("get-config")]).then((resultArr) => {
   config = resultArr[0];
   language = config.language;
