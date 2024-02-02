@@ -13,7 +13,7 @@ function LogBox(props) {
     <div className="accordion-item">
       <h2 className="accordion-header">
         <button
-          className="accordion-button"
+          className={classNames("accordion-button","collapsed")}
           type="button"
           data-bs-toggle="collapse"
           data-bs-target={"#logs-" + channel}

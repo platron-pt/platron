@@ -361,16 +361,6 @@ export function cleanLogs(channel) {
 
 const renderUI = () => {
   const root = ReactDOM.createRoot(document.getElementById("root"));
-  // const dsmRoot = ReactDOM.createRoot(document.getElementById("dsm"));
-  // dsmRoot.render(
-  //   <DeviceSelectorModal title={messages.devices.selectDevices} />
-  // );
-  // const navbarRoot = ReactDOM.createRoot(
-  //   document.getElementById("winCtrl-bar")
-  // );
-  // navbarRoot.render(<Navbar dsbtn={messages.ui.deviceSelectorBtn} />);
-
-  // const bigRoot = ReactDOM.createRoot(document.getElementById("bigRoot"));
 
   function BigRootElements() {
     const [currentOperation, setOperation] = useState("");
