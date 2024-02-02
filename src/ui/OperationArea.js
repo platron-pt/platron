@@ -88,6 +88,8 @@ function Content(props) {
         key="sbtn"
         status={status}
         script={script}
+        selectedADBDevices={props.selectedADBDevices}
+        selectedFBDevices={props.selectedFBDevices}
       />
     );
   }
@@ -98,6 +100,7 @@ function OperationBox(props) {
   const lang = props.lang;
   const msg = props.msg;
   const currentOperation = props.currentOperation;
+
   // when app started
   let result = (
     <h4 id="nothing-selected" className="text-muted">
@@ -120,6 +123,8 @@ function OperationBox(props) {
           startBtnTxt={msg.ui.startBtn}
           noStartButton={content.noStartButton}
           script={content.script}
+          selectedADBDevices={props.selectedADBDevices}
+          selectedFBDevices={props.selectedFBDevices}
         />
       </>
     );
@@ -135,6 +140,8 @@ export function OperationArea(props) {
           lang={props.lang}
           msg={props.msg}
           currentOperation={props.currentOperation}
+          selectedADBDevices={props.selectedADBDevices}
+          selectedFBDevices={props.selectedFBDevices}
         />
       </div>
     </div>

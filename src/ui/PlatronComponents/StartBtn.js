@@ -5,9 +5,12 @@ function StartBtn(props) {
   const name = props.name;
   const text = props.text;
   const script = props.script;
+  const gsa = props.selectedADBDevices;
+  const gsf = props.selectedFBDevices;
 
   function handleClick(e) {
     console.log(...script);
+    console.log(gsa, gsf);
   }
 
   return (

@@ -19,6 +19,7 @@ const { promisify } = require("node:util");
 const promisifiedExec = promisify(child_process.execFile);
 console.debug("Welcome to EAF v" + app.getVersion());
 
+
 let config, updaterStatus, lang, messages;
 if (isPackaged) {
   config = require("../../config.json");
@@ -72,6 +73,7 @@ if (platform == "linux") {
 }
 
 if (!isPackaged || channel == "beta") {
+  console.log("has DevTools!")
   hasDevtools = true;
 }
 
@@ -152,7 +154,7 @@ const createWindow = () => {
   ipcMain.on("resize", () => {
     win.setSize(1080, 500);
   });
-  
+
   ipcMain.on("run-command", (e, command, params) => {
     const process = child_process.spawn(command, params);
     process.stderr.on("data", (data) => {
@@ -191,12 +193,12 @@ const createWindow = () => {
       default:
         break;
     }
-    
+
     const { stdout, stderr } = await getDevices(exec, ["devices"]);
-    
+
     async function getDevices() {
       const { stdout, stderr } = await promisifiedExec(exec, ["devices"]);
-      return({stdout:stdout,stderr:stderr})
+      return { stdout: stdout, stderr: stderr };
     }
     return await getDevices();
   });

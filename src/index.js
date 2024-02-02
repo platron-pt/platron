@@ -16,6 +16,7 @@ import * as bootstrap from "bootstrap";
 import { NavbarButton } from "./ui/Sidebar.js";
 import classNames from "classnames";
 import Logs from "./ui/Logs.js";
+import { Logger } from "sass";
 
 window.$ = window.jQuery = jq;
 
@@ -47,8 +48,6 @@ let restartReminded = false;
 let curOpr = "";
 
 let dsMode = "adb";
-window.selectedADBDevices = new Set();
-window.selectedFbDevices = new Set();
 
 function renderNavbar(elements) {
   const navbarRoot = ReactDOM.createRoot(document.getElementById("navbar"));
@@ -362,8 +361,10 @@ export function cleanLogs(channel) {
 const renderUI = () => {
   const root = ReactDOM.createRoot(document.getElementById("root"));
 
-  function BigRootElements() {
+  function BigRootElements(props) {
     const [currentOperation, setOperation] = useState("");
+    const [logGroups, setLogGroups] = useState([{ channel: "main", logs: [] }]);
+
     return (
       <div id="main-content" className={classNames("d-flex", "flex-row")}>
         <div id="sidebar">
@@ -387,26 +388,56 @@ const renderUI = () => {
           lang={lang}
           msg={messages}
           currentOperation={currentOperation}
+          logGroups={logGroups}
+          setLogGroups={setLogGroups}
+          selectedADBDevices={props.selectedADBDevices}
+          selectedFBDevices={props.selectedFBDevices}
         />
-        <Logs />
+        <Logs logGroups={logGroups} setLogGroups={setLogGroups} />
       </div>
     );
   }
-  // bigRoot.render(<BigRootElements />);
-  root.render(
-    <>
-      {/* Modal of device selector */}
-      <DeviceSelectorModal title={messages.devices.selectDevices} />
-      <div
-        id="winCtrl-bar"
-        className={classNames("d-flex", "flex-row-reverse")}
-      >
-        <Navbar dsbtn={messages.ui.deviceSelectorBtn} />
-      </div>
 
-      <BigRootElements />
-    </>
-  );
+  function App() {
+    // (get/set)(found/selected)(adb/fb)
+    const [gfa, sfa] = useState([]);
+    const [gff, sff] = useState([]);
+
+    const [gsa, ssa] = useState(() => new Set());
+    const [gsf, ssf] = useState(() => new Set());
+
+    return (
+      <>
+        {/* Modal of device selector */}
+        <DeviceSelectorModal
+          title={messages.devices.selectDevices}
+          gfa={gfa}
+          sfa={sfa}
+          gff={gff}
+          sff={sff}
+          gsa={gsa}
+          ssa={ssa}
+          gsf={gsf}
+          ssf={ssf}
+        />
+        <div
+          id="winCtrl-bar"
+          className={classNames("d-flex", "flex-row-reverse")}
+        >
+          <Navbar dsbtn={messages.ui.deviceSelectorBtn} />
+        </div>
+
+        <BigRootElements
+          selectedADBDevices={gsa}
+          selectedFBDevices={gsf}
+          foundADBDevices={gfa}
+          foundFBDevices={gff}
+        />
+      </>
+    );
+  }
+
+  root.render(<App />);
 
   $(function () {
     // api.handle("print-log", ([channel, text]) => {
@@ -423,8 +454,7 @@ const renderUI = () => {
     //       break;
     //     case "update-available":
     //       $("#eaf-updater").append(`<p class="h5">${
-    //         messages.update.updatingTo + updateInfo.version
-    //       }<p><div
+    //         messages.update.updatingTREDUX_DEVTOOLS
     //           class="spinner-border spinner-border-sm ms-auto"
     //           role="status"
     //           aria-hidden="true"

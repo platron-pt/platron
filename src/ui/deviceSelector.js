@@ -9,24 +9,16 @@ function Device(props) {
   const checked = props.checked;
   const selectedDevices = new Set(props.selectedDevices);
   const setSelectedDevices = props.setSelectedDevices;
+  const index = props.index;
 
   function handleChange(event) {
     event.target.checked ? selectedDevices.add(sn) : selectedDevices.delete(sn);
-    switch (mode) {
-      case "adb":
-        window.selectedADBDevices = selectedDevices;
-        break;
-      case "fb":
-        window.selectedFbDevices=selectedDevices;
-        console.log(window.selectedFbDevices);
-        break;
-    }
-    setSelectedDevices(selectedDevices);
     
+    setSelectedDevices(selectedDevices);
   }
   return (
     <tr>
-      <td></td>
+      <td>{index + 1}</td>
       <td>{sn}</td>
       <td>{stat}</td>
       <td>
@@ -45,10 +37,11 @@ function Device(props) {
   );
 }
 
-function DeviceTable(options) {
-  const [selectedDevices, setSelectedDevices] = useState(() => new Set());
-  const mode = options.mode;
-  const foundDevices = options.foundDevices;
+function DeviceTable(props) {
+  const selectedDevices = props.selectedDevices;
+  const setSelectedDevices = props.setSelectedDevices;
+  const mode = props.mode;
+  const foundDevices = props.foundDevices;
 
   return (
     <table className="table">
@@ -61,16 +54,17 @@ function DeviceTable(options) {
         </tr>
       </thead>
       <tbody id={`ds-${mode}-tbody`}>
-        {foundDevices.map((i) => {
+        {foundDevices.map((element, index) => {
           return (
             <Device
-              sn={i[0]}
-              stat={i[1]}
-              checked={selectedDevices.has(i[0])}
+              sn={element[0]}
+              stat={element[1]}
+              checked={selectedDevices.has(element[0])}
               mode={mode}
               selectedDevices={selectedDevices}
               setSelectedDevices={setSelectedDevices}
-              key={i[0]}
+              key={element[0]}
+              index={index}
             />
           );
         })}
@@ -80,23 +74,27 @@ function DeviceTable(options) {
 }
 
 export default function DeviceSelectorModal(props) {
-  // console.log()
-  const [foundADBDevices, setFoundADBDevices] = React.useState([]);
-  const [foundFBDevices, setFoundFBDevices] = React.useState([]);
+  // (get/set)(found/selected)(adb/fb)
+  const gfa = props.gfa;
+  const sfa = props.sfa;
+  const gff = props.gff;
+  const sff = props.sff;
+  const gsa = props.gsa;
+  const ssa = props.ssa;
+  const gsf = props.gsf;
+  const ssf = props.ssf;
 
-  // setFoundFBDevices(["test", "device"]);
-  // setFoundADBDevices(["test", "device"]);
   function handleRefreshClick() {
-    console.log(foundADBDevices);
-    console.log(foundFBDevices);
+    console.log(gfa);
+    console.log(gff);
 
     api.invoke("get-devices", "adb").then((res) => {
       const stdout = res.stdout;
-      setFoundADBDevices(deviceParser.parseADB(stdout));
+      sfa(deviceParser.parseADB(stdout));
     });
     api.invoke("get-devices", "fb").then((res) => {
       const stdout = res.stdout;
-      setFoundFBDevices(deviceParser.parseFB(stdout));
+      sff(deviceParser.parseFB(stdout));
     });
   }
 
@@ -162,20 +160,7 @@ export default function DeviceSelectorModal(props) {
                 className="btn btn-info"
                 onClick={handleRefreshClick}
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width={16}
-                  height={16}
-                  fill="currentColor"
-                  className="bi bi-arrow-clockwise"
-                  viewBox="0 0 16 16"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"
-                  />
-                  <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z" />
-                </svg>
+                <i className={classNames("bi", "bi-arrow-clockwise")}></i>
               </button>
             </div>
             <div className="tab-content" id="ds-device-type">
@@ -186,7 +171,12 @@ export default function DeviceSelectorModal(props) {
                 aria-labelledby="ds-adb-tab"
                 tabIndex={0}
               >
-                <DeviceTable mode="adb" foundDevices={foundADBDevices} />
+                <DeviceTable
+                  mode="adb"
+                  foundDevices={gfa}
+                  selectedDevices={gsa}
+                  setSelectedDevices={ssa}
+                />
               </div>
               <div
                 className="tab-pane fade"
@@ -195,7 +185,12 @@ export default function DeviceSelectorModal(props) {
                 aria-labelledby="ds-fb-tab"
                 tabIndex={0}
               >
-                <DeviceTable mode="fb" foundDevices={foundFBDevices} />
+                <DeviceTable
+                  mode="fb"
+                  foundDevices={gff}
+                  selectedDevices={gsf}
+                  setSelectedDevices={ssf}
+                />
               </div>
             </div>
           </div>
