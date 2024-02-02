@@ -84,7 +84,7 @@ export default function DeviceSelectorModal(props) {
   const gsf = props.gsf;
   const ssf = props.ssf;
 
-  function handleRefreshClick() {
+  function handleClick() {
     console.log(gfa);
     console.log(gff);
 
@@ -158,7 +158,7 @@ export default function DeviceSelectorModal(props) {
               <button
                 id="refresh-devices"
                 className="btn btn-info"
-                onClick={handleRefreshClick}
+                onClick={handleClick}
               >
                 <i className={classNames("bi", "bi-arrow-clockwise")}></i>
               </button>
