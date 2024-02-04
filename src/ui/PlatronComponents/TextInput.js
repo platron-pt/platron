@@ -22,7 +22,7 @@ const TextInput = React.forwardRef(function TextInput(props, ref) {
     const currentStatus = merge(status, {
       [keyPath]: { radio: "other" },
     });
-    console.log(Object.is(status,currentStatus))
+    console.log(Object.is(status, currentStatus));
     setStatus(currentStatus);
   }
 
@@ -35,7 +35,13 @@ const TextInput = React.forwardRef(function TextInput(props, ref) {
       onChange={handleChange}
       onFocus={handleFocus}
       ref={ref}
-      value={keyPath in status ? status[keyPath].textInput : ""}
+      value={
+        keyPath in status
+          ? !!status[keyPath].textInput
+            ? status[keyPath].textInput
+            : ""
+          : ""
+      }
     />
   );
 });

@@ -1,6 +1,6 @@
 import React from "react";
 import classNames from "classnames";
-const merge=require("deepmerge")
+const merge = require("deepmerge");
 
 function Radio(props) {
   const name = props.name;
@@ -9,7 +9,7 @@ function Radio(props) {
   const text = props.text;
   const misc = props.misc;
   const status = props.status;
-  const inputRef=props.inputRef
+  const inputRef = props.inputRef;
   const setStatus = props.setStatus;
 
   function handleChange(e) {
@@ -18,8 +18,8 @@ function Radio(props) {
       [keyPath]: { radio: e.target.value },
     });
     setStatus(currentStatus);
-    
-    if(e.target.value=="other"){
+
+    if (e.target.value == "other") {
       inputRef.current.focus();
     }
   }
@@ -33,7 +33,11 @@ function Radio(props) {
         id={keyPath + "-" + value}
         defaultValue={value}
         checked={
-          keyPath in status ? value == status[keyPath].radio : misc
+          keyPath in status
+            ? value == status[keyPath].radio
+            : !!misc
+            ? misc
+            : ""
         }
         onChange={handleChange}
       />
