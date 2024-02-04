@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import React from "react";
+import platformInfo from "../../Platform";
 
 function StartBtn(props) {
   const name = props.name;
@@ -7,11 +8,54 @@ function StartBtn(props) {
   const script = props.script;
   const gsa = props.selectedADBDevices;
   const gsf = props.selectedFBDevices;
+  const status = props.status;
+  const keyPath = props.keyPath;
 
-  function runIfDeviceIsStillOnline(foundDevices, msgToCheck) {
+  function runPlatformToolsCommand(params, index) {
+    params.push(script[index].verb);
+    params.push(
+      ...script[index].params.map((element) => {
+        switch (element) {
+          case "$file":
+            return status[keyPath].filePath;
+            break;
+          case "$radio":
+            if (status[keyPath].radio == "other") {
+              status[keyPath].textInput;
+            } else {
+              return status[keyPath].radio;
+            }
+            break;
+          default:
+            return element;
+            break;
+        }
+      })
+    );
+
+    let fileExtension = "";
+    let execDir = "";
+    let execFile = "";
+    if (platformInfo.platform == "win32") {
+      execDir = ".\\platform-tools-win\\";
+      fileExtension = ".exe";
+    }
+    if (platformInfo.platform == "linux") {
+      execDir = "./platform-tools-linux/";
+    }
+    execFile = execDir + script[index].mode + fileExtension;
+
+    console.log(execFile, params);
+  }
+
+  function runIfDeviceIsStillOnline(foundDevices, msgToCheck, scriptIndex) {
     foundDevices.some((element, index) => {
       if (msgToCheck.indexOf(element) >= 0) {
-        console.log(foundDevices[index]);
+        const params = [];
+        params.push("-s");
+        params.push(foundDevices[index]);
+
+        runPlatformToolsCommand(params, scriptIndex);
       }
     });
   }
@@ -20,17 +64,25 @@ function StartBtn(props) {
     console.log(...script);
     console.log(gsa, gsf);
 
-    script.map((element) => {
-      console.log(element);
+    script.forEach((element, index) => {
       if (element.mode == "adb") {
-        api.invoke("get-devices", "adb").then((res) => {
-          runIfDeviceIsStillOnline(Array.from(gsa), res.stdout);
-        });
+        if (gsa.size) {
+          api.invoke("get-devices", "adb").then((res) => {
+            runIfDeviceIsStillOnline(Array.from(gsa), res.stdout, index);
+          });
+        } else {
+          runPlatformToolsCommand([]);
+        }
       }
-      if (element.mode == "fastbooot") {
-        api.invoke("get-devices", "fb").then((res) => {
-          runIfDeviceIsStillOnline(Array.from(gsf), res.stdout);
-        });
+
+      if (element.mode == "fastboot") {
+        if (gsf.size) {
+          api.invoke("get-devices", "fb").then((res) => {
+            runIfDeviceIsStillOnline(Array.from(gsf), res.stdout, index);
+          });
+        } else {
+          runPlatformToolsCommand([], index);
+        }
       }
     });
   }

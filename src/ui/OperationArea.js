@@ -30,6 +30,8 @@ function Content(props) {
   const script = props.script;
 
   console.log(status);
+  
+  // Object.assign(status, { [keyPath]: null });
 
   const result = content.map((element, index) => {
     const type = element.type;
@@ -90,6 +92,7 @@ function Content(props) {
         script={script}
         selectedADBDevices={props.selectedADBDevices}
         selectedFBDevices={props.selectedFBDevices}
+        keyPath={keyPath}
       />
     );
   }

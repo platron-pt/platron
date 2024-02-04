@@ -16,7 +16,8 @@ import * as bootstrap from "bootstrap";
 import { NavbarButton } from "./ui/Sidebar.js";
 import classNames from "classnames";
 import Logs from "./ui/Logs.js";
-import { Logger } from "sass";
+
+import platformInfo from "./Platform.js";
 
 window.$ = window.jQuery = jq;
 
@@ -31,6 +32,7 @@ api.invoke("get-os-type").then((result) => (osType = result));
 api.invoke("get-os-release").then((result) => (osRelease = result));
 api.invoke("get-platform").then((result) => (getPlatform = result));
 api.invoke("get-version").then((result) => (_version = result));
+
 api.invoke("messages").then((res) => {
   messages = res;
 });
@@ -179,10 +181,10 @@ function renderAbouts(opArea) {
   const crVersion = parseInt(raw[2], 10);
   opArea.append(`<div class="card mb-2">
     <div class="card-body">
-      <h6 class="card-title">${messages.info.appVersion}${_version}</h6>
+      <h6 class="card-title">${messages.info.appVersion}${platformInfo.appVersion}</h6>
       <h6 class="card-title">${messages.info.chromeVersion}${crVersion}</h6>
-      <h6 class="card-title">${messages.info.osType}${osType}</h6>
-      <h6 class="card-title">${messages.info.osVersion}${osRelease}</h6>
+      <h6 class="card-title">${messages.info.osType}${platformInfo.os.type}</h6>
+      <h6 class="card-title">${messages.info.osVersion}${platformInfo.os.release}</h6>
     </div>
   </div>`);
 }
@@ -262,11 +264,11 @@ function printLogs(channel, data) {
 export function runScript(path, name) {
   let fileExtension = "";
   let execDir = "";
-  if (getPlatform == "win32") {
+  if (platformInfo.platform == "win32") {
     execDir = ".\\platform-tools-win\\";
     fileExtension = ".exe";
   }
-  if (getPlatform == "linux") {
+  if (platformInfo.platform == "linux") {
     execDir = "./platform-tools-linux/";
   }
   const scripts = keyPath2obj(path, oprs).script;
@@ -392,6 +394,7 @@ const renderUI = () => {
           setLogGroups={setLogGroups}
           selectedADBDevices={props.selectedADBDevices}
           selectedFBDevices={props.selectedFBDevices}
+          
         />
         <Logs logGroups={logGroups} setLogGroups={setLogGroups} />
       </div>

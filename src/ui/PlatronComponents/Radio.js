@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import classNames from "classnames";
 const merge = require("deepmerge");
 
@@ -11,6 +11,15 @@ function Radio(props) {
   const status = props.status;
   const inputRef = props.inputRef;
   const setStatus = props.setStatus;
+
+  useEffect(() => {
+    if(misc=="checked"){
+      const currentStatus = merge(status, {
+        [keyPath]: { radio: value },
+      });
+      setStatus(currentStatus);
+    }
+  },[]);
 
   function handleChange(e) {
     e.stopPropagation();
