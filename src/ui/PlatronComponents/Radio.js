@@ -13,13 +13,13 @@ function Radio(props) {
   const setStatus = props.setStatus;
 
   useEffect(() => {
-    if(misc=="checked"){
+    if (misc == "checked" && status[keyPath] == undefined) {
       const currentStatus = merge(status, {
         [keyPath]: { radio: value },
       });
       setStatus(currentStatus);
     }
-  },[]);
+  }, []);
 
   function handleChange(e) {
     e.stopPropagation();
