@@ -19,7 +19,6 @@ const { promisify } = require("node:util");
 const promisifiedExec = promisify(child_process.execFile);
 console.debug("Welcome to EAF v" + app.getVersion());
 
-
 let config, updaterStatus, lang, messages;
 if (isPackaged) {
   config = require("../../config.json");
@@ -73,7 +72,7 @@ if (platform == "linux") {
 }
 
 if (!isPackaged || channel == "beta") {
-  console.log("has DevTools!")
+  console.log("has DevTools!");
   hasDevtools = true;
 }
 
@@ -222,6 +221,15 @@ ipcMain.on("quit-beta", (e) => {
   });
 });
 
+const platformInfo = {
+  os: {
+    type: os.type(),
+    release: os.release(),
+    platform: os.platform(),
+  },
+  appVersion: app.getVersion(),
+};
+
 ipcMain.handle("get-platform", async () => {
   return platform;
 });
@@ -234,6 +242,11 @@ ipcMain.handle("get-os-type", async () => {
 ipcMain.handle("get-os-release", async () => {
   return os.release();
 });
+
+ipcMain.handle("get-platform-info", async () => {
+  return  platformInfo;
+});
+
 ipcMain.handle("get-config", async () => {
   return config;
 });

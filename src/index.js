@@ -17,21 +17,18 @@ import { NavbarButton } from "./ui/Sidebar.js";
 import classNames from "classnames";
 import Logs from "./ui/Logs.js";
 
-import platformInfo from "./Platform.js";
 
 window.$ = window.jQuery = jq;
 
-let getPlatform;
-
-let _version;
-let osType;
-let osRelease;
 let messages;
 let lang;
-api.invoke("get-os-type").then((result) => (osType = result));
-api.invoke("get-os-release").then((result) => (osRelease = result));
-api.invoke("get-platform").then((result) => (getPlatform = result));
-api.invoke("get-version").then((result) => (_version = result));
+
+
+let platformInfo={}
+
+api.invoke("get-platform-info").then(result=>{
+  platformInfo=result
+})
 
 api.invoke("messages").then((res) => {
   messages = res;
@@ -394,6 +391,7 @@ const renderUI = () => {
           setLogGroups={setLogGroups}
           selectedADBDevices={props.selectedADBDevices}
           selectedFBDevices={props.selectedFBDevices}
+          platformInfo={platformInfo}
           
         />
         <Logs logGroups={logGroups} setLogGroups={setLogGroups} />

@@ -93,6 +93,7 @@ function Content(props) {
         selectedADBDevices={props.selectedADBDevices}
         selectedFBDevices={props.selectedFBDevices}
         keyPath={keyPath}
+        platformInfo={props.platformInfo}
       />
     );
   }
@@ -128,6 +129,7 @@ function OperationBox(props) {
           script={content.script}
           selectedADBDevices={props.selectedADBDevices}
           selectedFBDevices={props.selectedFBDevices}
+          platformInfo={props.platformInfo}
         />
       </>
     );
@@ -145,6 +147,7 @@ export function OperationArea(props) {
           currentOperation={props.currentOperation}
           selectedADBDevices={props.selectedADBDevices}
           selectedFBDevices={props.selectedFBDevices}
+          platformInfo={props.platformInfo}
         />
       </div>
     </div>

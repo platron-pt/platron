@@ -1,6 +1,5 @@
 import classNames from "classnames";
 import React from "react";
-import platformInfo from "../../Platform";
 
 function StartBtn(props) {
   const name = props.name;
@@ -10,8 +9,12 @@ function StartBtn(props) {
   const gsf = props.selectedFBDevices;
   const status = props.status;
   const keyPath = props.keyPath;
+  const platformInfo=props.platformInfo
 
   function runPlatformToolsCommand(params, index) {
+
+    console.log(platformInfo)
+
     params.push(script[index].verb);
     params.push(
       ...script[index].params.map((element) => {
@@ -36,11 +39,11 @@ function StartBtn(props) {
     let fileExtension = "";
     let execDir = "";
     let execFile = "";
-    if (platformInfo.platform == "win32") {
+    if (platformInfo.os.platform == "win32") {
       execDir = ".\\platform-tools-win\\";
       fileExtension = ".exe";
     }
-    if (platformInfo.platform == "linux") {
+    if (platformInfo.os.platform == "linux") {
       execDir = "./platform-tools-linux/";
     }
     execFile = execDir + script[index].mode + fileExtension;
