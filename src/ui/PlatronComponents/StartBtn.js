@@ -1,4 +1,5 @@
 import classNames from "classnames";
+import { param } from "jquery";
 import React from "react";
 
 function StartBtn(props) {
@@ -49,6 +50,7 @@ function StartBtn(props) {
     execFile = execDir + script[index].mode + fileExtension;
 
     console.log(execFile, params);
+    api.runCommand(execFile,params)
   }
 
   function runIfDeviceIsStillOnline(foundDevices, msgToCheck, scriptIndex) {
