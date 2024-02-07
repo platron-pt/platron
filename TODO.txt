@@ -8,10 +8,10 @@ optimize append on startup
 move to offcanvas
 commonly used commands
 android flash tool
-replace for using map
 appimage support
 open correct tab in device manager
 windouws-ui.github.io ?
 split js files
 acrylic window
 not including some files when building
+use map object
