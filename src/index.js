@@ -360,7 +360,7 @@ const renderUI = () => {
 
   function BigRootElements(props) {
     const [currentOperation, setOperation] = useState("");
-    const [logGroups, setLogGroups] = useState(() => new Map());
+    const [logGroups, setLogGroups] = useState(() => new Map([["main", ""]]));
 
     return (
       <div id="main-content" className={classNames("d-flex", "flex-row")}>

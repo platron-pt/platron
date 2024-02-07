@@ -1,13 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import classNames from "classnames";
-import { Logger } from "sass";
 
 function LogBox(props) {
+  const logGroups = props.logGroups;
+  const setLogGroups = props.setLogGroups
   const channel = props.channel;
   const logs = props.logs;
 
   function handleClick(e) {
-    console.log(e);
+    const currentLogs=new Map(logGroups)
+    if (channel == "main") {
+      currentLogs.set(channel,"")
+    } else {
+      currentLogs.delete(channel);
+    }
+
+    setLogGroups(currentLogs)
   }
 
   return (
@@ -36,7 +44,13 @@ function LogBox(props) {
             {logs}
           </p>
           <button className="btn btn-primary float-end" onClick={handleClick}>
-            <i className={classNames("bi", "bi-x-lg")}></i>
+            <i
+              className={
+                channel == "main"
+                  ? classNames("bi", "bi-trash")
+                  : classNames("bi", "bi-x-lg")
+              }
+            ></i>
           </button>
         </div>
       </div>
@@ -47,6 +61,7 @@ function LogBox(props) {
 function Logs(props) {
   const logGroups = props.logGroups;
   const setLogGroups = props.setLogGroups;
+  console.log(logGroups)
 
   useEffect(() => {
     const currentLogs = new Map(logGroups);
@@ -60,7 +75,15 @@ function Logs(props) {
 
   const resultArr = [];
   logGroups.forEach((value, key) => {
-    resultArr.push(<LogBox channel={key} logs={value} key={key} />);
+    resultArr.push(
+      <LogBox
+        logGroups={logGroups}
+        setLogGroups={setLogGroups}
+        channel={key}
+        logs={value}
+        key={key}
+      />
+    );
   });
 
   return (
