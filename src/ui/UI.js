@@ -29,7 +29,7 @@ export const oprs = {
           },
           {
             type: "radio",
-            value: "system",
+            value: "",
           },
           {
             type: "radio",
@@ -248,7 +248,7 @@ export const oprs = {
           },
           {
             type: "radio",
-            value: "system",
+            value: "",
           },
           {
             type: "radio",
