@@ -83,7 +83,6 @@ export default function DeviceSelectorModal(props) {
 
   useEffect(() => {
     api.handle("got-devices-v2", ([mode, data]) => {
-      console.log(data)
       switch (mode) {
         case "adb":
           sfa(deviceParser.parseADB(data));

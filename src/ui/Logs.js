@@ -35,23 +35,25 @@ function LogBox(props) {
         id={"logs-" + channel}
         className={classNames("accordion-collapse", "collapse")}
       >
-        <div className={classNames("accordion-body", "logs-body")}>
+        <div className={classNames("accordion-body")}>
           <p
             id={"logs-body" + channel}
-            className="font-monospace"
+            className="font-monospace logs-body"
             style={{ whiteSpace: "pre" }}
           >
             {logs}
           </p>
-          <button className="btn btn-primary float-end" onClick={handleClick}>
-            <i
-              className={
-                channel == "main"
-                  ? classNames("bi", "bi-trash")
-                  : classNames("bi", "bi-x-lg")
-              }
-            ></i>
-          </button>
+          <div className="d-flex justify-content-end">
+            <button className="btn btn-primary" onClick={handleClick}>
+              <i
+                className={
+                  channel == "main"
+                    ? classNames("bi", "bi-trash")
+                    : classNames("bi", "bi-x-lg")
+                }
+              ></i>
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -61,7 +63,6 @@ function LogBox(props) {
 function Logs(props) {
   const logGroups = props.logGroups;
   const setLogGroups = props.setLogGroups;
-  console.log(logGroups)
 
   useEffect(() => {
     const currentLogs = new Map(logGroups);

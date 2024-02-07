@@ -12,10 +12,6 @@ function StartBtn(props) {
   const platformInfo = props.platformInfo;
 
   function runPlatformToolsCommand(params, index) {
-    console.log(platformInfo);
-
-    console.log(script,index)
-
     params.push(script[index].verb);
     params.push(
       ...script[index].params.map((element) => {
@@ -49,7 +45,6 @@ function StartBtn(props) {
     }
     execFile = execDir + script[index].mode + fileExtension;
 
-    console.log(execFile, params);
     api.runCommand(execFile, params);
   }
 
@@ -69,10 +64,7 @@ function StartBtn(props) {
     });
   }
 
-  function handleClick(e) {
-    console.log(...script);
-    console.log(selectedDevices);
-
+  function handleClick() {
     script.forEach((element, index) => {
       if (element.mode == "adb") {
         if (selectedDevices.size) {

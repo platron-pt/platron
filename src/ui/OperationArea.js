@@ -29,10 +29,6 @@ function Content(props) {
   const startBtnTxt = props.startBtnTxt;
   const script = props.script;
 
-  console.log(status);
-  
-  // Object.assign(status, { [keyPath]: null });
-
   const result = content.map((element, index) => {
     const type = element.type;
     const value = element.value;
