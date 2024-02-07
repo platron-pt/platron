@@ -6,15 +6,15 @@ function StartBtn(props) {
   const name = props.name;
   const text = props.text;
   const script = props.script;
-  const gsa = props.selectedADBDevices;
-  const gsf = props.selectedFBDevices;
+  const selectedDevices = props.selectedDevices;
   const status = props.status;
   const keyPath = props.keyPath;
-  const platformInfo=props.platformInfo
+  const platformInfo = props.platformInfo;
 
   function runPlatformToolsCommand(params, index) {
+    console.log(platformInfo);
 
-    console.log(platformInfo)
+    console.log(script,index)
 
     params.push(script[index].verb);
     params.push(
@@ -50,40 +50,44 @@ function StartBtn(props) {
     execFile = execDir + script[index].mode + fileExtension;
 
     console.log(execFile, params);
-    api.runCommand(execFile,params)
+    api.runCommand(execFile, params);
   }
 
   function runIfDeviceIsStillOnline(foundDevices, msgToCheck, scriptIndex) {
     foundDevices.some((element, index) => {
+      let selectedDeviceFound = 0;
       if (msgToCheck.indexOf(element) >= 0) {
         const params = [];
         params.push("-s");
         params.push(foundDevices[index]);
-
+        selectedDeviceFound = 1;
         runPlatformToolsCommand(params, scriptIndex);
+      }
+      if (!selectedDeviceFound) {
+        runPlatformToolsCommand([], scriptIndex);
       }
     });
   }
 
   function handleClick(e) {
     console.log(...script);
-    console.log(gsa, gsf);
+    console.log(selectedDevices);
 
     script.forEach((element, index) => {
       if (element.mode == "adb") {
-        if (gsa.size) {
+        if (selectedDevices.size) {
           api.invoke("get-devices", "adb").then((res) => {
-            runIfDeviceIsStillOnline(Array.from(gsa), res.stdout, index);
+            runIfDeviceIsStillOnline(Array.from(selectedDevices), res.stdout, index);
           });
         } else {
-          runPlatformToolsCommand([]);
+          runPlatformToolsCommand([],index);
         }
       }
 
       if (element.mode == "fastboot") {
-        if (gsf.size) {
+        if (selectedDevices.size) {
           api.invoke("get-devices", "fb").then((res) => {
-            runIfDeviceIsStillOnline(Array.from(gsf), res.stdout, index);
+            runIfDeviceIsStillOnline(Array.from(selectedDevices), res.stdout, index);
           });
         } else {
           runPlatformToolsCommand([], index);

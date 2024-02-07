@@ -2,6 +2,10 @@ import classNames from "classnames";
 import React from "react";
 
 export function Navbar(props) {
+  function handleClick() {
+    api.send("get-devices-v2", "adb")
+    api.send("get-devices-v2", "fb")
+  }
   return (
     <>
       <button
@@ -30,6 +34,7 @@ export function Navbar(props) {
         id="devices-btn"
         data-bs-toggle="modal"
         data-bs-target="#device-selector"
+        onClick={handleClick}
       >
         <h6 className="mb-0">{props.dsbtn}</h6>
       </button>

@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import classNames from "classnames";
 import { Logger } from "sass";
 
 function LogBox(props) {
   const channel = props.channel;
+  const logs = props.logs;
 
   function handleClick(e) {
     console.log(e);
@@ -27,7 +28,13 @@ function LogBox(props) {
         className={classNames("accordion-collapse", "collapse")}
       >
         <div className={classNames("accordion-body", "logs-body")}>
-          <p id={"logs-body" + channel} className="font-monospace"></p>
+          <p
+            id={"logs-body" + channel}
+            className="font-monospace"
+            style={{ whiteSpace: "pre" }}
+          >
+            {logs}
+          </p>
           <button className="btn btn-primary float-end" onClick={handleClick}>
             <i className={classNames("bi", "bi-x-lg")}></i>
           </button>
@@ -41,13 +48,24 @@ function Logs(props) {
   const logGroups = props.logGroups;
   const setLogGroups = props.setLogGroups;
 
+  useEffect(() => {
+    const currentLogs = new Map(logGroups);
+    api.handle("print-log", ([channel, text]) => {
+      const currentText =
+        currentLogs.get(channel) == undefined ? "" : currentLogs.get(channel);
+      currentLogs.set(channel, currentText + text);
+      setLogGroups(currentLogs);
+    });
+  });
+
+  const resultArr = [];
+  logGroups.forEach((value, key) => {
+    resultArr.push(<LogBox channel={key} logs={value} key={key} />);
+  });
+
   return (
     <div id="log-box">
-      <div className="accordion">
-        {logGroups.map((element) => {
-          return <LogBox channel={element.channel} logs={element.logs} key={element.channel} />;
-        })}
-      </div>
+      <div className="accordion">{resultArr}</div>
     </div>
   );
 }

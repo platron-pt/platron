@@ -17,18 +17,16 @@ import { NavbarButton } from "./ui/Sidebar.js";
 import classNames from "classnames";
 import Logs from "./ui/Logs.js";
 
-
 window.$ = window.jQuery = jq;
 
 let messages;
 let lang;
 
+let platformInfo = {};
 
-let platformInfo={}
-
-api.invoke("get-platform-info").then(result=>{
-  platformInfo=result
-})
+api.invoke("get-platform-info").then((result) => {
+  platformInfo = result;
+});
 
 api.invoke("messages").then((res) => {
   messages = res;
@@ -362,7 +360,7 @@ const renderUI = () => {
 
   function BigRootElements(props) {
     const [currentOperation, setOperation] = useState("");
-    const [logGroups, setLogGroups] = useState([{ channel: "main", logs: [] }]);
+    const [logGroups, setLogGroups] = useState(() => new Map());
 
     return (
       <div id="main-content" className={classNames("d-flex", "flex-row")}>
@@ -389,10 +387,8 @@ const renderUI = () => {
           currentOperation={currentOperation}
           logGroups={logGroups}
           setLogGroups={setLogGroups}
-          selectedADBDevices={props.selectedADBDevices}
-          selectedFBDevices={props.selectedFBDevices}
+          selectedDevices={props.selectedDevices}
           platformInfo={platformInfo}
-          
         />
         <Logs logGroups={logGroups} setLogGroups={setLogGroups} />
       </div>
@@ -404,8 +400,7 @@ const renderUI = () => {
     const [gfa, sfa] = useState([]);
     const [gff, sff] = useState([]);
 
-    const [gsa, ssa] = useState(() => new Set());
-    const [gsf, ssf] = useState(() => new Set());
+    const [selectedDevices, setSelectedDevices] = useState(() => new Set());
 
     return (
       <>
@@ -416,10 +411,8 @@ const renderUI = () => {
           sfa={sfa}
           gff={gff}
           sff={sff}
-          gsa={gsa}
-          ssa={ssa}
-          gsf={gsf}
-          ssf={ssf}
+          selectedDevices={selectedDevices}
+          setSelectedDevices={setSelectedDevices}
         />
         <div
           id="winCtrl-bar"
@@ -429,8 +422,7 @@ const renderUI = () => {
         </div>
 
         <BigRootElements
-          selectedADBDevices={gsa}
-          selectedFBDevices={gsf}
+          selectedDevices={selectedDevices}
           foundADBDevices={gfa}
           foundFBDevices={gff}
         />

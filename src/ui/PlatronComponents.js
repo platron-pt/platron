@@ -7,7 +7,7 @@ const PlatronComponents = {
   radio: Radio,
   file: File,
   textInput: TextInput,
-  startBtn:StartBtn
+  startBtn: StartBtn,
 };
 
 export default PlatronComponents;

@@ -90,8 +90,7 @@ function Content(props) {
         key="sbtn"
         status={status}
         script={script}
-        selectedADBDevices={props.selectedADBDevices}
-        selectedFBDevices={props.selectedFBDevices}
+        selectedDevices={props.selectedDevices}
         keyPath={keyPath}
         platformInfo={props.platformInfo}
       />
@@ -127,8 +126,7 @@ function OperationBox(props) {
           startBtnTxt={msg.ui.startBtn}
           noStartButton={content.noStartButton}
           script={content.script}
-          selectedADBDevices={props.selectedADBDevices}
-          selectedFBDevices={props.selectedFBDevices}
+          selectedDevices={props.selectedDevices}
           platformInfo={props.platformInfo}
         />
       </>
@@ -145,8 +143,8 @@ export function OperationArea(props) {
           lang={props.lang}
           msg={props.msg}
           currentOperation={props.currentOperation}
-          selectedADBDevices={props.selectedADBDevices}
-          selectedFBDevices={props.selectedFBDevices}
+          selectedDevices={props.selectedDevices}
+          
           platformInfo={props.platformInfo}
         />
       </div>

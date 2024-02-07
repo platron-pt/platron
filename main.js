@@ -14,7 +14,7 @@ const os = require("os");
 const platform = os.platform();
 const { autoUpdater } = require("electron-updater");
 const { INSPECT_MAX_BYTES, constants } = require("buffer");
-const { connected } = require("process");
+const { connected, stderr } = require("process");
 const { promisify } = require("node:util");
 const promisifiedExec = promisify(child_process.execFile);
 console.debug("Welcome to EAF v" + app.getVersion());
@@ -173,6 +173,32 @@ const createWindow = () => {
       }
     });
   });
+
+  ipcMain.on("get-devices-v2", (e, mode) => {
+    let exec = "";
+    switch (mode) {
+      case "adb":
+        exec = adbPath;
+        break;
+      case "fb":
+        exec = fbPath;
+        break;
+      default:
+        break;
+    }
+    const process = child_process.execFile(
+      exec,
+      ["devices"],
+      (error, stdout, stderr) => {
+        if (error) {
+          throw error;
+        }
+        
+        win.webContents.send("got-devices-v2", [mode, `${stdout}`]);
+      }
+    );
+  });
+
   ipcMain.on("write-file", (e, fileName, data) => {
     writeFile(fileName, data);
   });
@@ -244,7 +270,7 @@ ipcMain.handle("get-os-release", async () => {
 });
 
 ipcMain.handle("get-platform-info", async () => {
-  return  platformInfo;
+  return platformInfo;
 });
 
 ipcMain.handle("get-config", async () => {

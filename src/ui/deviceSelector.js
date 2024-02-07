@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import deviceParser from "../devices/deviceParser.js";
 
 function Device(props) {
@@ -13,7 +13,6 @@ function Device(props) {
 
   function handleChange(event) {
     event.target.checked ? selectedDevices.add(sn) : selectedDevices.delete(sn);
-    
     setSelectedDevices(selectedDevices);
   }
   return (
@@ -79,23 +78,30 @@ export default function DeviceSelectorModal(props) {
   const sfa = props.sfa;
   const gff = props.gff;
   const sff = props.sff;
-  const gsa = props.gsa;
-  const ssa = props.ssa;
-  const gsf = props.gsf;
-  const ssf = props.ssf;
+  const selectedDevices = props.selectedDevices;
+  const setSelectedDevices = props.setSelectedDevices;
+
+  useEffect(() => {
+    api.handle("got-devices-v2", ([mode, data]) => {
+      console.log(data)
+      switch (mode) {
+        case "adb":
+          sfa(deviceParser.parseADB(data));
+        case "fb":
+          sff(deviceParser.parseFB(data));
+      }
+    });
+  });
 
   function handleClick() {
-    console.log(gfa);
-    console.log(gff);
-
-    api.invoke("get-devices", "adb").then((res) => {
-      const stdout = res.stdout;
-      sfa(deviceParser.parseADB(stdout));
-    });
-    api.invoke("get-devices", "fb").then((res) => {
-      const stdout = res.stdout;
-      sff(deviceParser.parseFB(stdout));
-    });
+    // api.invoke("get-devices", "adb").then((res) => {
+    //   const stdout = res.stdout;
+    //   sfa(deviceParser.parseADB(從側邊欄選取功b").then((res) => {
+    //   const stdout = res.stdout;
+    //   sff(deviceParser.parseFB(stdout));
+    // });
+    api.send("get-devices-v2", "adb");
+    api.send("get-devices-v2", "fb");
   }
 
   return (
@@ -174,8 +180,8 @@ export default function DeviceSelectorModal(props) {
                 <DeviceTable
                   mode="adb"
                   foundDevices={gfa}
-                  selectedDevices={gsa}
-                  setSelectedDevices={ssa}
+                  selectedDevices={selectedDevices}
+                  setSelectedDevices={setSelectedDevices}
                 />
               </div>
               <div
@@ -188,8 +194,8 @@ export default function DeviceSelectorModal(props) {
                 <DeviceTable
                   mode="fb"
                   foundDevices={gff}
-                  selectedDevices={gsf}
-                  setSelectedDevices={ssf}
+                  selectedDevices={selectedDevices}
+                  setSelectedDevices={setSelectedDevices}
                 />
               </div>
             </div>
