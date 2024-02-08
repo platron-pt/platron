@@ -17,13 +17,13 @@ function StartBtn(props) {
       ...script[index].params.map((element) => {
         switch (element) {
           case "$file":
-            return status[keyPath].filePath;
+            return status.get(keyPath).filePath;
             break;
           case "$radio":
-            if (status[keyPath].radio == "other") {
-              status[keyPath].textInput;
+            if (status.get(keyPath).radio == "other") {
+              return status.get(keyPath).textInput;
             } else {
-              return status[keyPath].radio;
+              return status.get(keyPath).radio;
             }
             break;
           default:

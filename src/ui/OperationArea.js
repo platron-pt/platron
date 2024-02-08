@@ -17,7 +17,7 @@ function Title(props) {
 }
 /*-------------------------------------------*/
 function Content(props) {
-  const [status, setStatus] = React.useState({});
+  const [status, setStatus] = React.useState(() => new Map());
   const inputRef = React.useRef(null);
 
   const translation = props.translation;
@@ -28,14 +28,14 @@ function Content(props) {
   const noStartButton = props.noStartButton;
   const startBtnTxt = props.startBtnTxt;
   const script = props.script;
-
-  const result = content.map((element, index) => {
+  const result = [];
+  content.forEach((element, index) => {
     const type = element.type;
     const value = element.value;
     const misc = element.misc;
     switch (type) {
       case "radio":
-        return (
+        result.push (
           <PlatronComponents.radio
             key={keyPath + "-" + value}
             name={name}
@@ -50,7 +50,7 @@ function Content(props) {
         );
         break;
       case "file":
-        return (
+        result.push (
           <PlatronComponents.file
             key={keyPath + "-file-input"}
             name={name}
@@ -64,7 +64,7 @@ function Content(props) {
         );
         break;
       case "input":
-        return (
+        result.push (
           <PlatronComponents.textInput
             key={keyPath + "-" + value}
             value={value}
@@ -92,6 +92,7 @@ function Content(props) {
       />
     );
   }
+  console.log(status)
   return <>{result}</>;
 }
 /*-------------------------------------------*/
@@ -140,7 +141,6 @@ export function OperationArea(props) {
           msg={props.msg}
           currentOperation={props.currentOperation}
           selectedDevices={props.selectedDevices}
-          
           platformInfo={props.platformInfo}
         />
       </div>

@@ -10,17 +10,25 @@ const TextInput = React.forwardRef(function TextInput(props, ref) {
   const setStatus = props.setStatus;
 
   function handleChange(e) {
-    const currentStatus = merge(status, {
-      [keyPath]: { textInput: e.target.value },
-    });
-    currentStatus[keyPath].textInput = e.target.value;
+    const currentStatus = new Map(status);
+    // const currentStatus = merge(status, {
+    //   [keyPath]: { textInput: e.target.value },
+    // });
+    const thisStatus = currentStatus.get(keyPath);
+    currentStatus.set(
+      keyPath,
+      merge(thisStatus, { textInput: e.target.value })
+    );
     setStatus(currentStatus);
   }
 
   function handleFocus(e) {
-    const currentStatus = merge(status, {
-      [keyPath]: { radio: "other" },
-    });
+    const currentStatus = new Map(status);
+    // const currentStatus = merge(status, {
+    //   [keyPath]: { radio: "other" },
+    // });
+    const thisStatus = currentStatus.get(keyPath);
+    currentStatus.set(keyPath, merge(thisStatus, { radio: "other" }));
     setStatus(currentStatus);
   }
 
@@ -34,9 +42,9 @@ const TextInput = React.forwardRef(function TextInput(props, ref) {
       onFocus={handleFocus}
       ref={ref}
       value={
-        keyPath in status
-          ? !!status[keyPath].textInput
-            ? status[keyPath].textInput
+        status.has(keyPath)
+          ? !!status.get(keyPath).textInput
+            ? status.get(keyPath).textInput
             : ""
           : ""
       }

@@ -90,6 +90,12 @@ export default function DeviceSelectorModal(props) {
           sff(deviceParser.parseFB(data));
       }
     });
+
+    return()=>{
+      return () => {
+        api.removeIPCListener("got-devices-v2");
+      };
+    }
   });
 
   function handleClick() {

@@ -3,19 +3,19 @@ import classNames from "classnames";
 
 function LogBox(props) {
   const logGroups = props.logGroups;
-  const setLogGroups = props.setLogGroups
+  const setLogGroups = props.setLogGroups;
   const channel = props.channel;
   const logs = props.logs;
 
   function handleClick(e) {
-    const currentLogs=new Map(logGroups)
+    const currentLogs = new Map(logGroups);
     if (channel == "main") {
-      currentLogs.set(channel,"")
+      currentLogs.set(channel, "");
     } else {
       currentLogs.delete(channel);
     }
 
-    setLogGroups(currentLogs)
+    setLogGroups(currentLogs);
   }
 
   return (
@@ -72,6 +72,10 @@ function Logs(props) {
       currentLogs.set(channel, currentText + text);
       setLogGroups(currentLogs);
     });
+
+    return()=>{
+      api.removeIPCListener("print-log")
+    }
   });
 
   const resultArr = [];

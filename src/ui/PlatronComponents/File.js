@@ -12,9 +12,15 @@ function File(props) {
   const defaultText = props.defaultText;
 
   function handleChange(e) {
-    const currentStatus = merge(status, {
-      [keyPath]: { filePath: e.target.files[0].path },
-    });
+    const currentStatus = new Map(status);
+    // const currentStatus = merge(status, {
+    //   [keyPath]: { filePath: e.target.files[0].path },
+    // });
+    const thisStatus = currentStatus.get(keyPath);
+    currentStatus.set(
+      keyPath,
+      merge(thisStatus, { filePath: e.target.files[0].path })
+    );
     setStatus(currentStatus);
   }
 
@@ -39,9 +45,9 @@ function File(props) {
         id={keyPath + "-file-path"}
         className={classNames("user-select-none", keyPath)}
       >
-        {keyPath in status
-          ? !!status[keyPath].filePath
-            ? status[keyPath].filePath
+        {status.has(keyPath)
+          ? !!status.get(keyPath).filePath
+            ? status.get(keyPath).filePath
             : defaultText
           : defaultText}
       </h5>

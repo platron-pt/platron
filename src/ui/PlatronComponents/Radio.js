@@ -12,20 +12,31 @@ function Radio(props) {
   const inputRef = props.inputRef;
   const setStatus = props.setStatus;
 
+  if (status.has(keyPath)) {
+    console.log(value == status.get(keyPath).radio);
+  }
   useEffect(() => {
-    if (misc == "checked" && status[keyPath] == undefined) {
-      const currentStatus = merge(status, {
-        [keyPath]: { radio: value },
-      });
+    if (misc == "checked" && !status.has(keyPath)) {
+      const currentStatus = new Map(status);
+      // const currentStatus = merge(status, {
+      //   [keyPath]: { radio: value },
+      // });
+      const thisStatus = currentStatus.get(keyPath);
+      currentStatus.set(keyPath, merge(thisStatus, { radio: value }));
       setStatus(currentStatus);
     }
   }, []);
 
   function handleChange(e) {
     e.stopPropagation();
-    const currentStatus = merge(status, {
-      [keyPath]: { radio: e.target.value },
-    });
+    const currentStatus = new Map(status);
+    const thisStatus = currentStatus.get(keyPath);
+
+    currentStatus.set(keyPath, merge(thisStatus, { radio: e.target.value }));
+    // const currentStatus = merge(status, {
+    //   [keyPath]: { radio: e.target.value },
+    // });
+
     setStatus(currentStatus);
 
     if (e.target.value == "other") {
@@ -42,8 +53,8 @@ function Radio(props) {
         id={keyPath + "-" + value}
         defaultValue={value}
         checked={
-          keyPath in status
-            ? value == status[keyPath].radio
+          status.has(keyPath)
+            ? value == status.get(keyPath).radio
             : !!misc
             ? misc
             : ""
