@@ -35,7 +35,7 @@ function Content(props) {
     const misc = element.misc;
     switch (type) {
       case "radio":
-        result.push (
+        result.push(
           <PlatronComponents.radio
             key={keyPath + "-" + value}
             name={name}
@@ -50,7 +50,7 @@ function Content(props) {
         );
         break;
       case "file":
-        result.push (
+        result.push(
           <PlatronComponents.file
             key={keyPath + "-file-input"}
             name={name}
@@ -64,7 +64,7 @@ function Content(props) {
         );
         break;
       case "input":
-        result.push (
+        result.push(
           <PlatronComponents.textInput
             key={keyPath + "-" + value}
             value={value}
@@ -92,7 +92,14 @@ function Content(props) {
       />
     );
   }
-  console.log(status)
+
+  if (keyPath == "settings.items.settings") {
+    result.push(<h1 key={"settings"}>settings</h1>);
+  }
+  if (keyPath == "settings.items.updater") {
+    result.push(<h1 key={updater}>updater</h1>);
+  }
+
   return <>{result}</>;
 }
 /*-------------------------------------------*/
