@@ -26,8 +26,8 @@
     "osVersion": "系统版本："
   },
   "update": {
-    "updateEafBtn": "更新 EAF",
-    "checkingUpdate": "正在检查更新",
+    "updateBtn": "检查并更新",
+    "checking": "正在检查更新",
     "noUpdates": "已经是最新版",
     "deprecated": "偷偷告诉你，现在可以自动在背景更新啰",
     "updatingTo": "正在更新到 v",

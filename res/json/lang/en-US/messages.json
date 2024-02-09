@@ -26,8 +26,8 @@
     "osVersion": "OS Version: "
   },
   "update": {
-    "updateEafBtn": "Update EAF",
-    "checkingUpdate": "Checking for updates…",
+    "updateBtn": "Check & Install Updates",
+    "checking": "Checking for updates…",
     "noUpdates": "You are at the latest version",
     "deprecated": "Now, new versions will be downloaded and installed automatically.",
     "updatingTo": "Updating to v",
