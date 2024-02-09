@@ -1,9 +1,9 @@
 import deviceParser from "./devices/deviceParser.js";
 import keyPath2obj from "./keypath2obj.js";
-import { oprs, availableLanguages, settings } from "./ui/UI.js";
+import { oprs, settings } from "./ui/UI.js";
 import { OperationArea } from "./ui/OperationArea.js";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import DeviceSelectorModal from "./ui/deviceSelector";
 import { Navbar } from "./ui/Navbar.js";
@@ -16,17 +16,18 @@ import { NavbarButton } from "./ui/Sidebar.js";
 import classNames from "classnames";
 import Logs from "./ui/Logs.js";
 
+const merge = require("deepmerge");
+
 let platformInfo = {};
 
 api.invoke("get-platform-info").then((result) => {
   platformInfo = result;
 });
 
-let config = require("../config.json");
-let theme = config.theme;
-let appLanguage = config.language;
-console.log(config);
-if (config.language === "auto") {
+let appSettings = require("../config.json");
+let theme = appSettings.theme;
+let appLanguage = appSettings.language;
+if (appSettings.language === "auto") {
   switch (navigator.language) {
     case "zh-TW":
     case "en-US":
@@ -37,7 +38,7 @@ if (config.language === "auto") {
   }
 }
 
-if (config.theme === "auto") {
+if (appSettings.theme === "auto") {
   if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
     theme = "dark";
   } else {
@@ -45,7 +46,6 @@ if (config.theme === "auto") {
   }
 }
 
-console.log(appLanguage);
 const messages = require("../res/json/lang/" + appLanguage + "/messages.json");
 const lang = require("../res/json/lang/" + appLanguage + "/lang.json");
 
@@ -85,6 +85,8 @@ function renderUI() {
           setLogGroups={setLogGroups}
           selectedDevices={props.selectedDevices}
           platformInfo={platformInfo}
+          config={props.config}
+          setConfig={props.setConfig}
         />
         <Logs logGroups={logGroups} setLogGroups={setLogGroups} />
       </div>
@@ -98,6 +100,12 @@ function renderUI() {
 
     const [selectedDevices, setSelectedDevices] = useState(() => new Set());
 
+    const [config, setConfig] = useState(merge({}, appSettings));
+
+    useEffect(() => {
+      api.writeFile("config.json", JSON.stringify(config, null, "  "));
+      
+    },[config]);
     return (
       <>
         {/* Modal of device selector */}
@@ -121,6 +129,8 @@ function renderUI() {
           selectedDevices={selectedDevices}
           foundADBDevices={gfa}
           foundFBDevices={gff}
+          config={config}
+          setConfig={setConfig}
         />
       </>
     );
@@ -128,21 +138,19 @@ function renderUI() {
 
   root.render(<App />);
 
- 
-    document.body.setAttribute("data-bs-theme", theme);
-    if (theme == "dark") {
-      import("./css/dark.css");
-    } else {
-      import("./css/dark.css");
-    }
-  
+  document.body.setAttribute("data-bs-theme", theme);
+  if (theme == "dark") {
+    import("./css/dark.css");
+  } else {
+    import("./css/dark.css");
+  }
 }
 
 export function restartApp() {
   api.send("restart-app");
 }
 
-const root=document.createElement("div");
-root.setAttribute("id","root")
-document.body.appendChild(root)
+const root = document.createElement("div");
+root.setAttribute("id", "root");
+document.body.appendChild(root);
 renderUI();

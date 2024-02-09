@@ -3,6 +3,7 @@ import keyPath2obj from "../keypath2obj";
 import { oprs } from "./UI";
 import PlatronComponents from "./PlatronComponents";
 import classNames from "classnames";
+import SettingsUI from "./SettingsUI";
 
 function Title(props) {
   const result = (
@@ -93,10 +94,17 @@ function Content(props) {
   }
 
   if (keyPath == "settings.items.settings") {
-    result.push(<h1 key={"settings"}>settings</h1>);
+    result.push(
+      <SettingsUI
+        key="SettingsUI"
+        config={props.config}
+        setConfig={props.setConfig}
+        platformInfo={props.platformInfo}
+      />
+    );
   }
   if (keyPath == "settings.items.updater") {
-    result.push(<h1 key={updater}>updater</h1>);
+    result.push(<h1 key={"updater"}>updater</h1>);
   }
 
   return <>{result}</>;
@@ -131,6 +139,8 @@ function OperationBox(props) {
           script={content.script}
           selectedDevices={props.selectedDevices}
           platformInfo={props.platformInfo}
+          config={props.config}
+          setConfig={props.setConfig}
         />
       </>
     );
@@ -148,6 +158,8 @@ export function OperationArea(props) {
           currentOperation={props.currentOperation}
           selectedDevices={props.selectedDevices}
           platformInfo={props.platformInfo}
+          config={props.config}
+          setConfig={props.setConfig}
         />
       </div>
     </div>

@@ -193,7 +193,7 @@ const createWindow = () => {
         if (error) {
           throw error;
         }
-        
+
         win.webContents.send("got-devices-v2", [mode, `${stdout}`]);
       }
     );

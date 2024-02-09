@@ -4,10 +4,12 @@
     "theme": "Theme: ",
     "updateFrequency": "Update frequency (days): ",
     "clearCache": "Clear Update Cache",
-    "quitBeta":"Exit beta channel"
+    "quitBeta": "Exit beta channel",
+    "save":"Save"
   },
   "alert": {
-    "restartAlert": "<a href='javascript:lib.restartApp()'>重啟</a> APP 以套用變更</br><a href='javascript:lib.restartApp()'>重启</a>应用以套用变更</br><a href='javascript:lib.restartApp()'>Restart</a> the app to take effect</br>"
+    "infoTitle":"Info",
+    "restartAlert": "Restart the app to take effect"
   },
   "ui": {
     "deviceSelectorBtn": "Devices",
@@ -39,5 +41,25 @@
     "selectDevices": "Select Device(s)",
     "closeBtn": "Close Dialog",
     "saveBtn": "Save"
+  },
+  "settingsValues": {
+    "language": {
+      "zh-TW": "繁體中文",
+      "zh-CN": "简体中文",
+      "en-US": "English (United States)",
+      "auto": "Follow System"
+    },
+    "theme": {
+      "dark": "Dark",
+      "light": "Light",
+      "auto": "Follow System"
+    },
+    "updateFrequency": {
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "7": "7",
+      "14": "14"
+    }
   }
 }
