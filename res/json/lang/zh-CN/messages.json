@@ -16,7 +16,7 @@
     "fileSelectorBtn": "选择档案",
     "fileSelectorDefault": "请选择档案",
     "nothingSelected": "从侧栏选取功能以开始",
-    "unlockAlertMsg": "需先解锁 BL",
+    "needUnlock": "需先解锁 BL",
     "startBtn": "开始"
   },
   "info": {

@@ -16,7 +16,7 @@
     "fileSelectorBtn": "Select a file",
     "fileSelectorDefault": "Nothing selected...",
     "nothingSelected": "Select any of the operations from the left to start.",
-    "unlockAlertMsg": "This operation needs bootloader to be unlocked first.",
+    "needUnlock": "This operation needs bootloader to be unlocked first.",
     "startBtn": "Start"
   },
   "info": {

@@ -3,7 +3,8 @@ import keyPath2obj from "../keypath2obj";
 import { oprs } from "./UI";
 import PlatronComponents from "./PlatronComponents";
 import classNames from "classnames";
-import SettingsUI from "./SettingsUI";
+import SettingsUI from "./fullPages/SettingsUI";
+import UpdaterUI from "./fullPages/UpdaterUI";
 
 function Title(props) {
   const result = (
@@ -22,14 +23,26 @@ function Content(props) {
 
   const translation = props.translation;
   const content = props.content;
-  const name = props.name;
+  const name = content.name;
   const keyPath = props.keyPath;
   const messages = props.message;
-  const noStartButton = props.noStartButton;
+  const noStartButton = content.noStartButton;
   const startBtnTxt = props.startBtnTxt;
-  const script = props.script;
+  const script = content.script;
   const result = [];
-  content.forEach((element, index) => {
+
+  if (content.needUnlock) {
+    result.push(
+      <div
+        key="needUnlock"
+        className={classNames("alert", "alert-info", "user-select-none")}
+      >
+        {messages.ui.needUnlock}
+      </div>
+    );
+  }
+
+  content.content.forEach((element, index) => {
     const type = element.type;
     const value = element.value;
     const misc = element.misc;
@@ -104,7 +117,7 @@ function Content(props) {
     );
   }
   if (keyPath == "settings.items.updater") {
-    result.push(<h1 key={"updater"}>updater</h1>);
+    result.push(<UpdaterUI key="UpdaterUI" />);
   }
 
   return <>{result}</>;
@@ -131,12 +144,9 @@ function OperationBox(props) {
         <Content
           message={msg}
           translation={translation.content}
-          content={content.content}
-          name={content.name}
+          content={content}
           keyPath={currentOperation}
           startBtnTxt={msg.ui.startBtn}
-          noStartButton={content.noStartButton}
-          script={content.script}
           selectedDevices={props.selectedDevices}
           platformInfo={props.platformInfo}
           config={props.config}

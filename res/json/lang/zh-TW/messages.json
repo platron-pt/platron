@@ -16,7 +16,7 @@
     "fileSelectorBtn": "選擇檔案",
     "fileSelectorDefault": "請選擇檔案",
     "nothingSelected": "從側邊欄選取功能以開始",
-    "unlockAlertMsg": "請在BL解鎖後再執行",
+    "needUnlock": "請在BL解鎖後再執行",
     "startBtn": "開始"
   },
   "info": {

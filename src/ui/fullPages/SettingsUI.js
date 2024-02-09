@@ -1,9 +1,9 @@
 import classNames from "classnames";
 import React, { useState } from "react";
-import { availableLanguages } from "./UI";
+import { availableLanguages } from "../UI";
 const merge = require("deepmerge");
 
-const config = require("../../config.json");
+const config = require("../../../config.json");
 let appLanguage = config.language;
 if (config.language === "auto") {
   switch (navigator.language) {
@@ -16,7 +16,7 @@ if (config.language === "auto") {
   }
 }
 
-const messages = require("../../res/json/lang/" +
+const messages = require("../../../res/json/lang/" +
   appLanguage +
   "/messages.json");
 
@@ -82,7 +82,7 @@ function AboutCard(props) {
           {platformInfo.os.type}
         </h6>
         <h6>
-          {messages.info.osRelease}
+          {messages.info.osVersion}
           {platformInfo.os.release}
         </h6>
       </div>
