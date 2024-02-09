@@ -21,7 +21,6 @@
     "electron-is-packaged": "^1.0.2",
     "electron-updater": "^6.1.4",
     "got": "^13.0.0",
-    "jquery": "^3.7.1",
     "mica-electron": "^1.5.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

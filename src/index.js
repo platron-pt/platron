@@ -17,8 +17,6 @@ import { NavbarButton } from "./ui/Sidebar.js";
 import classNames from "classnames";
 import Logs from "./ui/Logs.js";
 
-window.$ = window.jQuery = jq;
-
 let platformInfo = {};
 
 api.invoke("get-platform-info").then((result) => {
@@ -144,31 +142,6 @@ function renderUI() {
 export function restartApp() {
   api.send("restart-app");
 }
-
-// Promise.all([api.invoke("get-config")]).then((resultArr) => {
-//   config = resultArr[0];
-//   language = config.language;
-//   theme = config.theme;
-//   if (config.language === "auto") {
-//     switch (navigator.language) {
-//       case "zh-TW":
-//       case "en-US":
-//         language = navigator.language;
-//         break;
-//       default:
-//         language = "en-US";
-//     }
-//   }
-
-//   if (config.theme === "auto") {
-//     if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-//       theme = "dark";
-//     } else {
-//       theme = "light";
-//     }
-//   }
-//   renderUI();
-// });
 
 const root=document.createElement("div");
 root.setAttribute("id","root")
