@@ -4,7 +4,6 @@ slot selection in flashing/erasing
 adb uninstall
 adb disable
 adb list installed packages
-optimize append on startup
 move to offcanvas
 commonly used commands
 android flash tool
@@ -14,4 +13,4 @@ windouws-ui.github.io ?
 split js files
 acrylic window
 not including some files when building
-use map object
+react-bootstrap
