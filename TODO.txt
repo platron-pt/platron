@@ -14,3 +14,4 @@ split js files
 acrylic window
 not including some files when building
 react-bootstrap
+hints
