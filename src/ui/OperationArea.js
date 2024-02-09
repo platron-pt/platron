@@ -1,7 +1,6 @@
 import React from "react";
 import keyPath2obj from "../keypath2obj";
 import { oprs } from "./UI";
-import { map } from "jquery";
 import PlatronComponents from "./PlatronComponents";
 import classNames from "classnames";
 

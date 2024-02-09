@@ -1,5 +1,4 @@
 import deviceParser from "./devices/deviceParser.js";
-import jq from "jquery";
 import keyPath2obj from "./keypath2obj.js";
 import { oprs, availableLanguages, settings } from "./ui/UI.js";
 import { OperationArea } from "./ui/OperationArea.js";
@@ -129,14 +128,14 @@ function renderUI() {
 
   root.render(<App />);
 
-  $(function () {
+ 
     document.body.setAttribute("data-bs-theme", theme);
     if (theme == "dark") {
       import("./css/dark.css");
     } else {
       import("./css/dark.css");
     }
-  });
+  
 }
 
 export function restartApp() {

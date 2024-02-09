@@ -1,5 +1,4 @@
 import classNames from "classnames";
-import { param } from "jquery";
 import React from "react";
 
 function StartBtn(props) {
