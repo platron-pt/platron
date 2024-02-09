@@ -131,7 +131,7 @@ const createWindow = () => {
     win.setMenu(null);
   }
   win.webContents.openDevTools({ mode: "undocked" });
-  win.loadFile("index.html");
+  win.loadFile("dist/index.html");
 
   ipcMain.on("restart-app", () => {
     app.relaunch();

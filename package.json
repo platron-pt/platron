@@ -41,6 +41,7 @@
     "electron": "^25.9.2",
     "electron-builder": "^24.6.4",
     "follow-redirects": "^1.15.3",
+    "html-webpack-plugin": "^5.6.0",
     "postcss-loader": "^7.3.4",
     "sass": "^1.69.5",
     "sass-loader": "^13.3.3",

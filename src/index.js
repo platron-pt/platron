@@ -19,30 +19,42 @@ import Logs from "./ui/Logs.js";
 
 window.$ = window.jQuery = jq;
 
-let messages;
-let lang;
-
 let platformInfo = {};
 
 api.invoke("get-platform-info").then((result) => {
   platformInfo = result;
 });
 
-api.invoke("messages").then((res) => {
-  messages = res;
-});
-api.invoke("language").then((res) => {
-  lang = res;
-});
+let config = require("../config.json");
+let theme = config.theme;
+let appLanguage = config.language;
+console.log(config);
+if (config.language === "auto") {
+  switch (navigator.language) {
+    case "zh-TW":
+    case "en-US":
+      appLanguage = navigator.language;
+      break;
+    default:
+      appLanguage = "en-US";
+  }
+}
 
-let config;
-let language;
-let theme;
+if (config.theme === "auto") {
+  if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+    theme = "dark";
+  } else {
+    theme = "light";
+  }
+}
 
+console.log(appLanguage);
+const messages = require("../res/json/lang/" + appLanguage + "/messages.json");
+const lang = require("../res/json/lang/" + appLanguage + "/lang.json");
 
 let dsMode = "adb";
 
-const renderUI = () => {
+function renderUI() {
   const root = ReactDOM.createRoot(document.getElementById("root"));
 
   function BigRootElements(props) {
@@ -127,33 +139,38 @@ const renderUI = () => {
       import("./css/dark.css");
     }
   });
-};
+}
 
 export function restartApp() {
   api.send("restart-app");
 }
 
-Promise.all([api.invoke("get-config")]).then((resultArr) => {
-  config = resultArr[0];
-  language = config.language;
-  theme = config.theme;
-  if (config.language === "auto") {
-    switch (navigator.language) {
-      case "zh-TW":
-      case "en-US":
-        language = navigator.language;
-        break;
-      default:
-        language = "en-US";
-    }
-  }
+// Promise.all([api.invoke("get-config")]).then((resultArr) => {
+//   config = resultArr[0];
+//   language = config.language;
+//   theme = config.theme;
+//   if (config.language === "auto") {
+//     switch (navigator.language) {
+//       case "zh-TW":
+//       case "en-US":
+//         language = navigator.language;
+//         break;
+//       default:
+//         language = "en-US";
+//     }
+//   }
 
-  if (config.theme === "auto") {
-    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-      theme = "dark";
-    } else {
-      theme = "light";
-    }
-  }
-  renderUI();
-});
+//   if (config.theme === "auto") {
+//     if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+//       theme = "dark";
+//     } else {
+//       theme = "light";
+//     }
+//   }
+//   renderUI();
+// });
+
+const root=document.createElement("div");
+root.setAttribute("id","root")
+document.body.appendChild(root)
+renderUI();
