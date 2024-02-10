@@ -90,7 +90,7 @@ const createWindow = () => {
       webPreferences: {
         preload: path.join(__dirname, "preload.js"),
         devTools: hasDevtools,
-        icon: __dirname + "./favicon_256.ico",
+        icon: __dirname + "./res/img/icon_512.png",
       },
     });
 
@@ -120,7 +120,7 @@ const createWindow = () => {
       webPreferences: {
         preload: path.join(__dirname, "preload.js"),
         devTools: hasDevtools,
-        icon: __dirname + "./favicon_256.ico",
+        icon: __dirname + "./res/img/icon_512.png",
       },
     });
   }

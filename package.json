@@ -75,7 +75,7 @@
       "oneClick": false
     },
     "win": {
-      "icon": "./favicon_256.ico",
+      "icon": "./res/img/icon_512.png",
       "artifactName": "${productName}-${os}-${arch}.${ext}",
       "extraFiles": [
         "platform-tools-win"
@@ -93,6 +93,7 @@
       ]
     },
     "linux": {
+      "icon": "./res/img/icon_512.png",
       "extraFiles": "platform-tools-linux",
       "artifactName": "${productName}-${os}-${arch}.${ext}",
       "target": [
