@@ -20,25 +20,46 @@ const messages = require("../../../res/json/lang/" +
   "/messages.json");
 
 function Updater(props) {
+  const currentVersion = props.currentVersion;
+  const updateStatus = props.updateStatus;
+  const updateInfo = props.updateInfo;
+
+  let resultText = "";
+  switch (updateStatus) {
+    case "":
+      resultText = messages.update.checking;
+      break;
+    case "update-available":
+      resultText = messages.update.updating;
+      resultText += currentVersion + "→" + updateInfo.version;
+      break;
+    case "update-downloaded":
+      resultText = messages.update.completed;
+      resultText += currentVersion + "→" + updateInfo.version;
+      break;
+  }
+
   console.log(messages);
   return (
     <div className="card">
       <div className="card-body">
         <div className="d-flex">
-          <div className="spinner-border spinner-border-sm" role="status">
-            <span className="visually-hidden">{messages.update.checking}</span>
-          </div>
-          <h6 className="align-self-center mb-0">{messages.update.checking}</h6>
+          {updateStatus == "update-downloaded" ? null : (
+            <div className="spinner-border spinner-border-sm" role="status">
+              <span className="visually-hidden">
+                {messages.update.checking}
+              </span>
+            </div>
+          )}
+          <h6 className="mb-0">{resultText}</h6>
         </div>
       </div>
     </div>
   );
 }
 
-function UpdaterUI() {
+function UpdaterUI(props) {
   const [showUpdater, setShowUpdater] = useState(false);
-
-  
 
   function handleClick(e) {
     setShowUpdater(true);
@@ -53,7 +74,13 @@ function UpdaterUI() {
       >
         {messages.update.updateBtn}
       </button>
-      {showUpdater ? <Updater /> : null}
+      {showUpdater ? (
+        <Updater
+          currentVersion={props.platformInfo.appVersion}
+          updateStatus={props.updateStatus}
+          updateInfo={props.updateInfo}
+        />
+      ) : null}
     </>
   );
 }

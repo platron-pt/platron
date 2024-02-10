@@ -29,6 +29,10 @@ function Content(props) {
   const noStartButton = content.noStartButton;
   const startBtnTxt = props.startBtnTxt;
   const script = content.script;
+
+  const updateStatus = props.updateStatus;
+  const updateInfo = props.updateInfo;
+
   const result = [];
 
   if (content.needUnlock) {
@@ -117,7 +121,14 @@ function Content(props) {
     );
   }
   if (keyPath == "settings.items.updater") {
-    result.push(<UpdaterUI key="UpdaterUI" />);
+    result.push(
+      <UpdaterUI
+        key="UpdaterUI"
+        updateStatus={updateStatus}
+        updateInfo={updateInfo}
+        platformInfo={props.platformInfo}
+      />
+    );
   }
 
   return <>{result}</>;
@@ -151,6 +162,8 @@ function OperationBox(props) {
           platformInfo={props.platformInfo}
           config={props.config}
           setConfig={props.setConfig}
+          updateStatus={props.updateStatus}
+          updateInfo={props.updateInfo}
         />
       </>
     );
@@ -170,6 +183,8 @@ export function OperationArea(props) {
           platformInfo={props.platformInfo}
           config={props.config}
           setConfig={props.setConfig}
+          updateStatus={props.updateStatus}
+          updateInfo={props.updateInfo}
         />
       </div>
     </div>

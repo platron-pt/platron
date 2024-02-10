@@ -30,8 +30,8 @@
     "checking": "Checking for updates…",
     "noUpdates": "You are at the latest version",
     "deprecated": "Now, new versions will be downloaded and installed automatically.",
-    "updatingTo": "Updating to v",
-    "updateComplete": "Update progress will be completed after closing the app"
+    "updating": "Updating, ",
+    "completed": "Update progress will be completed after closing the app, "
   },
   "tips": {
     "boot": "<p class=\"fw-bold\">Why to use “boot a image” instead of “flash image to partition”?</p>“boot a image” only downloads image to RAM, so the third-party recovery image won't replace the original ones.",

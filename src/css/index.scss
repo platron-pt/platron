@@ -7,7 +7,6 @@ body,
 #root {
   height: 100%;
   overflow: hidden;
-  /* background-color: unset; */
 }
 
 #main-content {
@@ -23,26 +22,37 @@ body,
   background-color: var(--bs-body-bg);
 }
 
-#log-box{width: 38%;}
+#log-box {
+  width: 38%;
+}
 
-#operation-area{
+#operation-area {
   width: 38%;
 }
 
 .operation-area {
   height: 100%;
   overflow: auto;
+  background-color: var(--bs-body-bg);
+}
+
+html,
+body,
+#sidebar,
+#winCtrl-bar {
+  // acrylic window
+  background-color: unset;
 }
 
 #sidebar {
   float: left;
   height: 100%;
   overflow: auto;
-  
 }
 
 #navbar {
-  height: 100%;width: 24%;
+  height: 100%;
+  width: 24%;
 }
 #winCtrl-bar {
   -webkit-app-region: drag;
@@ -70,8 +80,6 @@ body,
   font-size: 0.8rem;
   overflow-x: hidden;
 }
-
-
 
 .logs-body {
   overflow-x: auto;

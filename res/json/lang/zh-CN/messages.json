@@ -5,10 +5,10 @@
     "updateFrequency": "检查更新频率（天）",
     "clearCache": "清理更新快取",
     "quitBeta": "退出beta频道",
-    "save":"储存设置"
+    "save": "储存设置"
   },
   "alert": {
-    "infoTitle":"提示",
+    "infoTitle": "提示",
     "restartAlert": "重启 APP 後变更生效"
   },
   "ui": {
@@ -30,8 +30,8 @@
     "checking": "正在检查更新",
     "noUpdates": "已经是最新版",
     "deprecated": "偷偷告诉你，现在可以自动在背景更新啰",
-    "updatingTo": "正在更新到 v",
-    "updateComplete": "将于关闭APP后完成更新"
+    "updating": "正在升级，",
+    "completed": "将于关闭APP后完成更新，"
   },
   "tips": {
     "boot": "<p class=\"fw-bold\">为什么要使用临时启动而非刷入镜像？</p>临时启动仅把镜像下载到运行内存中，对于无单独 Recovery 分区的 AB 槽位机型而言，可以维持原来的 boot 分区不被第三方 Recovery 取代。",

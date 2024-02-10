@@ -87,6 +87,8 @@ function renderUI() {
           platformInfo={platformInfo}
           config={props.config}
           setConfig={props.setConfig}
+          updateStatus={props.updateStatus}
+          updateInfo={props.updateInfo}
         />
         <Logs logGroups={logGroups} setLogGroups={setLogGroups} />
       </div>
@@ -102,17 +104,19 @@ function renderUI() {
 
     const [config, setConfig] = useState(merge({}, appSettings));
 
-    const [updateStatus, setUpdateStatus] = useState({});
+    const [updateStatus, setUpdateStatus] = useState("");
+    const [updateInfo,setUpdateInfo]=useState({})
 
     useEffect(() => {
       api.writeFile("config.json", JSON.stringify(config, null, "  "));
     }, [config]);
 
     useEffect(() => {
-      api.handle("updater-status", (e, [status, data]) => {
-        console.log(status);
+      api.handle("updater-status", (res) => {
+        setUpdateStatus(res[0])
+        setUpdateInfo(res[1])
       });
-      return api.removeIPCListener("updater-status");
+      return()=>{ api.removeIPCListener("updater-status");}
     });
 
     return (
@@ -140,6 +144,8 @@ function renderUI() {
           foundFBDevices={gff}
           config={config}
           setConfig={setConfig}
+          updateStatus={updateStatus}
+          updateInfo={updateInfo}
         />
       </>
     );

@@ -79,13 +79,14 @@ if (!isPackaged || channel == "beta") {
 const createWindow = () => {
   let win = {};
   console.log("OS Version", os.release());
-  if (false) {
+  if (os.platform == "win32") {
     win = new MicaBrowserWindow({
       show: false,
       autoHideMenuBar: true,
       width: 1080,
-      height: 501,
+      height: 500,
       minWidth: 1080,
+      minHeight: 500,
       frame: false,
       webPreferences: {
         preload: path.join(__dirname, "preload.js"),
@@ -115,6 +116,7 @@ const createWindow = () => {
       show: false,
       width: 1080,
       height: 500,
+      minHeight: 500,
       minWidth: 1080,
       frame: false,
       webPreferences: {
@@ -236,7 +238,7 @@ const createWindow = () => {
   });
 
   autoUpdater.on("update-downloaded", (info) => {
-    win.webContents.send("updater-status", ["update-downloaded", {}]);
+    win.webContents.send("updater-status", ["update-downloaded", info]);
   });
   win.show();
 };
