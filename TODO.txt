@@ -10,8 +10,6 @@ android flash tool
 appimage support
 open correct tab in device manager
 windouws-ui.github.io ?
-split js files
-acrylic window
-not including some files when building
 react-bootstrap
 hints
+improve packaging process
