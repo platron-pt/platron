@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 let appSettings = require("../../../config.json");
 let theme = appSettings.theme;
@@ -21,7 +21,6 @@ const messages = require("../../../res/json/lang/" +
 
 function Updater(props) {
   console.log(messages);
-  const [checkSent,setCheckSent]=useState(false)
   return (
     <div className="card">
       <div className="card-body">
@@ -38,8 +37,12 @@ function Updater(props) {
 
 function UpdaterUI() {
   const [showUpdater, setShowUpdater] = useState(false);
+
+  
+
   function handleClick(e) {
     setShowUpdater(true);
+    api.send("check-updates");
   }
 
   return (

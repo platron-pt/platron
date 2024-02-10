@@ -102,10 +102,19 @@ function renderUI() {
 
     const [config, setConfig] = useState(merge({}, appSettings));
 
+    const [updateStatus, setUpdateStatus] = useState({});
+
     useEffect(() => {
       api.writeFile("config.json", JSON.stringify(config, null, "  "));
-      
-    },[config]);
+    }, [config]);
+
+    useEffect(() => {
+      api.handle("updater-status", (e, [status, data]) => {
+        console.log(status);
+      });
+      return api.removeIPCListener("updater-status");
+    });
+
     return (
       <>
         {/* Modal of device selector */}
