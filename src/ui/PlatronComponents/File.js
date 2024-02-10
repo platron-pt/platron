@@ -1,6 +1,7 @@
 import React from "react";
 import classNames from "classnames";
 const merge = require("deepmerge");
+import icons from "../../../res/icons/icons";
 
 function File(props) {
   const keyPath = props.keyPath;
@@ -30,7 +31,7 @@ function File(props) {
         className={classNames("btn", "btn-primary")}
         htmlFor={keyPath + "-file-input"}
       >
-        <i className={classNames("bi", "bi-files")}></i>
+        <icons.Files></icons.Files>
         {text}
       </label>
       <input

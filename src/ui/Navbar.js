@@ -1,6 +1,8 @@
 import classNames from "classnames";
 import React from "react";
 
+import icons from "../../res/icons/icons";
+
 export function Navbar(props) {
   function handleClick() {
     api.send("get-devices-v2", "adb")
@@ -13,21 +15,21 @@ export function Navbar(props) {
         className="winCtrl-btn border-0"
         onClick={() => api.send("close-window")}
       >
-        <i className={classNames("bi", "bi-x-lg")}></i>
+        <icons.X_lg></icons.X_lg>
       </button>
       <button
         id="max-btn"
         className="winCtrl-btn border-0"
         onClick={() => api.send("maximize-window")}
       >
-        <i className={classNames("bi", "bi-app")}></i>
+       <icons.App></icons.App>
       </button>
       <button
         id="min-btn"
         className="winCtrl-btn border-0"
         onClick={() => api.send("minimize-window")}
       >
-        <i className={classNames("bi", "bi-dash-lg")}></i>
+      <icons.Dash_lg></icons.Dash_lg>
       </button>
       <button
         className="btn btn-sm btn-primary py-1 m-1"

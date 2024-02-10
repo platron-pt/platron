@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import classNames from "classnames";
 
+import icons from "../../res/icons/icons";
+
 function LogBox(props) {
   const logGroups = props.logGroups;
   const setLogGroups = props.setLogGroups;
@@ -45,13 +47,11 @@ function LogBox(props) {
           </p>
           <div className="d-flex justify-content-end">
             <button className="btn btn-primary" onClick={handleClick}>
-              <i
-                className={
-                  channel == "main"
-                    ? classNames("bi", "bi-trash")
-                    : classNames("bi", "bi-x-lg")
-                }
-              ></i>
+              {channel == "main" ? (
+                <icons.Trash_lg></icons.Trash_lg>
+              ) : (
+                <icons.X_lg></icons.X_lg>
+              )}
             </button>
           </div>
         </div>
@@ -73,9 +73,9 @@ function Logs(props) {
       setLogGroups(currentLogs);
     });
 
-    return()=>{
-      api.removeIPCListener("print-log")
-    }
+    return () => {
+      api.removeIPCListener("print-log");
+    };
   });
 
   const resultArr = [];
