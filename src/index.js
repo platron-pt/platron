@@ -105,7 +105,7 @@ function renderUI() {
     const [config, setConfig] = useState(merge({}, appSettings));
 
     const [updateStatus, setUpdateStatus] = useState("");
-    const [updateInfo,setUpdateInfo]=useState({})
+    const [updateInfo, setUpdateInfo] = useState({});
 
     useEffect(() => {
       api.writeFile("config.json", JSON.stringify(config, null, "  "));
@@ -113,10 +113,12 @@ function renderUI() {
 
     useEffect(() => {
       api.handle("updater-status", (res) => {
-        setUpdateStatus(res[0])
-        setUpdateInfo(res[1])
+        setUpdateStatus(res[0]);
+        setUpdateInfo(res[1]);
       });
-      return()=>{ api.removeIPCListener("updater-status");}
+      return () => {
+        api.removeIPCListener("updater-status");
+      };
     });
 
     return (
@@ -159,6 +161,13 @@ function renderUI() {
   } else {
     import("./css/dark.css");
   }
+
+  setTimeout(() => {
+    console.log(platformInfo);
+    if (platformInfo.os.platform == "win32") {
+      import("./css/acrylic.css");
+    }
+  }, 10);
 }
 
 export function restartApp() {

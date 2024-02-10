@@ -1,0 +1,7 @@
+html,
+body,
+#sidebar,
+#winCtrl-bar {
+  /* acrylic */
+  background-color: unset;
+}

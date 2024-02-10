@@ -36,14 +36,6 @@ body,
   background-color: var(--bs-body-bg);
 }
 
-html,
-body,
-#sidebar,
-#winCtrl-bar {
-  // acrylic window
-  background-color: unset;
-}
-
 #sidebar {
   float: left;
   height: 100%;

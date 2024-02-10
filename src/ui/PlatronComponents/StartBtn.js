@@ -35,6 +35,7 @@ function StartBtn(props) {
     let fileExtension = "";
     let execDir = "";
     let execFile = "";
+    console.log(platformInfo)
     if (platformInfo.os.platform == "win32") {
       execDir = ".\\platform-tools-win\\";
       fileExtension = ".exe";
