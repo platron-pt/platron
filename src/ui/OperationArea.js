@@ -173,7 +173,15 @@ function OperationBox(props) {
 
 export function OperationArea(props) {
   return (
-    <div className={classNames("operation-area", "p-2", "flex-grow-1")}>
+    <div
+      className={classNames(
+        "operation-area",
+        "p-2",
+        "flex-grow-1",
+        "rounded-top-2",
+        "rounded-right-0"
+      )}
+    >
       <div className="operation-box">
         <OperationBox
           lang={props.lang}
