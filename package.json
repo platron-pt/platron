@@ -4,7 +4,7 @@
   "description": "A graphical ADB and fastboot manager",
   "main": "main.js",
   "scripts": {
-    "start": "webpack && electron .",
+    "start": "webpack --mode=development&& electron .",
     "pack": "webpack && electron-builder --dir",
     "clean": "modclean --ignore='platform-tools'",
     "build": "node scripts/platronMaker.js -h"
