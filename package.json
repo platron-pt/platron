@@ -1,6 +1,6 @@
 {
   "name": "platron",
-  "version": "3.0.1-beta",
+  "version": "3.0.2-beta",
   "description": "A graphical ADB and fastboot manager",
   "main": "main.js",
   "scripts": {
