@@ -1,5 +1,5 @@
 {
-  "name": "easy_adb_fastboot",
+  "name": "platron",
   "version": "3.0.0-beta",
   "description": "A graphical ADB and fastboot manager",
   "main": "main.js",
@@ -9,7 +9,7 @@
     "clean": "modclean --ignore='platform-tools'",
     "build": "node scripts/platronMaker.js -h"
   },
-  "author": "ryantsui1109@github",
+  "author": "platron-pt@github",
   "license": "Apache-2.0",
   "dependencies": {
     "electron-dl": "^3.5.2",
@@ -61,7 +61,7 @@
     },
     "generateUpdatesFilesForAllChannels": true,
     "appId": "io.github.platron-pt",
-    "productName": "Easy ADB and fastboot",
+    "productName": "Platron",
     "files": [
       "main.js",
       "package.json",
