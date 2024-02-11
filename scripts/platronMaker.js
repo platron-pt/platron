@@ -11,11 +11,14 @@ const {
 const { type } = require("os");
 const { https } = require("follow-redirects");
 const builder = require("electron-builder");
-const pkgInfo = require("../package.json");
 const args = require("args-parser")(process.argv);
 const buildInfo = require("./build.json");
 const appConfig = require("../default_config.json");
 const updaterStatus = require("../default_updaterStatus.json");
+const child_process = require("child_process");
+const { promisify } = require("node:util");
+const spawnAsync = promisify(child_process.spawn);
+
 const downloadFile = (url, dest) =>
   new Promise((resolve, reject) => {
     const file = createWriteStream(dest);
@@ -33,15 +36,19 @@ const decompress = require("decompress");
 async function main() {
   if (args.h) {
     console.log("");
-    console.log("=== Easy ADB and Fastboot Build Script ===");
+    console.log("=== Platron Build Script ===");
     console.log("");
     console.log("-h    Display this message.");
     console.log("");
     console.log("-b    Build with configs.");
     console.log("-d    Download platform-tools (Automatically detect OS)");
-    console.log("-v    Set build variant.")
+    console.log(
+      '-v    Set build variant. "stable" and "beta" are suggested, otherwise you have to modify the source code.'
+    );
+    console.log("-p    Make electron-builder to publish or not.");
+    console.log("-w    Set webpack to developement/production mode.");
     console.log("");
-    console.log("Example: node .\\script\\eaf_builder.js -d=beta -d");
+    console.log("Example: node ./script/platronMaker.js -v=beta -d");
   } else {
     if (args.d) {
       const downloadPT = new Promise((resolve, reject) => {
@@ -66,6 +73,7 @@ async function main() {
             reject("Platform currently not supported!");
             break;
         }
+
         downloadProcess.then((result) => {
           console.log(result);
           if (existsSync("platform-tools.zip")) {
@@ -74,6 +82,7 @@ async function main() {
               .then((files) => {
                 switch (platform) {
                   case "Linux":
+                    ``;
                     rmSync("platform-tools-linux", {
                       recursive: true,
                       force: true,
@@ -108,12 +117,25 @@ async function main() {
     }
 
     const checkArgs = new Promise((resolve, reject) => {
-      args.v?resolve("OK"):reject("Build variant must be set.")
+      let checkFlag = 1;
+      if (!!args.v) {
+        checkFlag *= 2;
+      }
+
+      const toSet = [];
+      if (checkFlag % 2) {
+        toSet.push("Build Variant");
+      }
+      if (checkFlag % 2) {
+        reject("Wrong " + toSet.toString() + ".");
+      } else {
+        resolve("Configuration OK.");
+      }
     });
     await checkArgs
       .then((result) => {
         console.log(result);
-        appConfig.variant=args.v
+
         writeFileSync("config.json", JSON.stringify(appConfig, null, "  "));
         writeFileSync(
           "updaterStatus.json",
@@ -121,11 +143,57 @@ async function main() {
         );
         if (args.b) {
           console.log("Start building");
-          if (args.c !== "release") {
-            buildInfo.appId += "." + args.c;
+          let checkFlag = 1;
+          const rejectReason = [];
+          if (!!args.w) {
+            if (args.w == "production" || args.w == "development") {
+              checkFlag *= 2;
+            }
+          }
+          if (!!args.p) {
+            if (args.p == "never" || args.p == "always") {
+              checkFlag *= 3;
+            }
+          }
+          if (checkFlag % 2) {
+            rejectReason.push("-w");
+          }
+          if (checkFlag % 3) {
+            rejectReason.push("-p");
           }
 
-          builder.build({ config: buildInfo });
+          if (checkFlag % 6) {
+            console.log(rejectReason.toString(), "argument wrong.");
+            console.log("For more info, please refer to platronMaker.js -h");
+          } else {
+            console.log(args.w + " mode");
+            const webpackProcess = child_process.spawn("npx", [
+              "webpack",
+              "--mode=" + args.w,
+            ]);
+            webpackProcess.stdout.on("data", (res) => {
+              console.log(res.toString());
+            });
+            webpackProcess.stderr.on("data", (res) => {
+              console.log(res.toString());
+            });
+            webpackProcess.on("close", (code) => {
+              if (!code) {
+                const buildProcess = child_process.spawn("npx", [
+                  "electron-builder",
+                  "build",
+                  "--publish",
+                  args.p,
+                ]);
+                buildProcess.stdout.on("data", (res) => {
+                  console.log(res.toString());
+                });
+                buildProcess.stderr.on("data", (res) => {
+                  console.log(res.toString());
+                });
+              }
+            });
+          }
         }
       })
       .catch((result) => {

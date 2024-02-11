@@ -24,14 +24,11 @@ jobs:
           node-version: lts/*
           cache: "npm"
 
-      - name: Install dependencies for EAF
+      - name: Install dependencies for Platron
         run: npm ci
         shell: bash
 
-      - name: Configure EAF
-        run: node scripts/eaf_builder.js -v=beta -d
-
-      - name: Build EAF
-        run: npm run publish
+      - name: Configure & Build Platron
+        run: node scripts/eaf_builder.js -v=beta -d -b -p=always -w=development
         env: 
           GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
