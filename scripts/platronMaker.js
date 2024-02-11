@@ -18,6 +18,9 @@ const updaterStatus = require("../default_updaterStatus.json");
 const child_process = require("child_process");
 const { promisify } = require("node:util");
 const spawnAsync = promisify(child_process.spawn);
+const os =require("node:os")
+
+console.log(process.env)
 
 const downloadFile = (url, dest) =>
   new Promise((resolve, reject) => {
@@ -167,7 +170,11 @@ async function main() {
             console.log("For more info, please refer to platronMaker.js -h");
           } else {
             console.log(args.w + " mode");
-            const webpackProcess = child_process.spawn("npx", [
+            let npx="npx"
+            if (os.platform()==win32){
+              npx+=".cmd"
+            }
+            const webpackProcess = child_process.spawn(npx, [
               "webpack",
               "--mode=" + args.w,
             ]);
@@ -179,7 +186,7 @@ async function main() {
             });
             webpackProcess.on("close", (code) => {
               if (!code) {
-                const buildProcess = child_process.spawn("npx", [
+                const buildProcess = child_process.spawn(npx, [
                   "electron-builder",
                   "build",
                   "--publish",
