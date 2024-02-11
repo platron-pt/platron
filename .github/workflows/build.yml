@@ -33,10 +33,6 @@ jobs:
         run: npm ci
         shell: bash
 
-      - name: Configute EAF
-        run: node scripts/eaf_builder.js -v=${{github.event.inputs.build_variant}} -d
+      - name: Configute & Build Platron
+        run: node scripts/platronMaker.js -v=${{github.event.inputs.build_variant}} -d -p=always -w=development
 
-      - name: Build EAF
-        run: npm run publish
-        env:
-          GH_TOKEN: ${{secrets.GITHUB_TOKEN}}

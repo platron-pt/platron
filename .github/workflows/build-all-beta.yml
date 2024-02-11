@@ -29,6 +29,6 @@ jobs:
         shell: bash
 
       - name: Configure & Build Platron
-        run: node scripts/eaf_builder.js -v=beta -d -b -p=always -w=development
+        run: node scripts/platronMaker.js -v=beta -d -b -p=always -w=development
         env: 
           GH_TOKEN: ${{secrets.GITHUB_TOKEN}}

@@ -30,6 +30,6 @@ jobs:
         shell: bash
 
       - name: Configure & Build Platron
-        run: node scripts/eaf_builder.js -v=stable -d -b -p=always -w=production
+        run: node scripts/platronMaker.js -v=stable -d -b -p=always -w=production
         env: 
           GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
