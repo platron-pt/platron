@@ -44,7 +44,7 @@ export function Navbar(props) {
         className="m-1 flex-fill align-middle"
         style={{ marginLeft: "0.5rem" }}
       >
-        Easy ADB and Fastboot
+        <p className="ms-1 mb-0">Platron</p>
       </div>
     </>
   );
