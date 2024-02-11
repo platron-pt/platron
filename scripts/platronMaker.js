@@ -130,6 +130,7 @@ async function main() {
       if (checkFlag % 2) {
         reject("Wrong " + toSet.toString() + ".");
       } else {
+        appConfig.variant = args.v;
         resolve("Configuration OK.");
       }
     });
