@@ -18,9 +18,9 @@ const updaterStatus = require("../default_updaterStatus.json");
 const child_process = require("child_process");
 const { promisify } = require("node:util");
 const spawnAsync = promisify(child_process.spawn);
-const os =require("node:os")
+const os = require("node:os");
 
-console.log(process.env)
+console.log(process.env);
 
 const downloadFile = (url, dest) =>
   new Promise((resolve, reject) => {
@@ -170,9 +170,9 @@ async function main() {
             console.log("For more info, please refer to platronMaker.js -h");
           } else {
             console.log(args.w + " mode");
-            let npx="npx"
-            if (os.platform()==win32){
-              npx+=".cmd"
+            let npx = "npx";
+            if (os.platform() == "win32") {
+              npx += ".cmd";
             }
             const webpackProcess = child_process.spawn(npx, [
               "webpack",
