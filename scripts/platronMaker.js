@@ -20,8 +20,6 @@ const { promisify } = require("node:util");
 const spawnAsync = promisify(child_process.spawn);
 const os = require("node:os");
 
-console.log(process.env);
-
 const downloadFile = (url, dest) =>
   new Promise((resolve, reject) => {
     const file = createWriteStream(dest);
