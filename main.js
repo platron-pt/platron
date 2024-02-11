@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, shell } = require("electron");
+const { app, BrowserWindow, ipcMain, shell, nativeTheme } = require("electron");
 const {
   PARAMS,
   VALUE,
@@ -238,7 +238,7 @@ const createWindow = () => {
     win.webContents.send("updater-status", ["update-downloaded", info]);
   });
 
-  console.log("Should use dark theme:",nativeTheme.shouldUseDarkColors)
+  console.log("Should use dark theme:", nativeTheme.shouldUseDarkColors);
 
   win.show();
 };

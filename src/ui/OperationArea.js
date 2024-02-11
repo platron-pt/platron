@@ -182,7 +182,7 @@ export function OperationArea(props) {
         "rounded-right-0"
       )}
     >
-      <div className="operation-box">
+      <div className="operation-box p-2">
         <OperationBox
           lang={props.lang}
           msg={props.msg}
