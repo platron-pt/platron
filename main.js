@@ -17,7 +17,7 @@ const { INSPECT_MAX_BYTES, constants } = require("buffer");
 const { connected, stderr } = require("process");
 const { promisify } = require("node:util");
 const promisifiedExec = promisify(child_process.execFile);
-console.debug("Welcome to EAF v" + app.getVersion());
+console.debug("Welcome to Platron v" + app.getVersion());
 
 let config, updaterStatus, lang, messages;
 if (isPackaged) {
@@ -97,13 +97,10 @@ const createWindow = () => {
 
     if (IS_WINDOWS_11) {
       console.log("Win11 detected.");
-      console.log(config.theme);
 
       if (config.theme == "dark") {
-        console.log("dark");
         win.setDarkTheme();
       } else {
-        console.log("light");
         win.setLightTheme();
       }
       win.setMicaEffect();
@@ -240,6 +237,9 @@ const createWindow = () => {
   autoUpdater.on("update-downloaded", (info) => {
     win.webContents.send("updater-status", ["update-downloaded", info]);
   });
+
+  console.log("Should use dark theme:",nativeTheme.shouldUseDarkColors)
+
   win.show();
 };
 
