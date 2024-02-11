@@ -179,7 +179,9 @@ export function OperationArea(props) {
         "p-2",
         "flex-grow-1",
         "rounded-top-2",
-        "rounded-right-0"
+        "rounded-right-0",
+        "h-100",
+        "overflow-auto"
       )}
     >
       <div className="operation-box p-2">

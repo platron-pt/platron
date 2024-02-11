@@ -3,18 +3,13 @@
 // @import "~bootstrap-icons/font/bootstrap-icons.scss";
 
 html,
-body,
-#root {
+body {
   height: 100%;
   overflow: hidden;
 }
 
 #main-content {
   height: calc(100% - 38px);
-  width: 100%;
-  position: relative;
-  bottom: 0;
-  overflow: hidden;
 }
 
 #operation-area,
@@ -26,20 +21,13 @@ body,
   width: 38%;
 }
 
-#operation-area {
-  width: 38%;
-}
-
 .operation-area {
-  height: 100%;
-  overflow: auto;
+  width: 38%;
   background-color: var(--bs-body-bg);
 }
 
 #sidebar {
-  float: left;
-  height: 100%;
-  overflow: auto;
+  height: calc(100% - 38px);
 }
 
 #navbar {

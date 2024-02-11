@@ -59,8 +59,18 @@ function renderUI() {
     const [logGroups, setLogGroups] = useState(() => new Map([["main", ""]]));
 
     return (
-      <div id="main-content" className={classNames("d-flex", "flex-row")}>
-        <div id="sidebar">
+      <div
+        id="main-content"
+        className={classNames(
+          "d-flex",
+          "flex-row",
+          "position-relative",
+          "bottom-0",
+          "h-100",
+          "overflow-hidden"
+        )}
+      >
+        <div id="sidebar" className={classNames("float-left","overflow-auto")}>
           <div className="container">
             <nav id="sidebar" className={classNames("nav", "flex-column")}>
               {Object.keys(oprs).map((e) => {
@@ -176,5 +186,6 @@ export function restartApp() {
 
 const root = document.createElement("div");
 root.setAttribute("id", "root");
+root.setAttribute("class", "h-100 overflow-hidden");
 document.body.appendChild(root);
 renderUI();

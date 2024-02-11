@@ -5,8 +5,8 @@ import icons from "../../res/icons/icons";
 
 export function Navbar(props) {
   function handleClick() {
-    api.send("get-devices-v2", "adb")
-    api.send("get-devices-v2", "fb")
+    api.send("get-devices-v2", "adb");
+    api.send("get-devices-v2", "fb");
   }
   return (
     <>
@@ -22,14 +22,14 @@ export function Navbar(props) {
         className="winCtrl-btn border-0"
         onClick={() => api.send("maximize-window")}
       >
-       <icons.App></icons.App>
+        <icons.App></icons.App>
       </button>
       <button
         id="min-btn"
         className="winCtrl-btn border-0"
         onClick={() => api.send("minimize-window")}
       >
-      <icons.Dash_lg></icons.Dash_lg>
+        <icons.Dash_lg></icons.Dash_lg>
       </button>
       <button
         className="btn btn-sm btn-primary py-1 m-1"
@@ -41,8 +41,12 @@ export function Navbar(props) {
         <h6 className="mb-0">{props.dsbtn}</h6>
       </button>
       <div
-        className="m-1 flex-fill align-middle"
-        style={{ marginLeft: "0.5rem" }}
+        className={classNames(
+          "m-1",
+          "flex-fill",
+          "d-flex",
+          "align-items-center"
+        )}
       >
         <p className="ms-1 mb-0">Platron</p>
       </div>
