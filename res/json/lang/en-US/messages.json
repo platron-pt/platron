@@ -28,7 +28,7 @@
   "update": {
     "updateBtn": "Check & Install Updates",
     "checking": "Checking for updates…",
-    "noUpdates": "You are at the latest version",
+    "latest": "You are at the latest version",
     "deprecated": "Now, new versions will be downloaded and installed automatically.",
     "updating": "Updating, ",
     "completed": "Update progress will be completed after closing the app, "

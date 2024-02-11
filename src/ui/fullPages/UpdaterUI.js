@@ -29,6 +29,9 @@ function Updater(props) {
     case "":
       resultText = messages.update.checking;
       break;
+    case "update-not-available":
+      resultText = messages.update.latest;
+      break;
     case "update-available":
       resultText = messages.update.updating;
       resultText += currentVersion + "→" + updateInfo.version;
@@ -44,7 +47,8 @@ function Updater(props) {
     <div className="card">
       <div className="card-body">
         <div className="d-flex">
-          {updateStatus == "update-downloaded" ? null : (
+          {updateStatus == "update-downloaded" ||
+          updateStatus == "update-not-available" ? null : (
             <div className="spinner-border spinner-border-sm" role="status">
               <span className="visually-hidden">
                 {messages.update.checking}

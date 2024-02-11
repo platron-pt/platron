@@ -28,7 +28,7 @@
   "update": {
     "updateBtn": "检查并更新",
     "checking": "正在检查更新",
-    "noUpdates": "已经是最新版",
+    "latest": "已经是最新版",
     "deprecated": "偷偷告诉你，现在可以自动在背景更新啰",
     "updating": "正在升级，",
     "completed": "将于关闭APP后完成更新，"
