@@ -91,7 +91,11 @@
         }
       ],
       "publish": [
-        "github"
+        {
+          "provider": "github",
+          "owner":"platron-pt",
+          "repo":"platron"
+        }
       ]
     },
     "linux": {
