@@ -20,6 +20,7 @@ const promisifiedExec = promisify(child_process.execFile);
 console.debug("Welcome to Platron v" + app.getVersion());
 
 let config, updaterStatus, lang, messages;
+console.log(process.cwd())
 if (isPackaged) {
   config = require("../../config.json");
   updaterStatus = require("../../updaterStatus.json");
@@ -27,7 +28,7 @@ if (isPackaged) {
   config = require("./config.json");
   updaterStatus = require("./updaterStatus.json");
 }
-
+console.log(config)
 let channel = "";
 let ptConfDir = path.join(os.homedir(), ".platron");
 if (!fs.existsSync(ptConfDir)) {
@@ -276,6 +277,7 @@ ipcMain.handle("get-platform-info", async () => {
 });
 
 ipcMain.handle("get-config", async () => {
+  console.log(config)
   return config;
 });
 ipcMain.handle("get-updater-status", async () => {

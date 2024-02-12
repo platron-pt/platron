@@ -16,38 +16,75 @@ import { NavbarButton } from "./ui/Sidebar.js";
 import classNames from "classnames";
 import Logs from "./ui/Logs.js";
 
+let appSettings = {};
+
 const merge = require("deepmerge");
 
 let platformInfo = {};
 
-api.invoke("get-platform-info").then((result) => {
-  platformInfo = result;
+const getPlatform = new Promise((resolve, reject) => {
+  api.invoke("get-platform-info").then((result) => {
+    platformInfo = result;
+    resolve("ok");
+  });
 });
 
-let appSettings = require("../config.json");
-let theme = appSettings.theme;
-let appLanguage = appSettings.language;
-if (appSettings.language === "auto") {
-  switch (navigator.language) {
-    case "zh-TW":
-    case "en-US":
-      appLanguage = navigator.language;
-      break;
-    default:
-      appLanguage = "en-US";
-  }
-}
+const getConfig = new Promise((resolve, reject) => {
+  api.invoke("get-config").then((res) => {
+    appSettings = res;
+    resolve("ok")
+  });
+});
 
-if (appSettings.theme === "auto") {
-  if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-    theme = "dark";
+let theme = "";
+let appLanguage = "";
+let messages = {};
+let lang = {};
+
+// let appSettings = require("../config.json");
+
+Promise.all([getConfig, getPlatform]).then((values) => {
+  if (appSettings.language === "auto") {
+    switch (navigator.language) {
+      case "zh-TW":
+      case "en-US":
+      case "zh-CN":
+        appLanguage = navigator.language;
+        break;
+      default:
+        appLanguage = "en-US";
+    }
   } else {
-    theme = "light";
+    appLanguage = appSettings.language;
   }
-}
+  if (appSettings.theme === "auto") {
+    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+      theme = "dark";
+    } else {
+      theme = "light";
+    }
+  } else {
+    theme = appSettings.theme;
+  }
 
-const messages = require("../res/json/lang/" + appLanguage + "/messages.json");
-const lang = require("../res/json/lang/" + appLanguage + "/lang.json");
+
+  switch (appLanguage) {
+    case "zh-TW":
+      messages = require("../res/json/lang/zh-TW/messages.json");
+      lang = require("../res/json/lang/zh-TW/lang.json");
+      break;
+    case "zh-CN":
+      messages = require("../res/json/lang/zh-CN/messages.json");
+      lang = require("../res/json/lang/zh-CN/lang.json");
+      break;
+    case "en-US":
+      messages = require("../res/json/lang/en-US/messages.json");
+      lang = require("../res/json/lang/en-US/lang.json");
+      break;
+  }
+
+  renderUI();
+});
 
 let dsMode = "adb";
 
@@ -70,7 +107,7 @@ function renderUI() {
           "overflow-hidden"
         )}
       >
-        <div id="sidebar" className={classNames("float-left","overflow-auto")}>
+        <div id="sidebar" className={classNames("float-left", "overflow-auto")}>
           <div className="container">
             <nav id="sidebar" className={classNames("nav", "flex-column")}>
               {Object.keys(oprs).map((e) => {
@@ -97,6 +134,7 @@ function renderUI() {
           platformInfo={platformInfo}
           config={props.config}
           setConfig={props.setConfig}
+          messages={props.messages}
           updateStatus={props.updateStatus}
           updateInfo={props.updateInfo}
         />
@@ -116,10 +154,6 @@ function renderUI() {
 
     const [updateStatus, setUpdateStatus] = useState("");
     const [updateInfo, setUpdateInfo] = useState({});
-
-    useEffect(() => {
-      api.writeFile("config.json", JSON.stringify(config, null, "  "));
-    }, [config]);
 
     useEffect(() => {
       api.handle("updater-status", (res) => {
@@ -156,6 +190,7 @@ function renderUI() {
           foundFBDevices={gff}
           config={config}
           setConfig={setConfig}
+          messages={messages}
           updateStatus={updateStatus}
           updateInfo={updateInfo}
         />
@@ -172,12 +207,9 @@ function renderUI() {
     import("./css/dark.css");
   }
 
-  setTimeout(() => {
-    console.log(platformInfo);
-    if (platformInfo.os.platform == "win32") {
-      import("./css/acrylic.css");
-    }
-  }, 10);
+  if (platformInfo.os.platform == "win32") {
+    import("./css/acrylic.css");
+  }
 }
 
 export function restartApp() {
@@ -188,4 +220,3 @@ const root = document.createElement("div");
 root.setAttribute("id", "root");
 root.setAttribute("class", "h-100 overflow-hidden");
 document.body.appendChild(root);
-renderUI();

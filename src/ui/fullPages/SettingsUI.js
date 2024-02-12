@@ -3,35 +3,15 @@ import React, { useState } from "react";
 import { availableLanguages } from "../UI";
 const merge = require("deepmerge");
 
-const config = require("../../../config.json");
-let appLanguage = config.language;
-if (config.language === "auto") {
-  switch (navigator.language) {
-    case "zh-TW":
-    case "en-US":
-      appLanguage = navigator.language;
-      break;
-    default:
-      appLanguage = "en-US";
-  }
-}
-
-const messages = require("../../../res/json/lang/" +
-  appLanguage +
-  "/messages.json");
-
 function DropDownBtn(props) {
   const options = props.options;
-  const currentOption = props.currentOption;
-  const setCurrentOption = props.setCurrentOption;
+  const config = props.config;
+  const setConfig = props.setConfig;
   const optionsShowText = props.optionsShowText;
   const configKey = props.configKey;
 
   function handleClick(e) {
-    console.log(currentOption);
-    setCurrentOption(
-      merge(currentOption, { [configKey]: e.target.getAttribute("value") })
-    );
+    setConfig(merge(config, { [configKey]: e.target.getAttribute("value") }));
   }
 
   return (
@@ -42,7 +22,7 @@ function DropDownBtn(props) {
         data-bs-toggle="dropdown"
         aria-expanded="false"
       >
-        {optionsShowText[currentOption[configKey]]}
+        {optionsShowText[config[configKey]]}
       </button>
       <ul className="dropdown-menu">
         {options.map((value) => {
@@ -61,6 +41,7 @@ function DropDownBtn(props) {
 
 function AboutCard(props) {
   const platformInfo = props.platformInfo;
+  const messages = props.messages;
 
   function getChromeVersion() {
     const ua = navigator.userAgent.match(/Chrom(e|ium)\/([0-9]+)\./);
@@ -93,12 +74,10 @@ function AboutCard(props) {
 function SettingsUI(props) {
   const config = props.config;
   const setConfig = props.setConfig;
-
-  const [currentConfig, setCurrentConfig] = useState(merge({}, config));
+  const messages = props.messages;
 
   function handleClick() {
-    setConfig(currentConfig);
-    alert(messages.alert.restartAlert);
+    api.writeFile("config.json", JSON.stringify(config, null, "  "));
   }
   return (
     <>
@@ -107,8 +86,8 @@ function SettingsUI(props) {
 
         <DropDownBtn
           options={[...availableLanguages, "auto"]}
-          currentOption={currentConfig}
-          setCurrentOption={setCurrentConfig}
+          config={config}
+          setConfig={setConfig}
           configKey="language"
           optionsShowText={messages.settingsValues.language}
         />
@@ -118,8 +97,8 @@ function SettingsUI(props) {
 
         <DropDownBtn
           options={["dark", "light", "auto"]}
-          currentOption={currentConfig}
-          setCurrentOption={setCurrentConfig}
+          config={config}
+          setConfig={setConfig}
           configKey="theme"
           optionsShowText={messages.settingsValues.theme}
         />
@@ -131,13 +110,13 @@ function SettingsUI(props) {
 
         <DropDownBtn
           options={["1", "2", "3", "7", "14"]}
-          currentOption={currentConfig}
-          setCurrentOption={setCurrentConfig}
+          config={config}
+          setConfig={setConfig}
           configKey="updateFrequency"
           optionsShowText={messages.settingsValues.updateFrequency}
         />
       </div>
-      <AboutCard platformInfo={props.platformInfo} />
+      <AboutCard platformInfo={props.platformInfo} messages={messages} />
       <div className={classNames("d-flex", "justify-content-end")}>
         <button onClick={handleClick} className={classNames("btn", "btn-info")}>
           {messages.settings.save}

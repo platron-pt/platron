@@ -116,6 +116,7 @@ function Content(props) {
         key="SettingsUI"
         config={props.config}
         setConfig={props.setConfig}
+        messages={props.messages}
         platformInfo={props.platformInfo}
       />
     );
@@ -162,6 +163,7 @@ function OperationBox(props) {
           platformInfo={props.platformInfo}
           config={props.config}
           setConfig={props.setConfig}
+          messages={props.messages}
           updateStatus={props.updateStatus}
           updateInfo={props.updateInfo}
         />
@@ -193,6 +195,7 @@ export function OperationArea(props) {
           platformInfo={props.platformInfo}
           config={props.config}
           setConfig={props.setConfig}
+          messages={props.messages}
           updateStatus={props.updateStatus}
           updateInfo={props.updateInfo}
         />
