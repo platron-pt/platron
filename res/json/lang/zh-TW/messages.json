@@ -5,10 +5,10 @@
     "updateFrequency": "檢查更新頻率（天）：",
     "clearCache": "清理更新快取",
     "quitBeta": "退出beta頻道",
-    "save":"儲存設定"
+    "save": "儲存設定"
   },
   "alert": {
-    "info":"^_^",
+    "info": "^_^",
     "restartAlert": "重啟 APP 後套用變更"
   },
   "ui": {
@@ -51,7 +51,8 @@
       "dark": "深色",
       "light": "淺色",
       "auto": "自動"
-    },"updateFrequency":{
+    },
+    "updateFrequency": {
       "1": "1",
       "2": "2",
       "3": "3",

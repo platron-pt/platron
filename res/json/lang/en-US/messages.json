@@ -5,10 +5,10 @@
     "updateFrequency": "Update frequency (days): ",
     "clearCache": "Clear Update Cache",
     "quitBeta": "Exit beta channel",
-    "save":"Save"
+    "save": "Save"
   },
   "alert": {
-    "infoTitle":"Info",
+    "infoTitle": "Info",
     "restartAlert": "Restart the app to take effect"
   },
   "ui": {
@@ -38,9 +38,7 @@
     "flash_remove_verity": "<p class=\"fw-bold\">Only flash to vbmeta partition!</p><p>This function uses <span class=\"font-monospace\">--disable-verity</span> and <span class=\"font-monospace\">--disable-verification</span> arguments, you can just select the original vbmeta image, and will be patched automatically.</p><p class=\"fw-bold\">How to restore vbmeta partition?</p>Flash the original vbmeta image from <a href=\"javascript:switchOpr('fastboot.items.flash')\">flash image to partition</a> is only needed. "
   },
   "devices": {
-    "selectDevices": "Select Device(s)",
-    "closeBtn": "Close Dialog",
-    "saveBtn": "Save"
+    "selectDevices": "Select Device(s)"
   },
   "settingsValues": {
     "language": {
