@@ -20,7 +20,7 @@ const promisifiedExec = promisify(child_process.execFile);
 console.debug("Welcome to Platron v" + app.getVersion());
 
 let config, updaterStatus, lang, messages;
-console.log(process.cwd())
+console.log(process.cwd());
 if (isPackaged) {
   config = require("../../config.json");
   updaterStatus = require("../../updaterStatus.json");
@@ -28,7 +28,17 @@ if (isPackaged) {
   config = require("./config.json");
   updaterStatus = require("./updaterStatus.json");
 }
-console.log(config)
+
+if (config.theme == "auto") {
+  if (nativeTheme.shouldUseDarkColors) {
+    config.exactTheme = "dark";
+  } else {
+    config.exactTheme = "light";
+  }
+} else {
+  config.exactTheme = config.theme;
+}
+
 let channel = "";
 let ptConfDir = path.join(os.homedir(), ".platron");
 if (!fs.existsSync(ptConfDir)) {
@@ -106,7 +116,11 @@ const createWindow = () => {
       }
       win.setMicaEffect();
     } else {
-      win.setAcrylic();
+      if (config.exactTheme == "dark") {
+        win.setCustomEffect(WIN10.ACRYLIC, "#000", 0.4);
+      } else {
+        win.setCustomEffect(WIN10.ACRYLIC, "#fff", 0.4);
+      }
     }
   } else {
     win = new BrowserWindow({
@@ -239,8 +253,6 @@ const createWindow = () => {
     win.webContents.send("updater-status", ["update-downloaded", info]);
   });
 
-  console.log("Should use dark theme:", nativeTheme.shouldUseDarkColors);
-
   win.show();
 };
 
@@ -277,7 +289,7 @@ ipcMain.handle("get-platform-info", async () => {
 });
 
 ipcMain.handle("get-config", async () => {
-  console.log(config)
+  console.log(config);
   return config;
 });
 ipcMain.handle("get-updater-status", async () => {

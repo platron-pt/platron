@@ -57,16 +57,8 @@ Promise.all([getConfig, getPlatform]).then((values) => {
   } else {
     appLanguage = appSettings.language;
   }
-  if (appSettings.theme === "auto") {
-    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-      theme = "dark";
-    } else {
-      theme = "light";
-    }
-  } else {
-    theme = appSettings.theme;
-  }
-
+  
+  theme=appSettings.exactTheme
 
   switch (appLanguage) {
     case "zh-TW":
