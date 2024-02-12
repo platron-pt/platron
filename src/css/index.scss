@@ -24,6 +24,7 @@ body {
 .operation-area {
   width: 38%;
   background-color: var(--bs-body-bg);
+  height: calc(100% - 38px);
 }
 
 #sidebar {

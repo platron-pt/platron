@@ -182,7 +182,6 @@ export function OperationArea(props) {
         "flex-grow-1",
         "rounded-top-2",
         "rounded-right-0",
-        "h-100",
         "overflow-auto"
       )}
     >
