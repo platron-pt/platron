@@ -109,7 +109,7 @@ const createWindow = () => {
     if (IS_WINDOWS_11) {
       console.log("Win11 detected.");
 
-      if (config.theme == "dark") {
+      if (config.exactTheme == "dark") {
         win.setDarkTheme();
       } else {
         win.setLightTheme();
