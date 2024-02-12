@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import React, { useEffect, useState } from "react";
 import deviceParser from "../devices/deviceParser.js";
+import icons from "../../res/icons/icons.js";
 
 function Device(props) {
   const sn = props.sn;
@@ -171,7 +172,7 @@ export default function DeviceSelectorModal(props) {
                 className="btn btn-info"
                 onClick={handleClick}
               >
-                <i className={classNames("bi", "bi-arrow-clockwise")}></i>
+                <icons.Arror_counterclockwise></icons.Arror_counterclockwise>
               </button>
             </div>
             <div className="tab-content" id="ds-device-type">
