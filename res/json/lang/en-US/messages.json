@@ -9,7 +9,8 @@
   },
   "alert": {
     "infoTitle": "Info",
-    "restartAlert": "Restart the app to take effect"
+    "restartAlert": "Restart the app to take effect",
+    "dismiss": "OK"
   },
   "ui": {
     "deviceSelectorBtn": "Devices",

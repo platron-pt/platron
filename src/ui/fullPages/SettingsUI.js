@@ -118,7 +118,12 @@ function SettingsUI(props) {
       </div>
       <AboutCard platformInfo={props.platformInfo} messages={messages} />
       <div className={classNames("d-flex", "justify-content-end")}>
-        <button onClick={handleClick} className={classNames("btn", "btn-info")}>
+        <button
+          onClick={handleClick}
+          data-bs-toggle="modal"
+          data-bs-target="#infoModal"
+          className={classNames("btn", "btn-info")}
+        >
           {messages.settings.save}
         </button>
       </div>

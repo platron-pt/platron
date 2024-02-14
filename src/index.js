@@ -15,6 +15,7 @@ import * as bootstrap from "bootstrap";
 import { NavbarButton } from "./ui/Sidebar.js";
 import classNames from "classnames";
 import Logs from "./ui/Logs.js";
+import InfoModal from "./ui/InfoModal.js";
 
 let appSettings = {};
 
@@ -32,7 +33,7 @@ const getPlatform = new Promise((resolve, reject) => {
 const getConfig = new Promise((resolve, reject) => {
   api.invoke("get-config").then((res) => {
     appSettings = res;
-    resolve("ok")
+    resolve("ok");
   });
 });
 
@@ -57,8 +58,8 @@ Promise.all([getConfig, getPlatform]).then((values) => {
   } else {
     appLanguage = appSettings.language;
   }
-  
-  theme=appSettings.exactTheme
+
+  theme = appSettings.exactTheme;
 
   switch (appLanguage) {
     case "zh-TW":
@@ -147,6 +148,11 @@ function renderUI() {
     const [updateStatus, setUpdateStatus] = useState("");
     const [updateInfo, setUpdateInfo] = useState({});
 
+    const [modalTitle, setModalTitle] = useState(messages.alert.infoTitle);
+    const [modalContent, setModalContent] = useState(
+      messages.alert.restartAlert
+    );
+
     useEffect(() => {
       api.handle("updater-status", (res) => {
         setUpdateStatus(res[0]);
@@ -160,6 +166,11 @@ function renderUI() {
     return (
       <>
         {/* Modal of device selector */}
+        <InfoModal
+          modalTitle={modalTitle}
+          modalContent={modalContent}
+          dismissBtn={messages.alert.dismiss}
+        />
         <DeviceSelectorModal
           title={messages.devices.selectDevices}
           gfa={gfa}

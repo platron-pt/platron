@@ -9,7 +9,8 @@
   },
   "alert": {
     "infoTitle": "提示",
-    "restartAlert": "重启 APP 後变更生效"
+    "restartAlert": "重启 APP 後变更生效",
+    "dismiss": "好"
   },
   "ui": {
     "deviceSelectorBtn": "设备",

@@ -8,8 +8,9 @@
     "save": "儲存設定"
   },
   "alert": {
-    "info": "^_^",
-    "restartAlert": "重啟 APP 後套用變更"
+    "infoTitle": "^_^",
+    "restartAlert": "重啟 APP 後套用變更",
+    "dismiss":"好"
   },
   "ui": {
     "deviceSelectorBtn": "裝置",
