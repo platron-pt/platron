@@ -6,7 +6,7 @@
         "rev": 3,
         "title": "Reboot to",
         "name": "system-power-menu",
-        "navbar": "Reboot to",
+        "navbar": "Reboot",
         "content": [
           {
             "type": "radio",
@@ -70,7 +70,7 @@
       },
       "install": {
         "rev": 3,
-        "title": "Install apk file",
+        "title": "Install APK File",
         "name": "install-menu",
         "subtitle": "For installing apk, not for flashing magisk!",
         "navbar": "Install apk file",
@@ -92,9 +92,9 @@
       },
       "getprop": {
         "rev": 3,
-        "title": "Get system properties",
+        "title": "Get System Properties",
         "name": "getprop-menu",
-        "navbar": "Get system properties",
+        "navbar": "Get System Properties",
         "content": [
           {
             "type": "radio",
@@ -184,10 +184,10 @@
     "items": {
       "sideload": {
         "rev": 3,
-        "title": "Sideload flashable zip",
+        "title": "Sideload Flashable Zip",
         "name": "sideload-menu",
         "subtitle": "You can flash magisk here",
-        "navbar": "Sideload flashable zip",
+        "navbar": "Sideload ZIPs",
         "content": [
           {
             "type": "file",
@@ -213,7 +213,7 @@
         "rev": 3,
         "title": "Reboot to",
         "name": "power-menu",
-        "navbar": "Reboot to",
+        "navbar": "Reboot",
         "content": [
           {
             "type": "radio",
@@ -260,7 +260,7 @@
         "title": "Boot a image",
         "name": "boot-menu",
         "subtitle": "Some models are not supported",
-        "navbar": "Boot a image (suggested)",
+        "navbar": "Boot a Image (suggested)",
         "content": [
           {
             "type": "file",
@@ -279,9 +279,9 @@
       },
       "flash": {
         "rev": 3,
-        "title": "Flash image to partition",
+        "title": "Flash Image to Partition",
         "name": "flash-menu",
-        "navbar": "Flash image to partition",
+        "navbar": "Flash Image",
         "content": [
           {
             "type": "radio",
@@ -371,9 +371,9 @@
       },
       "erase": {
         "rev": 3,
-        "title": "Erase partition",
+        "title": "Erase Partition",
         "name": "erase-menu",
-        "navbar": "Erase partition",
+        "navbar": "Erase Partition",
         "content": [
           {
             "type": "radio",
@@ -437,9 +437,9 @@
       },
       "format": {
         "rev": 3,
-        "title": "Format partition",
+        "title": "Format Partition",
         "name": "format-menu",
-        "navbar": "Format partition",
+        "navbar": "Format Partition",
         "content": [
           {
             "type": "radio",
@@ -478,9 +478,9 @@
       },
       "flashing": {
         "rev": 3,
-        "title": "Fastboot flashing",
+        "title": "Fastboot Flashing Commands",
         "name": "flashing-menu",
-        "navbar": "Fastboot flashing",
+        "navbar": "Fastboot Flashing",
         "content": [
           {
             "type": "radio",
@@ -520,9 +520,9 @@
       },
       "oem": {
         "rev": 3,
-        "title": "Fastboot oem",
+        "title": "Fastboot OEM Commands",
         "name": "oem-menu",
-        "navbar": "Fastboot oem",
+        "navbar": "Fastboot OEM",
         "content": [
           {
             "type": "radio",
@@ -558,9 +558,9 @@
       },
       "update": {
         "rev": 3,
-        "title": "Fastboot update",
+        "title": "Fastboot Update",
         "name": "update-menu",
-        "navbar": "Fastboot update",
+        "navbar": "Fastboot Update",
         "content": [
           {
             "type": "file",
@@ -579,9 +579,9 @@
       },
       "getvar": {
         "rev": 3,
-        "title": "Fastboot getvar",
+        "title": "Get Variables Stored in Fastboot",
         "name": "getvar-menu",
-        "navbar": "Fastboot getvar",
+        "navbar": "Get Fastboot Variables",
         "content": [
           {
             "type": "radio",
@@ -621,9 +621,9 @@
       },
       "active": {
         "rev": 3,
-        "title": "Switch active slot to",
+        "title": "Switch Active Slot to",
         "name": "active-menu",
-        "navbar": "Switch active slot to",
+        "navbar": "Switch Active Slot",
         "content": [
           {
             "type": "radio",

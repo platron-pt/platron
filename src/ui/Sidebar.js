@@ -32,7 +32,7 @@ export function NavbarButton({ elements, category, lang, setOperation }) {
           return (
             <OperationTag
               category={category}
-              text={lang.items[e].title}
+              text={lang.items[e].navbar}
               operation={e}
               key={e}
               setOperation={setOperation}
