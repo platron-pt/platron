@@ -1,6 +1,6 @@
 For English version, please [click me](./README.md)
 
-# Platron
+# Platron（前EAF）
 
 ## Platron 是什麼
 

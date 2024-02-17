@@ -1,6 +1,6 @@
 中文版請[點我](./README-zh.md)
 
-# Platron
+# Platron (previously named EAF)
 
 ## What is Platron
 
