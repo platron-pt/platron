@@ -1,14 +1,15 @@
 中文版請[點我](./README-zh.md)
 
-# Easy ADB and fastboot (EAF)
+<p align="center">
+<img src="./readme-imgs/icon_2048.png" width="128px">
+<h1 align="center">Platron (previously named EAF)</h1>
+</p>
 
-#### Note: Settings > Online Updates is still in progress, in order to update the app, see the instructions below
+## What is Platron
 
-## What is EAF
+Platron is a graphical manager of ADB (Android Debug Bridge) and fastboot.
 
-EAF is a graphical manager of ADB (Android Debug Bridge) and fastboot.
-
-## Features of EAF
+## Features of Platron
 
 - Commonly used ADB and fastboot commands
 - Power management (reboot to system, recovery, bootloader ,etc.)
@@ -21,9 +22,9 @@ EAF is a graphical manager of ADB (Android Debug Bridge) and fastboot.
 
 ## Screenshot(s)
 
-![fastboot getvar function](./readme-imgs/fastboot_get_var.png)
-![device manager](./readme-imgs/devices.png)
-![output by groups](./readme-imgs/multiple_devices.png)
+| ![windows 11](./readme-imgs/w11-1.png) | ![windows 11](./readme-imgs/w11-2.png) |
+| -------------------------------------- | -------------------------------------- |
+| ![windows 10](./readme-imgs/w10-1.png) | ![windows 10](./readme-imgs/w10-2.png) |
 
 ## Supported platforms
 
@@ -35,17 +36,19 @@ Linux and Windows are officially supported, ~~for macOS users, you can build it 
 
 Download release files from [Releases](https://github.com/ryantsui1109/Easy_ADB_fastboot/releases) page, or from our [Website](https://ryantsui1109.github.io/eaf_web/en)
 
-
 #### Windows
-Please double click the exec file to install. 
-#### Linux 
-Extract the tar.xz, and excute `easy_adb_fastboot` which should be inside the folder.
+
+Please double click the exec file to install.
+
+#### Linux
+
+Extract the tar.xz, and excute `platron` which should be contained the output folder.
 
 ### Update
 
 #### Windows
 
-Updates will be checked every few days, you can set it in the settings page, or you can check it manually
+Updates will be checked every few days, you can set it in the settings page, or you can check it manually.
 
 #### Linux
 
@@ -58,29 +61,26 @@ See what I've done recently [here](./更新說明.md).
 ## Building from source (For both platforms)
 
 1. Clone this repository
-1. Install Node.js and npm
+1. Install Node.js (LTS) and npm
 1. Install dependencies
 
    ```console
-   $ npm install
+   $ npm ci
    ```
 
 1. Download platform-tools
 
    ```console
-
-   $ node scripts/eaf_builder.js -d #Windows and Linux only, for mac users, please download manually from Google's site
+   $ node scripts/platronMaker.js -d #Auto detect whether Windows or Linux, for macOS users, please download it manually.
    ```
 
-1. Configure EAF
+1. Configure Platron
    ```console
-   $ node scripts/eaf_builder.js -i=<index> -c=<channel> #index should be a number, and channel should be a string
+   $ node scripts/platronMaker.js -v=<variant> #beta and stable are suggested, or you can modify the source code
    ```
-1. Build EAF
+1. Build Platron
    ```console
-   $ npm run build #build locally
+   $ node scripts/platronMaker.js -b -w=<development|production> -p=<never|always>
    ```
-   or
-   ```console
-   $ npm run publish #build and upload release server (any releasing way that electron-build supports)
-   ```
+   `-w` argument for webpack mode.\
+   `-p` argument for electron-builder to publish (to supported platform) or not.

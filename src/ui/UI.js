@@ -29,7 +29,7 @@ export const oprs = {
           },
           {
             type: "radio",
-            value: "system",
+            value: "",
           },
           {
             type: "radio",
@@ -248,7 +248,7 @@ export const oprs = {
           },
           {
             type: "radio",
-            value: "system",
+            value: "",
           },
           {
             type: "radio",
@@ -695,11 +695,13 @@ export const oprs = {
         subtitle: "TODO",
         noStartButton: true,
         navbar: "TODO",
+        content: [],
       },
       updater: {
         title: "Online Updates",
         noStartButton: true,
         navbar: "Online Updates",
+        content: [],
       },
     },
   },

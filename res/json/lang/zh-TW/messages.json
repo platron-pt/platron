@@ -4,17 +4,20 @@
     "theme": "主題：",
     "updateFrequency": "檢查更新頻率（天）：",
     "clearCache": "清理更新快取",
-    "quitBeta": "退出beta頻道"
+    "quitBeta": "退出beta頻道",
+    "save": "儲存設定"
   },
   "alert": {
-    "restartAlert": "<a href='javascript:lib.restartApp()'>重啟</a> APP 以套用變更</br><a href='javascript:lib.restartApp()'>重启</a>应用以套用变更</br><a href='javascript:lib.restartApp()'>Restart</a> the app to take effect</br>"
+    "infoTitle": "^_^",
+    "restartAlert": "重啟 APP 後套用變更",
+    "dismiss":"好"
   },
   "ui": {
     "deviceSelectorBtn": "裝置",
     "fileSelectorBtn": "選擇檔案",
     "fileSelectorDefault": "請選擇檔案",
     "nothingSelected": "從側邊欄選取功能以開始",
-    "unlockAlertMsg": "請在BL解鎖後再執行",
+    "needUnlock": "請在BL解鎖後再執行",
     "startBtn": "開始"
   },
   "info": {
@@ -24,20 +27,38 @@
     "osVersion": "系統版本："
   },
   "update": {
-    "updateEafBtn": "更新 EAF",
-    "checkingUpdate": "正在檢查更新",
-    "noUpdates": "已在最新版本",
+    "updateBtn": "檢查並更新",
+    "checking": "正在檢查更新",
+    "latest": "已在最新版本",
     "deprecated": "偷偷告訴你，現在可以自動在背景更新囉",
-    "updatingTo": "正在更新到 v",
-    "updateComplete": "將於關閉APP後完成更新"
+    "updating": "正在更新，",
+    "completed": "將於關閉APP後完成更新，"
   },
   "tips": {
     "boot": "<p class=\"fw-bold\">為什麼要使用臨時啓動而非刷入鏡像？</p>臨時啓動僅將鏡像下載到記憶體中，對於無獨立 Recovery 分區的 AB 槽位機型而言，可維持原本的 boot 分區不被第三方 Recovery 取代。",
     "flash_remove_verity": "<p class=\"fw-bold\">僅能刷入 vbmeta 分區！</p><p>本功能指定 <span class=\"font-monospace\">--disable-verity</span> 和 <span class=\"font-monospace\">--disable-verification</span> 參數，使用時選擇原版 vbmeta 即可，將會自動轉換成停用驗證的版本。</p><p class=\"fw-bold\">如何還原此操作？</p>在<a href=\"javascript:switchOpr('fastboot.items.flash')\">刷入鏡像</a>中刷入原廠的 vbmeta 即可。"
   },
   "devices": {
-    "selectDevices": "選擇裝置",
-    "closeBtn": "關閉",
-    "saveBtn": "儲存"
+    "selectDevices": "選擇裝置"
+  },
+  "settingsValues": {
+    "language": {
+      "zh-TW": "繁體中文",
+      "zh-CN": "简体中文",
+      "en-US": "English (United States)",
+      "auto": "自動"
+    },
+    "theme": {
+      "dark": "深色",
+      "light": "淺色",
+      "auto": "自動"
+    },
+    "updateFrequency": {
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "7": "7",
+      "14": "14"
+    }
   }
 }

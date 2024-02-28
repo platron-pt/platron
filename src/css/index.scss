@@ -1,28 +1,49 @@
+@import "bootstrap/scss/bootstrap";
+// $bootstrap-icons-font-dir: "~bootstrap-icons/font/fonts";
+// @import "~bootstrap-icons/font/bootstrap-icons.scss";
+
+html,
 body {
-  height: 100vh;
+  height: 100%;
   overflow: hidden;
-  /* background-color: unset; */
 }
 
-#operation-area,#log-box{
+#main-content {
+  height: calc(100% - 38px);
+}
+
+#operation-area,
+#log-box {
   background-color: var(--bs-body-bg);
 }
 
+#log-box {
+  width: 38%;
+}
+
+.operation-area {
+  width: 38%;
+  background-color: var(--bs-body-bg);
+  height: calc(100% - 38px);
+}
+
 #sidebar {
-  height: 100%;
-  overflow: auto;
+  height: calc(100% - 38px);
 }
 
 #navbar {
   height: 100%;
+  width: 24%;
 }
 #winCtrl-bar {
   -webkit-app-region: drag;
+  height: 38px;
   width: 100%;
 }
 #close-btn,
 #max-btn,
-#min-btn,#devices-btn {
+#min-btn,
+#devices-btn {
   -webkit-app-region: none;
 }
 
@@ -34,14 +55,14 @@ body {
   transition: 0.3s;
 }
 #log-box {
-  width: 70%;
+  width: 40%;
   padding: 0.5rem;
   overflow: auto;
   font-size: 0.8rem;
-  overflow-x:hidden;
+  overflow-x: hidden;
 }
 
-.logs-body{
+.logs-body {
   overflow-x: auto;
 }
 

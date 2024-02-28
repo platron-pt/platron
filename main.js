@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, shell } = require("electron");
+const { app, BrowserWindow, ipcMain, shell, nativeTheme } = require("electron");
 const {
   PARAMS,
   VALUE,
@@ -14,17 +14,29 @@ const os = require("os");
 const platform = os.platform();
 const { autoUpdater } = require("electron-updater");
 const { INSPECT_MAX_BYTES, constants } = require("buffer");
-const { connected } = require("process");
-
-console.debug("Welcome to EAF v" + app.getVersion());
+const { connected, stderr } = require("process");
+const { promisify } = require("node:util");
+const promisifiedExec = promisify(child_process.execFile);
+console.debug("Welcome to Platron v" + app.getVersion());
 
 let config, updaterStatus, lang, messages;
+console.log(process.cwd());
 if (isPackaged) {
   config = require("../../config.json");
   updaterStatus = require("../../updaterStatus.json");
 } else {
   config = require("./config.json");
   updaterStatus = require("./updaterStatus.json");
+}
+
+if (config.theme == "auto") {
+  if (nativeTheme.shouldUseDarkColors) {
+    config.exactTheme = "dark";
+  } else {
+    config.exactTheme = "light";
+  }
+} else {
+  config.exactTheme = config.theme;
 }
 
 let channel = "";
@@ -71,55 +83,58 @@ if (platform == "linux") {
 }
 
 if (!isPackaged || channel == "beta") {
+  console.log("has DevTools!");
   hasDevtools = true;
 }
 
-let indexFile;
 const createWindow = () => {
   let win = {};
   console.log("OS Version", os.release());
-  if (false) {
+  if (os.platform == "win32") {
     win = new MicaBrowserWindow({
       show: false,
       autoHideMenuBar: true,
       width: 1080,
-      height: 501,
+      height: 500,
       minWidth: 1080,
+      minHeight: 500,
       frame: false,
       webPreferences: {
         preload: path.join(__dirname, "preload.js"),
         devTools: hasDevtools,
-        icon: __dirname + "./favicon_256.ico",
+        icon: __dirname + "./res/img/icon_512.png",
       },
     });
 
     if (IS_WINDOWS_11) {
       console.log("Win11 detected.");
-      console.log(config.theme);
 
-      if (config.theme == "dark") {
-        console.log("dark");
+      if (config.exactTheme == "dark") {
         win.setDarkTheme();
       } else {
-        console.log("light");
         win.setLightTheme();
       }
       win.setMicaEffect();
     } else {
-      win.setAcrylic();
+      if (config.exactTheme == "dark") {
+        win.setCustomEffect(WIN10.ACRYLIC, "#000", 0.4);
+      } else {
+        win.setCustomEffect(WIN10.ACRYLIC, "#fff", 0.4);
+      }
     }
   } else {
     win = new BrowserWindow({
       // transparent: true,
       show: false,
       width: 1080,
-      height: 501,
+      height: 500,
+      minHeight: 500,
       minWidth: 1080,
       frame: false,
       webPreferences: {
         preload: path.join(__dirname, "preload.js"),
         devTools: hasDevtools,
-        icon: __dirname + "./favicon_256.ico",
+        icon: __dirname + "./res/img/icon_512.png",
       },
     });
   }
@@ -130,7 +145,7 @@ const createWindow = () => {
     win.setMenu(null);
   }
   win.webContents.openDevTools({ mode: "undocked" });
-  win.loadFile("index.html");
+  win.loadFile("dist/index.html");
 
   ipcMain.on("restart-app", () => {
     app.relaunch();
@@ -152,6 +167,7 @@ const createWindow = () => {
   ipcMain.on("resize", () => {
     win.setSize(1080, 500);
   });
+
   ipcMain.on("run-command", (e, command, params) => {
     const process = child_process.spawn(command, params);
     process.stderr.on("data", (data) => {
@@ -171,10 +187,8 @@ const createWindow = () => {
       }
     });
   });
-  ipcMain.on("write-file", (e, fileName, data) => {
-    writeFile(fileName, data);
-  });
-  ipcMain.on("get-devices", (e, mode) => {
+
+  ipcMain.on("get-devices-v2", (e, mode) => {
     let exec = "";
     switch (mode) {
       case "adb":
@@ -186,17 +200,47 @@ const createWindow = () => {
       default:
         break;
     }
-    function findDevice() {
-      child_process.execFile(exec, ["devices"], (error, stdout, stderr) => {
-        win.webContents.send("found-devices", [mode, stdout]);
-      });
-    }
-    findDevice();
+    const process = child_process.execFile(
+      exec,
+      ["devices"],
+      (error, stdout, stderr) => {
+        if (error) {
+          throw error;
+        }
+
+        win.webContents.send("got-devices-v2", [mode, `${stdout}`]);
+      }
+    );
   });
+
+  ipcMain.on("write-file", (e, fileName, data) => {
+    writeFile(fileName, data);
+  });
+
   ipcMain.on("check-updates", (e) => {
     autoUpdater.checkForUpdates();
   });
+  ipcMain.handle("get-devices", async (e, mode) => {
+    let exec = "";
+    switch (mode) {
+      case "adb":
+        exec = adbPath;
+        break;
+      case "fb":
+        exec = fbPath;
+        break;
+      default:
+        break;
+    }
 
+    const { stdout, stderr } = await getDevices(exec, ["devices"]);
+
+    async function getDevices() {
+      const { stdout, stderr } = await promisifiedExec(exec, ["devices"]);
+      return { stdout: stdout, stderr: stderr };
+    }
+    return await getDevices();
+  });
   autoUpdater.on("update-not-available", (info) => {
     win.webContents.send("updater-status", ["update-not-available", {}]);
   });
@@ -206,16 +250,26 @@ const createWindow = () => {
   });
 
   autoUpdater.on("update-downloaded", (info) => {
-    win.webContents.send("updater-status", ["update-downloaded", {}]);
+    win.webContents.send("updater-status", ["update-downloaded", info]);
   });
+
   win.show();
 };
 
 ipcMain.on("quit-beta", (e) => {
-  fs.rm(path.join(ptConfDir, "beta"),(err)=>{
+  fs.rm(path.join(ptConfDir, "beta"), (err) => {
     throw err;
   });
 });
+
+const platformInfo = {
+  os: {
+    type: os.type(),
+    release: os.release(),
+    platform: os.platform(),
+  },
+  appVersion: app.getVersion(),
+};
 
 ipcMain.handle("get-platform", async () => {
   return platform;
@@ -229,7 +283,13 @@ ipcMain.handle("get-os-type", async () => {
 ipcMain.handle("get-os-release", async () => {
   return os.release();
 });
+
+ipcMain.handle("get-platform-info", async () => {
+  return platformInfo;
+});
+
 ipcMain.handle("get-config", async () => {
+  console.log(config);
   return config;
 });
 ipcMain.handle("get-updater-status", async () => {
