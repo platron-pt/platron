@@ -1,6 +1,9 @@
 For English version, please [click me](./README.md)
 
-# Platron（前EAF）
+<p align="center">
+<img src="./readme-imgs/icon_2048.png" width="128px"></img>
+<h1>Platron（前 EAF）</h1>
+</p>
 
 ## Platron 是什麼
 
@@ -19,9 +22,9 @@ Platron 是一個圖形化的 ADB 和 fastboot 管理器
 
 ## 截圖
 
-![fastboot getvar function](./readme-imgs/fastboot_get_var.png)
-![device manager](./readme-imgs/devices.png)
-![output by groups](./readme-imgs/multiple_devices.png)
+| ![windows 11](./readme-imgs/w11-1.png) | ![windows 11](./readme-imgs/w11-2.png) |
+| -------------------------------------- | -------------------------------------- |
+| ![windows 10](./readme-imgs/w10-1.png) | ![windows 10](./readme-imgs/w10-2.png) |
 
 ## 支援的平台
 
@@ -79,5 +82,5 @@ Platron 是一個圖形化的 ADB 和 fastboot 管理器
    ```console
    $ node scripts/platronMaker.js -b -w=<development|production> -p=<never|always>
    ```
-   ```-w``` 參數爲 webpack 的模式\
-   ```-p``` 參數爲是否發佈（到 electron-builder 原生支援的發佈方式）
+   `-w` 參數爲 webpack 的模式\
+   `-p` 參數爲是否發佈（到 electron-builder 原生支援的發佈方式）
