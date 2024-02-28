@@ -1,7 +1,7 @@
 中文版請[點我](./README-zh.md)
 
 <p align="center">
-<img src="./readme-imgs/icon_2048.png" width="128px"></img>
+<img src="./readme-imgs/icon_2048.png" width="128px">
 <h1 align="center">Platron (previously named EAF)</h1>
 </p>
 

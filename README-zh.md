@@ -1,7 +1,7 @@
 For English version, please [click me](./README.md)
 
 <p align="center">
-<img src="./readme-imgs/icon_2048.png" width="128px"></img>
+<img src="./readme-imgs/icon_2048.png" width="128px">
 <h1 align="center">Platron（前 EAF）</h1>
 </p>
 
