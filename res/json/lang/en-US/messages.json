@@ -59,6 +59,10 @@
       "3": "3",
       "7": "7",
       "14": "14"
+    },
+    "dev": {
+      "title": "Developer Options",
+      "logTest": "Logging Test"
     }
   }
 }
