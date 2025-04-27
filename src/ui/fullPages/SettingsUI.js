@@ -10,8 +10,6 @@ function SettingsUI(props) {
   const setConfig = props.setConfig;
   const messages = props.messages;
 
-  console.log(config);
-
   function handleClick() {
     api.writeFile("config.json", JSON.stringify(config, null, "  "));
   }
