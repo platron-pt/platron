@@ -17,7 +17,7 @@ function DropDownBtn(props) {
   return (
     <div className="dropdown">
       <button
-        className="btn btn-secondary dropdown-toggle"
+        className="btn btn-secondary btn-sm dropdown-toggle"
         type="button"
         data-bs-toggle="dropdown"
         aria-expanded="false"
@@ -82,7 +82,7 @@ function SettingsUI(props) {
   return (
     <>
       <div className={classNames("d-flex", "mb-1")}>
-        <span className="align-self-center">{messages.settings.language}</span>
+        <span className="align-self-center me-2">{messages.settings.language}</span>
 
         <DropDownBtn
           options={[...availableLanguages, "auto"]}
@@ -93,7 +93,7 @@ function SettingsUI(props) {
         />
       </div>
       <div className={classNames("d-flex", "mb-1")}>
-        <span className="align-self-center">{messages.settings.theme}</span>
+        <span className="align-self-center me-2">{messages.settings.theme}</span>
 
         <DropDownBtn
           options={["dark", "light", "auto"]}
@@ -104,7 +104,7 @@ function SettingsUI(props) {
         />
       </div>
       <div className={classNames("d-flex", "mb-1")}>
-        <span className="align-self-center">
+        <span className="align-self-center me-2">
           {messages.settings.updateFrequency}
         </span>
 
