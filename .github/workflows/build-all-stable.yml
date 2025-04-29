@@ -1,4 +1,4 @@
-name: "Build EAF with stable configs (all platforms)"
+name: "Build Platron with stable configs (all platforms)"
 
 on:
   workflow_dispatch:
