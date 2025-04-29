@@ -228,7 +228,7 @@ const createWindow = () => {
     autoUpdater.checkForUpdates();
   });
   ipcMain.on("test-log", (e, [channel, message]) => {
-    win.webContents.send("print-log", [channel, message]);
+    win.webContents.send("print-log", [channel ? channel : "main", message+"\n"]);
   });
 
   ipcMain.handle("get-devices", async (e, mode) => {
