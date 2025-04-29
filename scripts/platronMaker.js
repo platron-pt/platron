@@ -170,13 +170,16 @@ async function main() {
           } else {
             console.log(args.w + " mode");
             let npx = "npx";
+            let options = {};
             if (os.platform() == "win32") {
               npx += ".cmd";
+              Object.assign(options, { shell: true });
             }
-            const webpackProcess = child_process.spawn(npx, [
-              "webpack",
-              "--mode=" + args.w,
-            ]);
+            const webpackProcess = child_process.spawn(
+              npx,
+              ["webpack", "--mode=" + args.w],
+              options
+            );
             webpackProcess.stdout.on("data", (res) => {
               console.log(res.toString());
             });
@@ -185,12 +188,11 @@ async function main() {
             });
             webpackProcess.on("close", (code) => {
               if (!code) {
-                const buildProcess = child_process.spawn(npx, [
-                  "electron-builder",
-                  "build",
-                  "--publish",
-                  args.p,
-                ]);
+                const buildProcess = child_process.spawn(
+                  npx,
+                  ["electron-builder", "build", "--publish", args.p],
+                  options
+                );
                 buildProcess.stdout.on("data", (res) => {
                   console.log(res.toString());
                 });
