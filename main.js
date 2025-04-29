@@ -1,4 +1,11 @@
-const { app, BrowserWindow, ipcMain, shell, nativeTheme } = require("electron");
+const {
+  app,
+  BrowserWindow,
+  ipcMain,
+  shell,
+  nativeTheme,
+  dialog,
+} = require("electron");
 const {
   PARAMS,
   VALUE,
@@ -240,6 +247,13 @@ const createWindow = () => {
       return { stdout: stdout, stderr: stderr };
     }
     return await getDevices();
+  });
+  ipcMain.handle("open-file-dialog", async (e, extension) => {
+    const accepted = extension == undefined ? ["*"] : extension.split(",");
+    return dialog
+      .showOpenDialog(BrowserWindow, {
+        filters: [{ name: "Files", extensions: accepted }],
+      });
   });
   autoUpdater.on("update-not-available", (info) => {
     win.webContents.send("updater-status", ["update-not-available", {}]);

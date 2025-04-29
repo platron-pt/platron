@@ -12,7 +12,7 @@ function File(props) {
   const setStatus = props.setStatus;
   const defaultText = props.defaultText;
 
-  function handleChange(e) {
+  function handleChange(filePath) {
     const currentStatus = new Map(status);
     // const currentStatus = merge(status, {
     //   [keyPath]: { filePath: e.target.files[0].path },
@@ -20,28 +20,58 @@ function File(props) {
     const thisStatus = currentStatus.get(keyPath);
     currentStatus.set(
       keyPath,
-      merge(thisStatus, { filePath: e.target.files[0].path })
+      merge(thisStatus, { filePath: filePath })
     );
     setStatus(currentStatus);
   }
 
+  async function handleClick(e) {
+    // console.log(props);
+    api.invoke("open-file-dialog", misc).then((result) => {
+      if(!result.canceled) {
+        handleChange(result.filePaths[0]);
+      }
+    });
+  }
+
   return (
+    // <div className="mb-3">
+    //   <label
+    //     className={classNames("btn", "btn-primary")}
+    //     htmlFor={keyPath + "-file-input"}
+    //   >
+    //     <icons.Files></icons.Files>
+    //     {text}
+    //   </label>
+    //   <input
+    //     className={classNames("d-none", "file-input", keyPath)}
+    //     onChangeCapture={handleChange}
+    //     type="file"
+    //     name={name}
+    //     id={keyPath + "-file-input"}
+    //     accept={misc}
+    //   />
+    //   <h5
+    //     id={keyPath + "-file-path"}
+    //     className={classNames("user-select-none", keyPath)}
+    //   >
+    //     {status.has(keyPath)
+    //       ? !!status.get(keyPath).filePath
+    //         ? status.get(keyPath).filePath
+    //         : defaultText
+    //       : defaultText}
+    //   </h5>
+    // </div>
     <div className="mb-3">
-      <label
+      <button
         className={classNames("btn", "btn-primary")}
-        htmlFor={keyPath + "-file-input"}
+        onClick={handleClick}
       >
-        <icons.Files></icons.Files>
+        <span className="me-2">
+          <icons.Files></icons.Files>
+        </span>
         {text}
-      </label>
-      <input
-        className={classNames("d-none", "file-input", keyPath)}
-        onChangeCapture={handleChange}
-        type="file"
-        name={name}
-        id={keyPath + "-file-input"}
-        accept={misc}
-      />
+      </button>
       <h5
         id={keyPath + "-file-path"}
         className={classNames("user-select-none", keyPath)}
