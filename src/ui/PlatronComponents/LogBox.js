@@ -21,7 +21,15 @@ export function LogBox(props) {
       setCopyIcon("bi-clipboard2");
     });
   }
-  function handleSaveClick(e) {}
+  function handleSaveClick(e) {
+    api.invoke("open-folder-dialog").then((result) => {
+      console.log(logs);
+      if (!result.canceled) {
+        const filePath = result.filePaths[0] + "/platron-" + channel + ".log";
+        api.writeFile(filePath, logs);
+      }
+    });
+  }
 
   function handleDeleteClick(e) {
     const currentLogs = new Map(logGroups);

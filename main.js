@@ -221,6 +221,7 @@ const createWindow = () => {
   });
 
   ipcMain.on("write-file", (e, fileName, data) => {
+    console.log(fileName, data);
     writeFile(fileName, data);
   });
 
@@ -228,7 +229,10 @@ const createWindow = () => {
     autoUpdater.checkForUpdates();
   });
   ipcMain.on("test-log", (e, [channel, message]) => {
-    win.webContents.send("print-log", [channel ? channel : "main", message+"\n"]);
+    win.webContents.send("print-log", [
+      channel ? channel : "main",
+      message + "\n",
+    ]);
   });
 
   ipcMain.handle("get-devices", async (e, mode) => {
@@ -255,7 +259,13 @@ const createWindow = () => {
   ipcMain.handle("open-file-dialog", async (e, extension) => {
     const accepted = extension == undefined ? ["*"] : extension.split(",");
     return dialog.showOpenDialog(win, {
+      properties: ["openFile"],
       filters: [{ name: "Files", extensions: accepted }],
+    });
+  });
+  ipcMain.handle("open-folder-dialog", async (e) => {
+    return dialog.showOpenDialog(win, {
+      properties: ["openDirectory"],
     });
   });
   autoUpdater.on("update-not-available", (info) => {
