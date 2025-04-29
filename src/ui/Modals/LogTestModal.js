@@ -11,6 +11,7 @@ export function LogTestModal({ show, messages }) {
   }
   function handleClick() {
     api.send("test-log",[logGroup, message]);
+    setMessage("")
   }
   return (
     <Modal show={show.get()} onHide={handleHide}>
