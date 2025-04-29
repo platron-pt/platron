@@ -35,4 +35,6 @@ jobs:
 
       - name: Configute & Build Platron
         run: node scripts/platronMaker.js -b -v=${{github.event.inputs.build_variant}} -d -p=always -w=development
+        env: 
+          GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
