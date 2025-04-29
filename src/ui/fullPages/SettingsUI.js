@@ -71,7 +71,7 @@ function SettingsUI(props) {
           }}
         ></DevCard>
       ) : (
-        none
+        null
       )}
       <div className={classNames("d-flex", "justify-content-end")}>
         <button
