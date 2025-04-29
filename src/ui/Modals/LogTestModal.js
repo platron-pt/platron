@@ -1,10 +1,9 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Modal, Button, Form, InputGroup } from "react-bootstrap";
 
 export function LogTestModal({ show, messages }) {
   const [logGroup, setLogGroup] = React.useState("");
   const [message, setMessage] = React.useState("");
-
 
   function handleHide() {
     show.set(false);
@@ -13,6 +12,7 @@ export function LogTestModal({ show, messages }) {
     api.send("test-log", [logGroup, message]);
     setMessage("");
   }
+
   return (
     <Modal show={show.get()} onHide={handleHide}>
       <Modal.Header closeButton>{messages.dev.logTest.title}</Modal.Header>
@@ -28,12 +28,19 @@ export function LogTestModal({ show, messages }) {
           <Form.Control
             placeholder={messages.dev.logTest.message}
             onChange={(e) => setMessage(e.target.value)}
+            onKeyUp={(e) => {
+              if(e.key === "Enter") {
+                handleClick();
+              }
+            }}
             value={message}
           ></Form.Control>
         </InputGroup>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="primary" onClick={handleClick}>{messages.dev.logTest.send}</Button>
+        <Button variant="primary" onClick={handleClick}>
+          {messages.dev.logTest.send}
+        </Button>
       </Modal.Footer>
     </Modal>
   );
