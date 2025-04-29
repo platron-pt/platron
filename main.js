@@ -227,6 +227,10 @@ const createWindow = () => {
   ipcMain.on("check-updates", (e) => {
     autoUpdater.checkForUpdates();
   });
+  ipcMain.on("test-log", (e, [channel, message]) => {
+    win.webContents.send("print-log", [channel, message]);
+  });
+
   ipcMain.handle("get-devices", async (e, mode) => {
     let exec = "";
     switch (mode) {
@@ -250,10 +254,9 @@ const createWindow = () => {
   });
   ipcMain.handle("open-file-dialog", async (e, extension) => {
     const accepted = extension == undefined ? ["*"] : extension.split(",");
-    return dialog
-      .showOpenDialog(BrowserWindow, {
-        filters: [{ name: "Files", extensions: accepted }],
-      });
+    return dialog.showOpenDialog(win, {
+      filters: [{ name: "Files", extensions: accepted }],
+    });
   });
   autoUpdater.on("update-not-available", (info) => {
     win.webContents.send("updater-status", ["update-not-available", {}]);

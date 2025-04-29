@@ -4,11 +4,13 @@ import { availableLanguages } from "../UI";
 import { AboutCard } from "../PlatronComponents/AboutCard";
 import { DropDownBtn } from "../PlatronComponents/DropDownBtn";
 import { DevCard } from "../PlatronComponents/DevCard";
+import { LogTestModal } from "../Modals/LogTestModal";
 
 function SettingsUI(props) {
   const config = props.config;
   const setConfig = props.setConfig;
   const messages = props.messages;
+  const [showLogTestModal, setShowLogTestModal] = useState(false);
 
   function handleClick() {
     api.writeFile("config.json", JSON.stringify(config, null, "  "));
@@ -55,7 +57,19 @@ function SettingsUI(props) {
         />
       </div>
       <AboutCard platformInfo={props.platformInfo} messages={messages} />
-      {config.variant == "beta" ? <DevCard messages={messages}></DevCard> : none}
+      {config.variant == "beta" ? (
+        <DevCard
+          messages={messages}
+          showLogTestModal={{
+            set: setShowLogTestModal,
+            get: () => {
+              return showLogTestModal;
+            },
+          }}
+        ></DevCard>
+      ) : (
+        none
+      )}
       <div className={classNames("d-flex", "justify-content-end")}>
         <button
           onClick={handleClick}
@@ -66,6 +80,15 @@ function SettingsUI(props) {
           {messages.settings.save}
         </button>
       </div>
+      <LogTestModal
+        show={{
+          set: setShowLogTestModal,
+          get: () => {
+            return showLogTestModal;
+          },
+        }}
+        messages={messages}
+      ></LogTestModal>
     </>
   );
 }
