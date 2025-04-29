@@ -13,7 +13,7 @@ import "./css/index.scss";
 import * as bootstrap from "bootstrap";
 
 import { NavbarButton } from "./ui/Sidebar.js";
-import classNames from "classnames";
+import cn from "classnames";
 import Logs from "./ui/Logs.js";
 
 let appSettings = {};
@@ -90,7 +90,7 @@ function renderUI() {
     return (
       <div
         id="main-content"
-        className={classNames(
+        className={cn(
           "d-flex",
           "flex-row",
           "position-relative",
@@ -99,9 +99,9 @@ function renderUI() {
           "overflow-hidden"
         )}
       >
-        <div id="sidebar" className={classNames("float-left", "overflow-auto")}>
+        <div id="sidebar" className={cn("float-left", "overflow-auto")}>
           <div className="container">
-            <nav id="sidebar" className={classNames("nav", "flex-column")}>
+            <nav id="sidebar" className={cn("nav", "flex-column")}>
               {Object.keys(oprs).map((e) => {
                 return (
                   <NavbarButton
@@ -171,7 +171,7 @@ function renderUI() {
         />
         <div
           id="winCtrl-bar"
-          className={classNames("d-flex", "flex-row-reverse")}
+          className={cn("d-flex", "flex-row-reverse")}
         >
           <Navbar dsbtn={messages.ui.deviceSelectorBtn} />
         </div>

@@ -15,7 +15,7 @@ function SettingsUI(props) {
   const [showRestartAlertModal, setShowRestartAlertModal] = useState(false);
 
   function handleClick() {
-    api.writeFile("config.json", JSON.stringify(config, null, "  "));
+    api.writeFileToPrivDir("config.json", JSON.stringify(config, null, "  "));
     setShowRestartAlertModal(true);
   }
   return (
