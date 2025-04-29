@@ -10,8 +10,8 @@ export function LogTestModal({ show, messages }) {
     show.set(false);
   }
   function handleClick() {
-    api.send("test-log",[logGroup, message]);
-    setMessage("")
+    api.send("test-log", [logGroup, message]);
+    setMessage("");
   }
   return (
     <Modal show={show.get()} onHide={handleHide}>
