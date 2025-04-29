@@ -1,5 +1,6 @@
 import React from "react";
 import classNames from "classnames";
+import { Button } from "react-bootstrap";
 const merge = require("deepmerge");
 
 function File(props) {
@@ -17,16 +18,13 @@ function File(props) {
     //   [keyPath]: { filePath: e.target.files[0].path },
     // });
     const thisStatus = currentStatus.get(keyPath);
-    currentStatus.set(
-      keyPath,
-      merge(thisStatus, { filePath: filePath })
-    );
+    currentStatus.set(keyPath, merge(thisStatus, { filePath: filePath }));
     setStatus(currentStatus);
   }
 
   async function handleClick(e) {
     api.invoke("open-file-dialog", misc).then((result) => {
-      if(!result.canceled) {
+      if (!result.canceled) {
         handleChange(result.filePaths[0]);
       }
     });
@@ -34,15 +32,12 @@ function File(props) {
 
   return (
     <div className="mb-3">
-      <button
-        className={classNames("btn", "btn-primary")}
-        onClick={handleClick}
-      >
+      <Button variant="primary" onClick={handleClick}>
         <span className="me-2">
           <i className="bi bi-files"></i>
         </span>
         {text}
-      </button>
+      </Button>
       <h5
         id={keyPath + "-file-path"}
         className={classNames("user-select-none", keyPath)}

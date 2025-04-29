@@ -13,9 +13,8 @@ import "./css/index.scss";
 import * as bootstrap from "bootstrap";
 
 import { NavbarButton } from "./ui/Sidebar.js";
-import classNames from "classnames";
+import cn from "classnames";
 import Logs from "./ui/Logs.js";
-import InfoModal from "./ui/InfoModal.js";
 
 let appSettings = {};
 
@@ -91,7 +90,7 @@ function renderUI() {
     return (
       <div
         id="main-content"
-        className={classNames(
+        className={cn(
           "d-flex",
           "flex-row",
           "position-relative",
@@ -100,9 +99,9 @@ function renderUI() {
           "overflow-hidden"
         )}
       >
-        <div id="sidebar" className={classNames("float-left", "overflow-auto")}>
+        <div id="sidebar" className={cn("float-left", "overflow-auto")}>
           <div className="container">
-            <nav id="sidebar" className={classNames("nav", "flex-column")}>
+            <nav id="sidebar" className={cn("nav", "flex-column")}>
               {Object.keys(oprs).map((e) => {
                 return (
                   <NavbarButton
@@ -148,11 +147,6 @@ function renderUI() {
     const [updateStatus, setUpdateStatus] = useState("");
     const [updateInfo, setUpdateInfo] = useState({});
 
-    const [modalTitle, setModalTitle] = useState(messages.alert.infoTitle);
-    const [modalContent, setModalContent] = useState(
-      messages.alert.restartAlert
-    );
-
     useEffect(() => {
       api.handle("updater-status", (res) => {
         setUpdateStatus(res[0]);
@@ -166,11 +160,6 @@ function renderUI() {
     return (
       <>
         {/* Modal of device selector */}
-        <InfoModal
-          modalTitle={modalTitle}
-          modalContent={modalContent}
-          dismissBtn={messages.alert.dismiss}
-        />
         <DeviceSelectorModal
           title={messages.devices.selectDevices}
           gfa={gfa}
@@ -182,7 +171,7 @@ function renderUI() {
         />
         <div
           id="winCtrl-bar"
-          className={classNames("d-flex", "flex-row-reverse")}
+          className={cn("d-flex", "flex-row-reverse")}
         >
           <Navbar dsbtn={messages.ui.deviceSelectorBtn} />
         </div>

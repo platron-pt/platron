@@ -28,12 +28,53 @@ console.debug("Welcome to Platron v" + app.getVersion());
 
 let config, updaterStatus, lang, messages;
 console.log(process.cwd());
-if (isPackaged) {
-  config = require("../../config.json");
-  updaterStatus = require("../../updaterStatus.json");
+let jsonExistsFlag = 1;
+
+let ptConfDir = path.join(os.homedir(), ".platron");
+if (!fs.existsSync(ptConfDir)) {
+  fs.mkdirSync(ptConfDir);
+}
+
+if (fs.existsSync(path.join(ptConfDir, "config.json"))) {
+  config = require(path.join(ptConfDir, "config.json"));
+  jsonExistsFlag *= 2;
 } else {
-  config = require("./config.json");
-  updaterStatus = require("./updaterStatus.json");
+}
+if (fs.existsSync(path.join(ptConfDir, "updaterStatus.json"))) {
+  updaterStatus = require(path.join(ptConfDir, "updaterStatus.json"));
+  jsonExistsFlag *= 3;
+}
+
+let prefix = "./";
+if (isPackaged) {
+  prefix = "../../";
+}
+
+if (jsonExistsFlag % 2) {
+  config = require(prefix + "config.json");
+  fs.writeFile(
+    ptConfDir + "/config.json",
+    JSON.stringify(config, null, "  "),
+    (err) => {
+      if (err) {
+        console.error(err);
+        return;
+      }
+    }
+  );
+}
+if (jsonExistsFlag % 3) {
+  updaterStatus = require(prefix + "updaterStatus.json");
+  fs.writeFile(
+    ptConfDir + "/updaterStatus.json",
+    JSON.stringify(updaterStatus, null, "  "),
+    (err) => {
+      if (err) {
+        console.error(err);
+        return;
+      }
+    }
+  );
 }
 
 if (config.theme == "auto") {
@@ -47,10 +88,7 @@ if (config.theme == "auto") {
 }
 
 let channel = "";
-let ptConfDir = path.join(os.homedir(), ".platron");
-if (!fs.existsSync(ptConfDir)) {
-  fs.mkdirSync(ptConfDir);
-}
+
 switch (config.variant) {
   case "beta": {
     if (!fs.existsSync(path.join(ptConfDir, "beta"))) {
@@ -225,6 +263,11 @@ const createWindow = () => {
     writeFile(fileName, data);
   });
 
+  ipcMain.on("write-file-to-priv-dir", (e, fileName, data) => {
+    console.log(fileName, data);
+    writeFile(path.join(ptConfDir, fileName), data);
+  });
+
   ipcMain.on("check-updates", (e) => {
     autoUpdater.checkForUpdates();
   });
@@ -363,7 +406,7 @@ app.whenReady().then(() => {
   if (updateInterval >= updateFrequency) {
     autoUpdater.checkForUpdatesAndNotify();
     updaterStatus.lastUpdateCheck = Date.now();
-    writeFile("updaterStatus.json", JSON.stringify(updaterStatus, null, "  "));
+    writeFile(path.join(ptConfDir,"updaterStatus.json"), JSON.stringify(updaterStatus, null, "  "));
   }
   console.log("starting ADB server");
 

@@ -1,5 +1,6 @@
 import React from "react";
 import cn from "classnames";
+import { Card } from "react-bootstrap";
 
 export function AboutCard(props) {
   const platformInfo = props.platformInfo;
@@ -10,8 +11,8 @@ export function AboutCard(props) {
     return ua ? parseInt(ua[2], 10) : false;
   }
   return (
-    <div className={cn("card", "mb-2")}>
-      <div className="card-body">
+    <Card className="mb-2">
+      <Card.Body>
         <h6>
           {messages.info.appVersion}
           {platformInfo.appVersion}
@@ -28,7 +29,7 @@ export function AboutCard(props) {
           {messages.info.osVersion}
           {platformInfo.os.release}
         </h6>
-      </div>
-    </div>
+      </Card.Body>
+    </Card>
   );
 }

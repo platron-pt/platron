@@ -9,7 +9,7 @@
   },
   "alert": {
     "infoTitle": "^_^",
-    "restartAlert": "重啟 APP 後套用變更",
+    "restartAlert": "重啟 APP 後變更生效。",
     "dismiss": "好"
   },
   "ui": {

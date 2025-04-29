@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import classNames from "classnames";
+import { Form } from "react-bootstrap";
 const merge = require("deepmerge");
 
 function Radio(props) {
@@ -45,26 +46,44 @@ function Radio(props) {
   }
 
   return (
-    <div className="form-check">
-      <input
-        className={classNames(`form-check-input`, keyPath)}
-        type="radio"
-        name={name}
-        id={keyPath + "-" + value}
-        defaultValue={value}
-        checked={
-          status.has(keyPath)
-            ? value == status.get(keyPath).radio
-            : !!misc
-            ? misc
-            : ""
-        }
-        onChange={handleChange}
-      />
-      <label className="form-check-label" htmlFor={keyPath + "-" + value}>
-        {text}
-      </label>
-    </div>
+    <>
+      {/* <div className="form-check">
+        <input
+          className={classNames(`form-check-input`, keyPath)}
+          type="radio"
+          name={name}
+          id={keyPath + "-" + value}
+          defaultValue={value}
+          checked={
+            status.has(keyPath)
+              ? value == status.get(keyPath).radio
+              : !!misc
+              ? misc
+              : ""
+          }
+          onChange={handleChange}
+        />
+        <label className="form-check-label" htmlFor={keyPath + "-" + value}>
+          {text}
+        </label>
+      </div> */}
+      <Form.Check type="radio" name={name} id={keyPath + "-" + value}>
+        <Form.Check.Input
+          className={keyPath}
+          type="radio"
+          defaultValue={value}
+          checked={
+            status.has(keyPath)
+              ? value == status.get(keyPath).radio
+              : !!misc
+              ? misc
+              : ""
+          }
+          onChange={handleChange}
+        ></Form.Check.Input>
+        <Form.Check.Label>{text}</Form.Check.Label>
+      </Form.Check>
+    </>
   );
 }
 

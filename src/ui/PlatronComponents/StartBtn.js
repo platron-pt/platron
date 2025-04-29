@@ -1,5 +1,6 @@
-import classNames from "classnames";
+import cn from "classnames";
 import React from "react";
+import { Button } from "react-bootstrap";
 
 function StartBtn(props) {
   const name = props.name;
@@ -35,7 +36,7 @@ function StartBtn(props) {
     let fileExtension = "";
     let execDir = "";
     let execFile = "";
-    console.log(platformInfo)
+    console.log(platformInfo);
     if (platformInfo.os.platform == "win32") {
       execDir = ".\\platform-tools-win\\";
       fileExtension = ".exe";
@@ -69,17 +70,25 @@ function StartBtn(props) {
       if (element.mode == "adb") {
         if (selectedDevices.size) {
           api.invoke("get-devices", "adb").then((res) => {
-            runIfDeviceIsStillOnline(Array.from(selectedDevices), res.stdout, index);
+            runIfDeviceIsStillOnline(
+              Array.from(selectedDevices),
+              res.stdout,
+              index
+            );
           });
         } else {
-          runPlatformToolsCommand([],index);
+          runPlatformToolsCommand([], index);
         }
       }
 
       if (element.mode == "fastboot") {
         if (selectedDevices.size) {
           api.invoke("get-devices", "fb").then((res) => {
-            runIfDeviceIsStillOnline(Array.from(selectedDevices), res.stdout, index);
+            runIfDeviceIsStillOnline(
+              Array.from(selectedDevices),
+              res.stdout,
+              index
+            );
           });
         } else {
           runPlatformToolsCommand([], index);
@@ -89,19 +98,14 @@ function StartBtn(props) {
   }
 
   return (
-    <button
-      type="button"
-      className={classNames(
-        "btn",
-        "btn-primary",
-        "startAction-btn",
-        "border-0"
-      )}
+    <Button
+      variant="primary"
+      className={cn("startAction-btn", "border-0")}
       id={name + "-btn"}
       onClick={handleClick}
     >
       {text}
-    </button>
+    </Button>
   );
 }
 

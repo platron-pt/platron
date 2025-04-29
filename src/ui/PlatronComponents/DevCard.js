@@ -1,17 +1,19 @@
 import React from "react";
 import cn from "classnames";
+import { Button, Card } from "react-bootstrap";
 export function DevCard({ messages, showLogTestModal }) {
   return (
-    <div className={cn("card", "mb-2")}>
-      <div className="card-body">
+    <Card className="mb-2">
+      <Card.Body>
         <h5>{messages.dev.title}</h5>
-        <button
-          className={cn("btn", "btn-sm", "btn-secondary")}
-          onClick={()=>showLogTestModal.set(true)}
+        <Button
+          variant="secondary"
+          size="sm"
+          onClick={() => showLogTestModal.set(true)}
         >
           {messages.dev.logTest.title}
-        </button>
-      </div>
-    </div>
+        </Button>
+      </Card.Body>
+    </Card>
   );
 }

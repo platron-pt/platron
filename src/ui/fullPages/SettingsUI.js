@@ -5,15 +5,18 @@ import { AboutCard } from "../PlatronComponents/AboutCard";
 import { DropDownBtn } from "../PlatronComponents/DropDownBtn";
 import { DevCard } from "../PlatronComponents/DevCard";
 import { LogTestModal } from "../Modals/LogTestModal";
+import RestartAlertModal from "../Modals/RestartAlertModal";
 
 function SettingsUI(props) {
   const config = props.config;
   const setConfig = props.setConfig;
   const messages = props.messages;
   const [showLogTestModal, setShowLogTestModal] = useState(false);
+  const [showRestartAlertModal, setShowRestartAlertModal] = useState(false);
 
   function handleClick() {
-    api.writeFile("config.json", JSON.stringify(config, null, "  "));
+    api.writeFileToPrivDir("config.json", JSON.stringify(config, null, "  "));
+    setShowRestartAlertModal(true);
   }
   return (
     <>
@@ -68,13 +71,11 @@ function SettingsUI(props) {
           }}
         ></DevCard>
       ) : (
-        none
+        null
       )}
       <div className={classNames("d-flex", "justify-content-end")}>
         <button
           onClick={handleClick}
-          data-bs-toggle="modal"
-          data-bs-target="#infoModal"
           className={classNames("btn", "btn-info")}
         >
           {messages.settings.save}
@@ -89,6 +90,15 @@ function SettingsUI(props) {
         }}
         messages={messages}
       ></LogTestModal>
+      <RestartAlertModal
+      show={{
+        set: setShowRestartAlertModal,
+        get: () => {
+          return showRestartAlertModal;
+        },
+      }}
+      messages={messages}
+      ></RestartAlertModal>
     </>
   );
 }
