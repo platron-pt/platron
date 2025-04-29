@@ -1,7 +1,6 @@
 import React from "react";
 import classNames from "classnames";
 const merge = require("deepmerge");
-import icons from "../../../res/icons/icons";
 
 function File(props) {
   const keyPath = props.keyPath;
@@ -40,7 +39,7 @@ function File(props) {
         onClick={handleClick}
       >
         <span className="me-2">
-          <icons.Files></icons.Files>
+          <i className="bi bi-files"></i>
         </span>
         {text}
       </button>
