@@ -9,7 +9,7 @@
   },
   "alert": {
     "infoTitle": "Info",
-    "restartAlert": "Restart the app to take effect",
+    "restartAlert": "The application needs to be restarted to apply the changes.",
     "dismiss": "OK"
   },
   "ui": {
