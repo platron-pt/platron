@@ -10,7 +10,7 @@
   "alert": {
     "infoTitle": "^_^",
     "restartAlert": "重啟 APP 後套用變更",
-    "dismiss":"好"
+    "dismiss": "好"
   },
   "ui": {
     "deviceSelectorBtn": "裝置",
@@ -59,6 +59,15 @@
       "3": "3",
       "7": "7",
       "14": "14"
+    }
+  },
+  "dev": {
+    "title": "開發者選項",
+    "logTest": {
+      "title": "輸出日誌測試",
+      "logGroup": "日誌群組",
+      "message": "日誌訊息",
+      "send": "發送日誌"
     }
   }
 }

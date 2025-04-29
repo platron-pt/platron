@@ -1,7 +1,6 @@
 import classNames from "classnames";
 import React from "react";
 
-import icons from "../../res/icons/icons";
 
 export function Navbar(props) {
   function handleClick() {
@@ -15,21 +14,21 @@ export function Navbar(props) {
         className="winCtrl-btn border-0"
         onClick={() => api.send("close-window")}
       >
-        <icons.X_lg></icons.X_lg>
+        <i className="bi bi-x-lg"></i>
       </button>
       <button
         id="max-btn"
         className="winCtrl-btn border-0"
         onClick={() => api.send("maximize-window")}
       >
-        <icons.App></icons.App>
+        <i className="bi bi-app"></i>
       </button>
       <button
         id="min-btn"
         className="winCtrl-btn border-0"
         onClick={() => api.send("minimize-window")}
       >
-        <icons.Dash_lg></icons.Dash_lg>
+        <i className="bi bi-dash-lg"></i>
       </button>
       <button
         className="btn btn-sm btn-primary py-1 m-1"

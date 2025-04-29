@@ -34,7 +34,7 @@ Platron 是一個圖形化的 ADB 和 fastboot 管理器
 
 ### 安裝
 
-從 [Releases](https://github.com/ryantsui1109/Easy_ADB_fastboot/releases) 頁面下載, 或從我們的 [網站](https://ryantsui1109.github.io/eaf_web/zh)
+從 [Releases](https://github.com/platron-pt/platron/releases) 頁面下載, 或從我們的 [網站](https://platron-pt.github.io/zh)
 
 #### Windows
 

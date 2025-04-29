@@ -1,4 +1,11 @@
-const { app, BrowserWindow, ipcMain, shell, nativeTheme } = require("electron");
+const {
+  app,
+  BrowserWindow,
+  ipcMain,
+  shell,
+  nativeTheme,
+  dialog,
+} = require("electron");
 const {
   PARAMS,
   VALUE,
@@ -214,12 +221,20 @@ const createWindow = () => {
   });
 
   ipcMain.on("write-file", (e, fileName, data) => {
+    console.log(fileName, data);
     writeFile(fileName, data);
   });
 
   ipcMain.on("check-updates", (e) => {
     autoUpdater.checkForUpdates();
   });
+  ipcMain.on("test-log", (e, [channel, message]) => {
+    win.webContents.send("print-log", [
+      channel ? channel : "main",
+      message + "\n",
+    ]);
+  });
+
   ipcMain.handle("get-devices", async (e, mode) => {
     let exec = "";
     switch (mode) {
@@ -240,6 +255,18 @@ const createWindow = () => {
       return { stdout: stdout, stderr: stderr };
     }
     return await getDevices();
+  });
+  ipcMain.handle("open-file-dialog", async (e, extension) => {
+    const accepted = extension == undefined ? ["*"] : extension.split(",");
+    return dialog.showOpenDialog(win, {
+      properties: ["openFile"],
+      filters: [{ name: "Files", extensions: accepted }],
+    });
+  });
+  ipcMain.handle("open-folder-dialog", async (e) => {
+    return dialog.showOpenDialog(win, {
+      properties: ["openDirectory"],
+    });
   });
   autoUpdater.on("update-not-available", (info) => {
     win.webContents.send("updater-status", ["update-not-available", {}]);

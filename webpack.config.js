@@ -1,6 +1,7 @@
 const path = require("path");
 const autoprefixer = require("autoprefixer");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const { type } = require("os");
 
 module.exports = {
   entry: "./src/index.js",
@@ -61,6 +62,10 @@ module.exports = {
         test: /\.svg$/,
         loader: "svg-inline-loader",
       },
+      {
+        test:/\.woff2?$/,
+        type: "asset/resource"
+      }
     ],
   },
   plugins: [

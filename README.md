@@ -34,7 +34,7 @@ Linux and Windows are officially supported, ~~for macOS users, you can build it 
 
 ### Install
 
-Download release files from [Releases](https://github.com/ryantsui1109/Easy_ADB_fastboot/releases) page, or from our [Website](https://ryantsui1109.github.io/eaf_web/en)
+Download release files from [Releases](https://github.com/platron-pt/platron/releases) page, or from our [Website](https://platron-pt.github.io/zh)
 
 #### Windows
 

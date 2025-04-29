@@ -60,5 +60,14 @@
       "7": "7",
       "14": "14"
     }
+  },
+  "dev": {
+    "title": "Developer Options",
+    "logTest": {
+      "title": "Logging Test",
+      "logGroup": "Logging Group",
+      "message": "Message",
+      "send": "Send Log"
+    }
   }
 }
