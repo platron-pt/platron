@@ -26,7 +26,6 @@ function File(props) {
   }
 
   async function handleClick(e) {
-    // console.log(props);
     api.invoke("open-file-dialog", misc).then((result) => {
       if(!result.canceled) {
         handleChange(result.filePaths[0]);
@@ -35,33 +34,6 @@ function File(props) {
   }
 
   return (
-    // <div className="mb-3">
-    //   <label
-    //     className={classNames("btn", "btn-primary")}
-    //     htmlFor={keyPath + "-file-input"}
-    //   >
-    //     <icons.Files></icons.Files>
-    //     {text}
-    //   </label>
-    //   <input
-    //     className={classNames("d-none", "file-input", keyPath)}
-    //     onChangeCapture={handleChange}
-    //     type="file"
-    //     name={name}
-    //     id={keyPath + "-file-input"}
-    //     accept={misc}
-    //   />
-    //   <h5
-    //     id={keyPath + "-file-path"}
-    //     className={classNames("user-select-none", keyPath)}
-    //   >
-    //     {status.has(keyPath)
-    //       ? !!status.get(keyPath).filePath
-    //         ? status.get(keyPath).filePath
-    //         : defaultText
-    //       : defaultText}
-    //   </h5>
-    // </div>
     <div className="mb-3">
       <button
         className={classNames("btn", "btn-primary")}
@@ -87,5 +59,3 @@ function File(props) {
 }
 
 export default File;
-
-// keyPath in status ? status[keyPath].filePath : defaultText
