@@ -1,5 +1,6 @@
 import React from "react";
 import cn from "classnames";
+import { Dropdown } from "react-bootstrap";
 const merge = require("deepmerge");
 
 export function DropDownBtn(props) {
@@ -14,26 +15,24 @@ export function DropDownBtn(props) {
   }
 
   return (
-    <div className="dropdown">
-      <button
-        className="btn btn-secondary btn-sm dropdown-toggle"
-        type="button"
-        data-bs-toggle="dropdown"
-        aria-expanded="false"
-      >
+    <Dropdown>
+      <Dropdown.Toggle variant="secondary" size="sm">
         {optionsShowText[config[configKey]]}
-      </button>
-      <ul className="dropdown-menu">
+      </Dropdown.Toggle>
+      <Dropdown.Menu>
         {options.map((value) => {
           return (
-            <li onClick={handleClick} key={value}>
-              <a className="dropdown-item" href="#" value={value}>
-                {optionsShowText[value]}
-              </a>
-            </li>
+            <Dropdown.Item
+              as="button"
+              onClick={handleClick}
+              key={value}
+              value={value}
+            >
+              {optionsShowText[value]}
+            </Dropdown.Item>
           );
         })}
-      </ul>
-    </div>
+      </Dropdown.Menu>
+    </Dropdown>
   );
 }

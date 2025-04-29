@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { LogBox } from "./PlatronComponents/LogBox";
+import { Accordion } from "react-bootstrap";
 
 function Logs(props) {
   const logGroups = props.logGroups;
@@ -34,7 +35,9 @@ function Logs(props) {
 
   return (
     <div id="log-box">
-      <div className="accordion">{resultArr}</div>
+      <Accordion defaultActiveKey={["0"]} alwaysOpen>
+        {resultArr}
+      </Accordion>
     </div>
   );
 }

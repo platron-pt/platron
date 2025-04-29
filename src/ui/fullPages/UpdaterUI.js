@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import React, { useEffect, useState } from "react";
+import { Button, Card } from "react-bootstrap";
 
 let appSettings = require("../../../config.json");
 let theme = appSettings.theme;
@@ -44,8 +45,8 @@ function Updater(props) {
 
   console.log(messages);
   return (
-    <div className="card">
-      <div className="card-body">
+    <Card>
+      <Card.Body>
         <div className="d-flex">
           {updateStatus == "update-downloaded" ||
           updateStatus == "update-not-available" ? null : (
@@ -57,8 +58,8 @@ function Updater(props) {
           )}
           <h6 className="mb-0">{resultText}</h6>
         </div>
-      </div>
-    </div>
+      </Card.Body>
+    </Card>
   );
 }
 
@@ -72,12 +73,9 @@ function UpdaterUI(props) {
 
   return (
     <>
-      <button
-        className={classNames("btn", "btn-info", "mb-2")}
-        onClick={handleClick}
-      >
+      <Button variant="info" className="mb-2" onClick={handleClick}>
         {messages.update.updateBtn}
-      </button>
+      </Button>
       {showUpdater ? (
         <Updater
           currentVersion={props.platformInfo.appVersion}
