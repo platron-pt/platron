@@ -131,7 +131,7 @@
         "rev": 3,
         "title": "設定 DPI",
         "name": "density-menu",
-        "navbar": "Set DPI",
+        "navbar": "設定 DPI",
         "content": [
           {
             "type": "radio",
