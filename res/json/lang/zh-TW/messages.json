@@ -5,7 +5,8 @@
     "operation": "操作",
     "reading": "讀取中……",
     "apkProcessed": "已處理 ",
-    "apkProcessed2": "+ 個APK"
+    "apkProcessed2": "+ 個APK",
+    "install": "安裝APK"
   },
   "settings": {
     "language": "語言：",

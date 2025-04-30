@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Table } from "react-bootstrap";
+import { Button, Table } from "react-bootstrap";
 function TItem({ name, num }) {
   return (
     <tr>
       <td>{num}</td>
       <td>{name}</td>
-      <td>TODO</td>
+      <td>
+        <Button variant="danger" size="sm">
+          <i className="bi bi-trash"></i>
+        </Button>
+      </td>
     </tr>
   );
 }
@@ -122,16 +126,27 @@ export function Pacman(props) {
             adb,
             ["shell", "/data/local/tmp/aapt2", "dump", "badging", element],
           ])
-          .catch((err) => {
+          .catch((error) => {
             return "";
           })
           .then((result) => {
             const tmpArray = result.split("\n");
             let commonName = "";
+            // console.log("application-label-" + config.language);
             tmpArray.forEach((element, index) => {
-              if (element.indexOf("application-label") >= 0) {
+              if (
+                element.indexOf("application-label-" + config.language) >= 0
+              ) {
                 commonName = element.split(":")[1].replace(/'/g, "");
-                return;
+                console.log(commonName);
+                return commonName;
+              } else {
+                tmpArray.forEach((element, index) => {
+                  if (element.indexOf("application-label") >= 0) {
+                    commonName = element.split(":")[1].replace(/'/g, "");
+                    return commonName;
+                  }
+                });
               }
             });
             apkPathProcessed += 1;
@@ -167,13 +182,14 @@ export function Pacman(props) {
   return (
     <>
       <div className="d-flex flex-row">
-        <button
-          id="refresh-devices"
-          className="btn btn-info"
+        <Button
+          variant="info" size="sm"
+          className="me-2"
           onClick={() => setToRefresh(true)}
         >
           {messages.pacman.start}
-        </button>
+        </Button>
+        <Button variant="primary" size="sm">{messages.pacman.install}</Button>
       </div>
 
       <Table striped hover variant={config.exactTheme}>
@@ -187,8 +203,14 @@ export function Pacman(props) {
         <tbody>
           {packages.map((element, index) => {
             let nameShown = commonNames[index] ? commonNames[index] : element;
-            console.log(nameShown);
-            return <TItem key={element} name={nameShown} num={index + 1} />;
+            return (
+              <TItem
+                key={element}
+                name={nameShown}
+                packageName={element}
+                num={index + 1}
+              />
+            );
           })}
         </tbody>
       </Table>

@@ -5,7 +5,8 @@
     "operation": "Operation",
     "reading": "Reading…",
     "apkProcessed": "",
-    "apkProcessed2": "+ APKs processed"
+    "apkProcessed2": "+ APKs processed",
+    "install": "Install APK"
   },
   "settings": {
     "language": "Language: ",
