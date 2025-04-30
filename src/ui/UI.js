@@ -188,6 +188,14 @@ export const oprs = {
           },
         ],
       },
+      pacman: {
+        rev: 3,
+        title: "Pacman",
+        name: "pacman-menu",
+        navbar: "Pacman",
+        noStartButton: true,
+        content: [],
+      },
     },
   },
   recovery: {

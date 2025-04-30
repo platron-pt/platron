@@ -5,6 +5,7 @@ import PlatronComponents from "./PlatronComponents";
 import classNames from "classnames";
 import SettingsUI from "./fullPages/SettingsUI";
 import UpdaterUI from "./fullPages/UpdaterUI";
+import { Pacman } from "./fullPages/Pacman";
 
 function Title(props) {
   const result = (
@@ -127,6 +128,17 @@ function Content(props) {
         key="UpdaterUI"
         updateStatus={updateStatus}
         updateInfo={updateInfo}
+        platformInfo={props.platformInfo}
+      />
+    );
+  }
+  if (keyPath == "system.items.pacman") {
+    result.push(
+      <Pacman
+        key="Pacman"
+        config={props.config}
+        setConfig={props.setConfig}
+        messages={props.messages}
         platformInfo={props.platformInfo}
       />
     );

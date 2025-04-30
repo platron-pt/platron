@@ -233,6 +233,18 @@ const createWindow = () => {
     });
   });
 
+  ipcMain.handle("run-command-silent", async (e, [command, params]) => {
+    return new Promise((resolve, reject) => {
+      child_process.execFile(command, params, (error, stdout, stderr) => {
+        if(error){
+          reject(error);
+        }
+        resolve(stdout);
+      });
+    })
+    
+  });
+
   ipcMain.on("get-devices-v2", (e, mode) => {
     let exec = "";
     switch (mode) {
@@ -406,7 +418,10 @@ app.whenReady().then(() => {
   if (updateInterval >= updateFrequency) {
     autoUpdater.checkForUpdatesAndNotify();
     updaterStatus.lastUpdateCheck = Date.now();
-    writeFile(path.join(ptConfDir,"updaterStatus.json"), JSON.stringify(updaterStatus, null, "  "));
+    writeFile(
+      path.join(ptConfDir, "updaterStatus.json"),
+      JSON.stringify(updaterStatus, null, "  ")
+    );
   }
   console.log("starting ADB server");
 

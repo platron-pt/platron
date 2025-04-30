@@ -1,4 +1,12 @@
 {
+  "pacman": {
+    "start": "列出已安装的APP",
+    "name": "应用程序名称",
+    "operation": "操作",
+    "reading": "读取中……",
+    "apkProcessed": "已处理 ",
+    "apkProcessed2": "+ 个APK"
+  },
   "settings": {
     "language": "语言：",
     "theme": "主题：",

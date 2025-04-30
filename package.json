@@ -73,7 +73,8 @@
     ],
     "extraFiles": [
       "updaterStatus.json",
-      "config.json"
+      "config.json",
+      "bin"
     ],
     "nsis": {
       "oneClick": false

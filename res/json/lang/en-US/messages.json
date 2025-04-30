@@ -1,4 +1,12 @@
 {
+  "pacman": {
+    "start": "List Installed APPs",
+    "name": "Application Name",
+    "operation": "Operation",
+    "reading": "Reading…",
+    "apkProcessed": "",
+    "apkProcessed2": "+ APKs processed"
+  },
   "settings": {
     "language": "Language: ",
     "theme": "Theme: ",

@@ -147,6 +147,14 @@
             "misc": "自訂數值"
           }
         ]
+      },
+      "pacman": {
+        "rev": 3,
+        "title": "APP管理",
+        "name": "pacman-menu",
+        "navbar": "APP管理",
+        "content": [
+        ]
       }
     }
   },
