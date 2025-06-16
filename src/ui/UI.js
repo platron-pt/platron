@@ -83,7 +83,7 @@ export const oprs = {
           {
             type: "file",
             value: "file",
-            misc: ".apk,application/zip",
+            misc: "apk,zip",
           },
         ],
       },
@@ -218,7 +218,7 @@ export const oprs = {
           {
             type: "file",
             value: "file",
-            misc: "application/zip,.apk",
+            misc: "zip,apk",
           },
         ],
       },
@@ -291,7 +291,7 @@ export const oprs = {
           {
             type: "file",
             value: "file",
-            misc: ".img,.bin",
+            misc: "img,bin",
           },
         ],
       },
@@ -366,7 +366,7 @@ export const oprs = {
           {
             type: "file",
             value: "file",
-            misc: ".img,.bin,.mbn,.txt,.zip",
+            misc: "img,bin,mbn,txt,zip",
           },
         ],
       },
@@ -392,7 +392,7 @@ export const oprs = {
           {
             type: "file",
             value: "file",
-            misc: ".img,.bin,.mbn,.txt,.zip",
+            misc: "img,bin,mbn,txt,zip",
           },
         ],
       },
@@ -617,7 +617,7 @@ export const oprs = {
           {
             type: "file",
             value: "file",
-            misc: "application/zip",
+            misc: "zip",
           },
         ],
       },
