@@ -131,7 +131,7 @@
         "rev": 3,
         "title": "設定 DPI",
         "name": "density-menu",
-        "navbar": "Set DPI",
+        "navbar": "設定 DPI",
         "content": [
           {
             "type": "radio",
@@ -146,6 +146,14 @@
             "text": "input",
             "misc": "自訂數值"
           }
+        ]
+      },
+      "pacman": {
+        "rev": 3,
+        "title": "APP管理",
+        "name": "pacman-menu",
+        "navbar": "APP管理",
+        "content": [
         ]
       }
     }

@@ -1,4 +1,13 @@
 {
+  "pacman": {
+    "start": "列出已安裝的APP",
+    "name": "應用程式名稱",
+    "operation": "操作",
+    "reading": "讀取中……",
+    "apkProcessed": "已處理 ",
+    "apkProcessed2": "+ 個APK",
+    "install": "安裝APK"
+  },
   "settings": {
     "language": "語言：",
     "theme": "主題：",

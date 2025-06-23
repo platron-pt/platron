@@ -7,7 +7,7 @@
   "extraFiles": ["updaterStatus.json", "config.json"],
   "win": {
     "icon": "./favicon_256.ico",
-    "extraFiles": ["platform-tools-win"],
+    "extraFiles": ["platform-tools-win","bin"],
     "target": [
       {
         "target": "zip",

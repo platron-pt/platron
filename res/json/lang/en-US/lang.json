@@ -176,6 +176,13 @@
             "misc": "Custom DPI"
           }
         ]
+      },
+      "pacman": {
+        "rev": 3,
+        "title": "APP Management",
+        "name": "pacman-menu",
+        "navbar": "APP Management",
+        "content": []
       }
     }
   },
